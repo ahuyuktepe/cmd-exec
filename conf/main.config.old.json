@@ -1,0 +1,97 @@
+{
+  "app_name": "Application Name 111",
+  "mode_settings": {
+    "interactive": {},
+    "command": {
+      "cmd_divider": ",",
+      "value_divider": ":"
+    },
+    "file": {
+      "file_type": "json",
+      "src_dir_path": "./input"
+    }
+  },
+  "log_settings": {
+    "level": "info",
+    "dir_path": "logs",
+    "max_size": "1 KB",
+    "file_name": "test",
+    "msg_format": "{level}|{date}|{msg}",
+    "date_format": "%Y-%m-%d %H:%M:%S"
+  },
+  "components": {
+    "services": [],
+    "executors": [
+      { "id": "addWebToolExecutor", "class": "AddWebToolExecutor" },
+      { "id": "deleteWebToolExecutor", "class": "DeleteWebToolExecutor" }
+    ],
+    "validators": [
+      { "id": "testValidator", "class": "TestValidator" }
+    ],
+    "option_getters": [
+      { "id": "carOptionGetter", "class": "CarOptionGetter" }
+    ]
+  },
+  "menus": [
+    {
+      "id": "main",
+      "name": "Main Menu",
+      "commands": [
+        {
+          "id": "add-web-tool",
+          "description": "Add Web Tool.",
+          "executor": "addWebToolExecutor",
+          "form": [
+              {
+          "id": "age",
+          "label": "Age",
+          "type": "number",
+          "min": 5,
+          "max": 17,
+          "required": "True",
+          "custom_validator": "testValidator"
+        },
+              {
+                "id": "car",
+                "label": "Car",
+                "type": "single_select",
+                "options": {
+                    "source": "custom",
+                    "option_getter": "carOptionGetter"
+                }
+             },
+              {
+                "id": "computer",
+                "label": "Computer Brand",
+                "type": "multi_select",
+                "options": {
+                    "source": "data",
+                    "data": [
+                        { "id": "dell", "label": "Dell" },
+                        { "id": "ibm", "label": "Ibm" },
+                        { "id": "asus", "label": "Asus" }
+                    ]
+                }
+              }
+          ]
+        },
+        {
+          "id": "delete-web-tool",
+          "description": "Delete Web Tool.",
+          "menu": "delete-menu"
+        }
+      ]
+    },
+    {
+      "id": "delete-menu",
+      "name": "Delete Tool Menu",
+      "commands": [
+        {
+          "id": "delete-web-tool",
+          "description": "Delete Web Tool.",
+          "executor": "deleteWebToolExecutor"
+        }
+      ]
+    }
+  ]
+}

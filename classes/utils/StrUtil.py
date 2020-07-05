@@ -1,27 +1,21 @@
-from classes.utils.ListUtil import ListUtil
-
+import json
+from classes.errors.InvalidJsonStrError import InvalidJsonStrError
 
 class StrUtil:
 
     @staticmethod
-    def isStr(value: object) -> bool:
-        return isinstance(value, str)
-
-    @staticmethod
-    def isNoneOrNotString(value: object):
-        return value is None or not StrUtil.isStr(value)
-
-    @staticmethod
-    def getFirstStrFromDividedStr(sourceStr: str, divider: str) -> str:
-        if sourceStr is None:
-            return None
-        dividerIndex: int = sourceStr.find(divider)
-        if dividerIndex == -1:
-            return sourceStr
-        return sourceStr[0:dividerIndex]
-
-    @staticmethod
-    def strToInt(value: str):
+    def strToInt(value: str) -> int:
         if not value.isnumeric():
             raise Exception('Given string is not numeric')
         return int(value)
+
+    @staticmethod
+    def jsonStrToObj(jsonStr: str) -> object:
+        try:
+            return json.loads(jsonStr)
+        except ValueError:
+            raise InvalidJsonStrError()
+
+    @staticmethod
+    def isNoneOrEmpty(value: str):
+        return value is None or value == ''

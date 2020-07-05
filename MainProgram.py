@@ -1,7 +1,4 @@
-from classes.app.ApplicationRunner import ApplicationRunner
+from classes.app.AppRunner import AppRunner
 
-print('Main Program')
-
-appRunner = ApplicationRunner('./conf/main.config.json')
-
+appRunner = AppRunner('./conf/main.config.json')
 appRunner.run()

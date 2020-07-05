@@ -1,0 +1,11 @@
+{
+  "id": "main",
+  "name": "Main Menu",
+  "commands": [
+    {
+      "id": "add-web-tool",
+      "description": "Add Web Tool.",
+      "executor": "addWebToolExecutor"
+    }
+  ]
+}
