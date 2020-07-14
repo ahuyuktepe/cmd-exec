@@ -1,7 +1,11 @@
-from classes.menu.Command import Command
 from classes.menu.Menu import Menu
+from classes.services.CommandService import CommandService
 
 class MenuService:
+    __cmdService: CommandService
+
+    def setCmdService(self, cmdService: CommandService):
+        self.__cmdService = cmdService
 
     def buildMenu(self, obj: dict) -> Menu:
         menu = Menu(
@@ -9,17 +13,6 @@ class MenuService:
             name=obj.get('name')
         )
         cmdObjList = obj.get('commands')
-        commands = self.__getCommandsFromCommandObjects(cmdObjList)
+        commands = self.__cmdService.getCommands(cmdObjList)
         menu.setCommands(commands)
         return menu
-
-    def __getCommandsFromCommandObjects(self, cmdObjects: list) -> list:
-        commands: list = []
-        if commands is not None:
-            for cmdObj in cmdObjects:
-                commands.append(Command(
-                    id=cmdObj.get('id'),
-                    description=cmdObj.get('description'),
-                    executor=cmdObj.get('executor')
-                ))
-        return commands

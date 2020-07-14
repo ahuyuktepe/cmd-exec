@@ -1,8 +1,8 @@
-app_name: Application Name
+name: Application Name
 log_settings:
   level: debug
   dir_path: logs
-  max_size: '100 KB'
+  max_size: 10 KB
   file_name: main
-  msg_format: "{level}|{date}|{msg}",
-  date_format: "%Y-%m-%d %H:%M:%S"
+  msg_format: '{level} | {date} | {msg}'
+  date_format: '%Y-%m-%d %H:%M:%S'

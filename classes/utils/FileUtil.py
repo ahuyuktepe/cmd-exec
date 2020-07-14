@@ -1,6 +1,7 @@
 import math
 import os.path
 import shutil
+import yaml
 from classes.utils.StrUtil import StrUtil
 
 class FileUtil:
@@ -15,6 +16,11 @@ class FileUtil:
     def generateObjFromJsonFile(path: str) -> object:
         jsonStr = FileUtil.readFileContent(path)
         return StrUtil.jsonStrToObj(jsonStr)
+
+    @staticmethod
+    def generateObjFromYamlFile(path: str) -> object:
+        stream = open(path, 'r')
+        return yaml.load(stream, Loader=yaml.FullLoader)
 
     @staticmethod
     def doesFileExist(path: str) -> bool:
@@ -34,5 +40,5 @@ class FileUtil:
         shutil.copy(sourceFilePath, destFilePath)
 
     @staticmethod
-    def deleteFile(filePath: str):
-        os.path.un
+    def getMenuFilePath(mid: str):
+        return 'menus/{mid}-menu.yaml'.format(mid=mid)

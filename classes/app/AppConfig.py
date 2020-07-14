@@ -7,7 +7,7 @@ class AppConfig:
     __configs: dict
 
     def __init__(self, configFilePath: str):
-        self.__configs = FileUtil.generateObjFromJsonFile(configFilePath)
+        self.__configs = FileUtil.generateObjFromYamlFile(configFilePath)
 
     def getObjValue(self, path: str) -> object:
         if not isinstance(path, str) or StrUtil.isNoneOrEmpty(path):

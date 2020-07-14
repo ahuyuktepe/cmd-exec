@@ -1,28 +1,21 @@
-from classes.utils.FileUtil import FileUtil
-
+from classes.utils.DataUtil import DataUtil
 
 class LogSettings:
-    _level: str = 'info'
-    _dirPath: str = 'logs'
-    _fileName: str = 'main'
-    _maxSize: str = '1 B'
-    _msgFormat: str = '{level} : {msg}'
-    _dateFormat: str = '%Y-%m-%d %H:%M:%S'
+    _level: str
+    _dirPath: str
+    _fileName: str
+    _maxSize: str
+    _msgFormat: str
+    _dateFormat: str
 
     def __init__(self, values: dict):
         if values is not None:
-            if values.get('level') is not None:
-                self._level = values.get('level')
-            if values.get('dir_path') is not None:
-                self._dirPath = values.get('dir_path')
-            if values.get('max_size') is not None:
-                self._maxSize = values.get('max_size')
-            if values.get('file_name') is not None:
-                self._fileName = values.get('file_name')
-            if values.get('msg_format') is not None:
-                self._msgFormat = values.get('msg_format')
-            if values.get('date_format') is not None:
-                self._dateFormat = values.get('date_format')
+            self._level = DataUtil.getDefaultIfNone(values.get('level'), 'info')
+            self._dirPath = DataUtil.getDefaultIfNone(values.get('dir_path'), 'logs')
+            self._fileName = DataUtil.getDefaultIfNone(values.get('file_name'), 'main')
+            self._maxSize = DataUtil.getDefaultIfNone(values.get('max_size'), '1 B')
+            self._msgFormat = DataUtil.getDefaultIfNone(values.get('msg_format'), '{level} : {msg}')
+            self._dateFormat = DataUtil.getDefaultIfNone(values.get('date_format'), '%Y-%m-%d %H:%M:%S')
 
     def getLevel(self) -> str:
         return self._level

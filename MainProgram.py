@@ -1,4 +1,4 @@
 from classes.app.AppRunner import AppRunner
 
-appRunner = AppRunner('./conf/main.config.json')
+appRunner = AppRunner('./conf/main.config.yaml')
 appRunner.run()
