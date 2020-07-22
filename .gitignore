@@ -1,4 +1,8 @@
 .idea/*
 venv/*
 *.pyc
+resources/*
+src/*
+.pytest_cache/*
+modules/*
 logs/*

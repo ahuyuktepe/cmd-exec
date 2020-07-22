@@ -1,7 +1,7 @@
 import os
-from classes.log.LogSettings import LogSettings
-from classes.services.LogService import LogService
-from classes.utils.FileUtil import FileUtil
+from app_runner.log.LogSettings import LogSettings
+from app_runner.services.LogService import LogService
+from app_runner.utils.FileUtil import FileUtil
 
 class TestLogService:
 
@@ -10,7 +10,7 @@ class TestLogService:
 
     def setup(self):
         settings = {
-            "dir_path": "../temp",
+            "dir_path": "../args",
             "level": "debug",
             "msg_format":"{level}|{msg}"
         }
@@ -21,7 +21,7 @@ class TestLogService:
         self.setup()
         self.logService.debug('Test')
         filePath = self.logSettings.getFilePath()
-        fileContent = FileUtil.readFileContent(filePath)
+        fileContent = FileUtil.readFile(filePath)
         assert fileContent.strip() == 'DEBUG   |Test'
         os.remove(filePath)
 
@@ -29,7 +29,7 @@ class TestLogService:
         self.setup()
         self.logService.warn('Test')
         filePath = self.logSettings.getFilePath()
-        fileContent = FileUtil.readFileContent(filePath)
+        fileContent = FileUtil.readFile(filePath)
         assert fileContent.strip() == ''
         os.remove(filePath)
 

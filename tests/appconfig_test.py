@@ -1,10 +1,10 @@
-from classes.app.AppConfig import AppConfig
-from classes.errors.InvalidConfigPathError import InvalidConfigPathError
+from app_runner.app.AppConfig import AppConfig
+from app_runner.errors.InvalidConfigPathError import InvalidConfigPathError
 import os
 import pytest
 
 class TestAppConfig:
-    path = '../temp/test.config.json'
+    path = '../resources/args/test.config.json'
     jsonStr = '''
         {
             "a": "value_a",
