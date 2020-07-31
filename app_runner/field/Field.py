@@ -42,15 +42,10 @@ class Field:
     def getDefault(self) -> object:
         return self._default
 
-    def getDefaultValueIfNone(self, value: object) -> object:
-        if value is None:
-            return self.getDefault()
-        return value
-
     def getType(self) -> str:
         return self._type
 
-    def getValidator(self) -> str:
+    def getValidator(self) -> dict:
         return self._validator
 
     def validate(self, value: object):
@@ -71,3 +66,9 @@ class Field:
 
     def hasCustomValidator(self) -> bool:
         return self._validator is not None
+
+    def hasOptions(self) -> bool:
+        return False
+
+    def hasDefaultValue(self) -> bool:
+        return self._default is not None

@@ -11,25 +11,46 @@ from app_runner.menu.Command import Command
 from app_runner.services.BaseService import BaseService
 from app_runner.utils.ErrorUtil import ErrorUtil
 from app_runner.utils.ObjUtil import ObjUtil
+from app_runner.utils.StrUtil import StrUtil
+
 
 class FieldService(BaseService):
 
-    def validateFieldValues(self, fields: dict, fieldValues: dict):
-        for fid, field in fields.items():
+    def getFieldValues(self, cmd: Command) -> dict:
+        cid: str = cmd.getId()
+        values: dict = {}
+        defaultValuesFromConfig: dict = self._appContext.getConfig('main').getDefaultArgsByCommand(cid)
+        values.update(defaultValuesFromConfig)
+        fields: dict = cmd.getFields()
+        defaultFieldValues: dict = self.getDefaultFieldValues(fields)
+        values.update(defaultFieldValues)
+        fieldValues: dict = self._appContext.getService('argumentService').getArgsAsDict(cid)
+        values.update(fieldValues)
+        return values
+
+    def validateFieldValues(self, cmd: Command, fieldValues: dict):
+        for fid, field in cmd.getFields().items():
             value = fieldValues.get(fid)
             if field.hasCustomValidator():
-                validator = ObjUtil.getClassFromStr('validators', field.getValidator())
-                obj = validator()
-                obj.validate(field, value)
-            else:
-                field.validate(value)
+                package: str = 'modules.{module}.src.validators'.format(module=cmd.getModule())
+                validator: str = field.getValidator()
+                props: dict = StrUtil.getClassMethodMapFromStr(validator, 'validate')
+                cls = ObjUtil.getClassFromStr(package, props.get('class'))
+                validator = cls()
+                validator.setAppContext(self._appContext)
+                method: object = getattr(validator, props.get('method'))
+                method(field, value)
+            field.validate(value)
 
     def insertFields(self, cmd: Command, fields: list):
         if fields is not None:
             for fieldsProperties in fields:
                 fieldType = fieldsProperties.get('type')
                 ErrorUtil.raiseExceptionIfNone(fieldType, 'Type property of field is None.')
-                cmd.addField(self.__getFieldByType(fieldType, fieldsProperties))
+                field = self.__getFieldByType(fieldType, fieldsProperties)
+                if field.hasOptions():
+                    self.setFieldOptions(field, cmd.getModule(), fieldsProperties.get('options'))
+                cmd.addField(field)
 
     def __getFieldByType(self, fieldType: str, fieldProps: dict) -> Field:
         if fieldType == 'number':
@@ -37,19 +58,9 @@ class FieldService(BaseService):
         elif fieldType == 'text':
             return TextField(fieldProps)
         elif fieldType == 'single_select':
-            field = SingleSelectField(fieldProps)
-            field.populateOptions(
-                fieldProps.get('getter'),
-                fieldProps.get('options')
-            )
-            return field
+            return SingleSelectField(fieldProps)
         elif fieldType == 'multi_select':
-            field = MultiSelectField(fieldProps)
-            field.populateOptions(
-                fieldProps.get('getter'),
-                fieldProps.get('options')
-            )
-            return field
+            return MultiSelectField(fieldProps)
         elif fieldType == 'date':
             return DateField(fieldProps)
         elif fieldType == 'datetime':
@@ -60,3 +71,24 @@ class FieldService(BaseService):
             return DirectoryField(fieldProps)
         else:
             return Field(fieldProps)
+
+    def setFieldOptions(self, field: Field, mid: str, options: list):
+        if field.hasOptionGetter():
+            package: str = 'modules.{module}.src.getters'.format(module=mid)
+            props: dict = StrUtil.getClassMethodMapFromStr(field.getOptionGetter(), 'getOptions')
+            cls = ObjUtil.getClassFromStr(package, props.get('class'))
+            optGetter = cls()
+            optGetter.setAppContext(self._appContext)
+            getterMethod: object = getattr(optGetter, props.get('method'))
+            opts = getterMethod(field)
+            field.setOptions(opts)
+        else:
+            self.setOptions(options)
+
+    def getDefaultFieldValues(self, fields: dict) -> dict:
+        retDict: dict = {}
+        field: Field
+        for fid, field in fields.items():
+            if field.hasDefaultValue():
+                retDict[fid] = field.getDefault()
+        return retDict

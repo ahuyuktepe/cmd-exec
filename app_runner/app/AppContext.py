@@ -1,5 +1,8 @@
 from app_runner.app.MainAppConfig import MainAppConfig
 from app_runner.menu.Menu import Menu
+from app_runner.utils.ObjUtil import ObjUtil
+from app_runner.utils.StrUtil import StrUtil
+
 
 class AppContext:
     __mainConfig: MainAppConfig
@@ -33,7 +36,16 @@ class AppContext:
         self.__configs[name] = config
 
     def getService(self, name: str) -> object:
-        return self.__services.get(name)
+        service: object = self.__services.get(name)
+        if service is None:
+            props = StrUtil.getServicePropertiesFromStr(name)
+            service = self.__initializeService(
+                props.get('module'),
+                props.get('class')
+            )
+            service.setAppContext(self)
+            self.addService(name, service)
+        return service
 
     def getExecutor(self, name: str) -> object:
         return self.__executors.get(name)
@@ -49,3 +61,12 @@ class AppContext:
 
     def getConfig(self, name: str) -> object:
         return self.__configs.get(name)
+
+    def __initializeService(self, mid: str, clsName: str):
+        package: str
+        if mid is None:
+            package = 'services' + clsName
+        else:
+            package = 'modules.' + mid + '.src.services'
+        cls = ObjUtil.getClassFromStr(package, clsName)
+        return cls()

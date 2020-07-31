@@ -1,6 +1,7 @@
 import argparse
 from app_runner.services.BaseService import BaseService
 from app_runner.utils.FileUtil import FileUtil
+from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
 
 class ArgumentService(BaseService):
@@ -61,14 +62,19 @@ class ArgumentService(BaseService):
     def areArgsFromFile(self) -> bool:
         return self.getArgsFileName() is not None
 
-    def getArgsAsDict(self) -> dict:
+    def getArgsAsDict(self, cid: str) -> dict:
+        retDict: dict = {}
+        args: dict = {}
         if self.areArgsFromCmdParam():
             argStr: str = self.getArgAsStr()
-            return StrUtil.getObjFromArgsStr(argStr)
-        if self.areArgsFromFile():
+            args = StrUtil.getObjFromArgsStr(argStr)
+        elif self.areArgsFromFile():
             filePath: str = FileUtil.getAbsolutePath(['resources', 'args', self.getArgsFileName()])
             ext: str = FileUtil.getFileExtension(filePath)
             if ext == 'json':
-                return FileUtil.generateObjFromJsonFile(filePath)
+                args = FileUtil.generateObjFromJsonFile(filePath)
             elif ext == 'yaml':
-                return FileUtil.generateObjFromYamlFile(filePath)
+                args = FileUtil.generateObjFromYamlFile(filePath)
+        # ObjUtil.mergeDictIntoOther(args, retDict)
+        retDict.update(args)
+        return retDict

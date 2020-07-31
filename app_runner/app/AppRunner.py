@@ -8,6 +8,7 @@ from app_runner.services.LogService import LogService
 import traceback
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ListUtil import ListUtil
+from modules.main.src.executors.WebToolExecutor import WebToolExecutor
 
 
 class AppRunner:
@@ -54,31 +55,20 @@ class AppRunner:
 
     def __runInCmdMode(self):
         try:
-            mid: str = self.__argumentService.getMenuId()
+            # 1) Get comman
+            # d id
             cid: str = self.__argumentService.getCmdId()
-            # 1) Setup menu file path
-            menuFilePath = FileUtil.getAbsolutePath(['modules', 'sample', 'menus', '{mid}.yaml']).format(mid=mid)
-            # 2) Read menu file content into object
-            menuObj = FileUtil.generateObjFromFile(menuFilePath)
-            # 3) Get command object
-            cmds: list = menuObj.get('commands')
-            cmdObj = ListUtil.getElementByKey(cmds, 'id', cid)
-            # 4) Build command object
-            cmd: Command = self.__commandService.buildCmd(cmdObj)
-            # 6) Insert fields
-            self.__fieldService.insertFields(cmd, cmdObj.get('fields'))
-            # 7) Fetch field values
-            fields: dict = cmd.getFields()
-            fieldValues: dict = self.__argumentService.getArgsAsDict()
-            # 8) Import default values
-            fieldValues = self.__commandService.getValuesWithDefaultValues(fieldValues, cmd)
-            # 9) Validate field values
-            self.__fieldService.validateFieldValues(fields, fieldValues)
-            # 10) Initialize executor class
-            executor = self.__commandService.initializeExecutorClass(cmd.getExecutorClass())
-            executor.setAppContext(self.__appContext)
-            # 11) Call executor method
-            self.__commandService.callExecutorMethod(executor, cmd.getExecutorMethod(), fieldValues)
+            # 2) Get command locator
+            mainConfig: MainAppConfig = self.__appContext.getConfig('main')
+            cmdLocator: dict = mainConfig.getCommandLocator(cid)
+            # 3) Build Command object
+            cmd: Command = self.__commandService.buildCommand(cmdLocator)
+            # 4) Fetch arguments
+            fieldValues: dict = self.__fieldService.getFieldValues(cmd)
+            # 5) Validate values
+            self.__fieldService.validateFieldValues(cmd, fieldValues)
+            # 6) Call executor if set
+            self.__commandService.execute(cmd, fieldValues)
         except Exception as exception:
             errorDetails: str = traceback.format_exc()
             self.__logService.error(errorDetails)

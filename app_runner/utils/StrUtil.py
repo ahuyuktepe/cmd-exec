@@ -41,3 +41,26 @@ class StrUtil:
             arr: list = value.split(':')
             argsDict[arr[0]] = arr[1]
         return argsDict
+
+    @staticmethod
+    def getClassMethodMapFromStr(clsPath: str, defaultMethod: str) -> dict:
+        arr: list = clsPath.split('.')
+        props: dict = {'class': None, 'method': None}
+        if len(arr) > 1:
+            props['class'] = arr[0]
+            props['method'] = arr[1]
+        elif len(arr) == 1:
+            props['class'] = arr[0]
+            props['method'] = defaultMethod
+        return props
+
+    @staticmethod
+    def getServicePropertiesFromStr(sid: str) -> dict:
+        arr: list = sid.split('.')
+        props: dict = {'class': None, 'module': None}
+        if len(arr) > 1:
+            props['module'] = arr[0]
+            props['class'] = arr[1]
+        elif len(arr) == 1:
+            props['class'] = arr[0]
+        return props

@@ -8,7 +8,6 @@ class AppConfig:
 
     def __init__(self, configs: dict):
         self.__configs = configs
-        # self.__configs = FileUtil.generateObjFromYamlFile(configFilePath)
 
     def getObjValue(self, path: str) -> object:
         if not isinstance(path, str) or StrUtil.isNoneOrEmpty(path):

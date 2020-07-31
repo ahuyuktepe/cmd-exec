@@ -5,11 +5,13 @@ class Command:
     _description: str = None
     _executor: str = None
     _fields: dict = {}
+    _module: str
 
-    def __init__(self, id: str, description: str, executor: str):
+    def __init__(self, id: str, description: str, executor: str, module: str):
         self._id = id
         self._description = description
         self._executor = executor
+        self._module = module
 
     def getId(self) -> str:
         return self._id
@@ -32,9 +34,18 @@ class Command:
     def getFields(self) -> dict:
         return self._fields
 
+    def getModule(self) -> str:
+        return self._module
+
     def addField(self, field: Field):
         self._fields[field.getId()] = field
 
-    def print(self) -> str:
-        for field in self._fields:
-            print("test" + field.toString())
+    def print(self):
+        strVal = "id: {id}\ndescription: {description}\nexecutor: {executor}".format(
+            id=self._id,
+            description=self._description,
+            executor=self._executor
+        )
+        for id, field in self._fields.items():
+            strVal += '\n' + (field.toString())
+        print(strVal)
