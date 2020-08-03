@@ -34,12 +34,12 @@ class ArgumentService(BaseService):
                                          help='Set menu id from which command will be executed.')
 
     def isInteractiveMode(self) -> bool:
-        mode: str = self.__arguments.get('mode')
-        return mode == 0 or mode == 'int'
+        cid: str = self.__arguments.get('cid')
+        return cid == 0
 
     def isCmdMode(self) -> bool:
-        mode: str = self.__arguments.get('mode')
-        return mode == 'cmd'
+        mode: str = self.__arguments.get('cid')
+        return mode is not None
 
     def getCmdId(self) -> str:
         return self.__arguments.get('cid')

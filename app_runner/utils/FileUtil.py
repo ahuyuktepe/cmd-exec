@@ -6,8 +6,12 @@ from app_runner.utils.StrUtil import StrUtil
 
 class FileUtil:
     @staticmethod
-    def getAbsolutePath(path: list):
+    def getAbsolutePath(path: list) -> str:
         return os.environ['APP_RUNNER_ROOT_PATH'] + os.path.sep + os.path.sep.join(path)
+
+    @staticmethod
+    def convertToPath(fileNames: list) -> str:
+        return os.path.sep.join(fileNames)
 
     @staticmethod
     def readFile(path: str) -> str:
@@ -30,6 +34,13 @@ class FileUtil:
     def deleteFile(path: str):
         if FileUtil.doesFileExist(path) and FileUtil.isFile(path):
             os.remove(path)
+
+    @staticmethod
+    def deleteFilesInDir(dirPath: str, fileNames: list):
+        for fileName in fileNames:
+            filePath = dirPath + os.path.sep + fileName
+            if FileUtil.isFile(filePath) and FileUtil.doesFileExist(filePath):
+                FileUtil.deleteFile(filePath)
 
     @staticmethod
     def generateObjFromFile(path: str) -> object:
@@ -82,3 +93,11 @@ class FileUtil:
     def saveObjIntoFileAsYaml(path: str, data: object):
         content: str = yaml.safe_dump(data)
         FileUtil.writeFile(path, content)
+
+    @staticmethod
+    def doesUserHaveAccessOnFile(filePath: str) -> bool:
+        return os.access(filePath, os.R_OK)
+
+    @staticmethod
+    def getServiceClassFilePath(module: str, cls: str) -> str:
+        return FileUtil.getAbsolutePath(['modules', module, 'src', 'services', cls])

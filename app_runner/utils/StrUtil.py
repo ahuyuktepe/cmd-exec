@@ -64,3 +64,14 @@ class StrUtil:
         elif len(arr) == 1:
             props['class'] = arr[0]
         return props
+
+    @staticmethod
+    def getConfigPropertiesFromStr(sid: str) -> dict:
+        arr: list = sid.split('.')
+        props: dict = {'module': None, 'file': None}
+        if len(arr) > 1:
+            props['module'] = arr[0]
+            props['file'] = arr[1]
+        elif len(arr) == 1:
+            props['file'] = arr[0]
+        return props

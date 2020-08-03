@@ -20,3 +20,6 @@ class AppConfigPath:
 
     def hasNextName(self) -> bool:
         return (self.__index + 1) < len(self.__names)
+
+    def getPath(self) -> str:
+        return self.__path

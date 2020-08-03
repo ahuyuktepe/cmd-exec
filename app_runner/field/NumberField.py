@@ -1,4 +1,5 @@
 from app_runner.errors.FieldValidationError import FieldValidationError
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 
 class NumberField(Field):
@@ -10,13 +11,13 @@ class NumberField(Field):
         self._min = properties.get('min')
         self._max = properties.get('max')
 
-    def validate(self, value: object):
-        super().validate(value)
+    def validate(self, value: object, errors: FieldValidationErrors):
+        super().validate(value, errors)
         valueStr: str = str(value)
         if not valueStr.isnumeric():
-            raise FieldValidationError("Field '" + self._id + "' is number type but value is not number.")
+            errors.addError(FieldValidationError("Field '" + self._id + "' is number type but value is not number."))
         valueInt: int = int(valueStr)
         if self._min is not None and valueInt < self._min:
-            raise FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is less than min '" + str(self._min) + "'.")
+            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is less than min '" + str(self._min) + "'."))
         elif self._max is not None and valueInt > self._max:
-            raise FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is greater than max '" + str(self._max) + "'.")
+            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is greater than max '" + str(self._max) + "'."))

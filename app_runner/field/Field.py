@@ -1,4 +1,5 @@
 from app_runner.errors.FieldValidationError import FieldValidationError
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.utils.DataUtil import DataUtil
 from app_runner.utils.ErrorUtil import ErrorUtil
 
@@ -48,9 +49,9 @@ class Field:
     def getValidator(self) -> dict:
         return self._validator
 
-    def validate(self, value: object):
+    def validate(self, value: object, errors: FieldValidationErrors):
         if self.isRequired() and value is None:
-            raise FieldValidationError("Field '" + self._id + "' is required but has no value.")
+            errors.addError(FieldValidationError("Field '" + self._id + "' is required but has no value."))
 
     def isNumber(self) -> bool:
         return self._type == 'number'

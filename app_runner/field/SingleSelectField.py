@@ -1,4 +1,5 @@
 from app_runner.errors.FieldValidationError import FieldValidationError
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 from app_runner.utils.ListUtil import ListUtil
 from app_runner.utils.ObjUtil import ObjUtil
@@ -25,11 +26,11 @@ class SingleSelectField(Field):
     def getOptionGetter(self) -> str:
         return self._optionGetter
 
-    def validate(self, value: object):
-        super().validate(value)
+    def validate(self, value: object, errors: FieldValidationErrors):
+        super().validate(value, errors)
         valStr: str = str(value)
         if not ListUtil.hasElementByKey(self._options, 'id', valStr):
-            raise FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options.")
+            errors.addError(FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options."))
 
     def hasOptions(self) -> bool:
         return True

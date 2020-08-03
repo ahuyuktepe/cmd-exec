@@ -2,7 +2,6 @@ from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.menu.Command import Command
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
-from app_runner.services.LogService import LogService
 from app_runner.utils.ListUtil import ListUtil
 from tests.base_service_test import TestBaseService
 import pytest

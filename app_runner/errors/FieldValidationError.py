@@ -1,5 +1,9 @@
 
-class FieldValidationError(Exception):
+class FieldValidationError:
+    __msg: str
 
     def __init__(self, msg: str):
-        super().__init__(msg)
+        self.__msg = msg
+
+    def getMsg(self) -> str:
+        return self.__msg

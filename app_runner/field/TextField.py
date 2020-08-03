@@ -1,4 +1,5 @@
 from app_runner.errors.FieldValidationError import FieldValidationError
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 
 class TextField(Field):
@@ -10,11 +11,11 @@ class TextField(Field):
         self._minSize = properties.get('min_size')
         self._maxSize = properties.get('max_size')
 
-    def validate(self, value: object):
-        super().validate(value)
+    def validate(self, value: object, errors: FieldValidationErrors):
+        super().validate(value, errors)
         if value is not None:
             valueStr = str(value)
             if self._maxSize is not None and self._maxSize < len(valueStr):
-                raise FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size greater than max size '" + str(self._maxSize) + "'.")
+                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size greater than max size '" + str(self._maxSize) + "'."))
             if self._minSize is not None and self._minSize > len(valueStr):
-                raise FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size less than min size '" + str(self._minSize) + "'.")
+                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size less than min size '" + str(self._minSize) + "'."))

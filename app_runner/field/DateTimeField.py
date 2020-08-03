@@ -1,3 +1,4 @@
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 import datetime
 from app_runner.utils.DataUtil import DataUtil
@@ -9,8 +10,8 @@ class DateTimeField(Field):
         super().__init__(properties)
         self._format = str(DataUtil.getDefaultIfNone(properties.get('format'), '%m-%d-%Y %H:%M:%S'))
 
-    def validate(self, value: object):
-        super().validate(value)
+    def validate(self, value: object, errors: FieldValidationErrors):
+        super().validate(value, errors)
         dateStr: str = str(value)
         datetime.datetime.strptime(dateStr, self._format)
 
