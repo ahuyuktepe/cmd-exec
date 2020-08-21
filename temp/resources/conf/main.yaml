@@ -1,0 +1,10 @@
+command_locators:
+  test:
+    cmd: test-cmd
+    menu: test-menu
+    module: test-module
+log_settings:
+  dir_path: args
+  file_name: test-logs
+  level: info
+name: Test Application Name

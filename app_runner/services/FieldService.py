@@ -21,7 +21,7 @@ class FieldService(BaseService):
     def getFieldValues(self, cmd: Command) -> dict:
         cid: str = cmd.getId()
         values: dict = {}
-        defaultValuesFromConfig: dict = self._appContext.getConfig('commands').getObjValue(cid + '.arguments')
+        defaultValuesFromConfig: dict = self._appContext.getConfig('main').getObjValue('command_locators.' + cid + '.arguments')
         values.update(defaultValuesFromConfig)
         fields: dict = cmd.getFields()
         defaultFieldValues: dict = self.getDefaultFieldValues(fields)

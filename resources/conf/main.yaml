@@ -5,8 +5,9 @@ log_settings:
   file_name: main
   msg_format: '{level} | {date} | {msg}'
   date_format: '%Y-%m-%d %H:%M:%S'
-cmd_aliases:
+command_locators:
   add-web-tool:
+    cmd: add-web-tool
     module: main
     menu: test
     arguments:

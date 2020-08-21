@@ -22,33 +22,25 @@ class ArgumentService(BaseService):
         self.argumentParser.add_argument('--mode',
                                          help='Sets program execution mode.',
                                          choices=['int', 'cmd'],
-                                         default=0)
-        self.argumentParser.add_argument('--cid',
+                                         default='int')
+        self.argumentParser.add_argument('--cmd',
                                          help='Sets command to execute.')
         self.argumentParser.add_argument('--args_str',
                                          help='Sets arguments to passed while executing command.')
         self.argumentParser.add_argument('--args_file',
                                          help='Sets file path to json file which contains arguments '
                                               'to be used while executing command.')
-        self.argumentParser.add_argument('--mid',
-                                         help='Set menu id from which command will be executed.')
 
     def isInteractiveMode(self) -> bool:
-        cid: str = self.__arguments.get('cid')
-        return cid == 0
+        mode: str = self.__arguments.get('mode')
+        return mode == 'int'
 
     def isCmdMode(self) -> bool:
-        mode: str = self.__arguments.get('cid')
-        return mode is not None
+        mode: str = self.__arguments.get('mode')
+        return mode == 'cmd'
 
-    def getCmdId(self) -> str:
-        return self.__arguments.get('cid')
-
-    def getMenuId(self) -> str:
-        menu: str = self.__arguments.get('mid')
-        if menu:
-            return menu
-        return 'main'
+    def getCmd(self) -> str:
+        return self.__arguments.get('cmd')
 
     def getArgsFileName(self) -> str:
         return self.__arguments.get('args_file')
@@ -56,19 +48,13 @@ class ArgumentService(BaseService):
     def getArgAsStr(self) -> str:
         return self.__arguments.get('args_str')
 
-    def areArgsFromCmdParam(self) -> bool:
-        return self.getArgAsStr() is not None
-
-    def areArgsFromFile(self) -> bool:
-        return self.getArgsFileName() is not None
-
     def getArgsAsDict(self, cid: str) -> dict:
         retDict: dict = {}
         args: dict = {}
-        if self.areArgsFromCmdParam():
+        if self.__areArgsFromCmdParam():
             argStr: str = self.getArgAsStr()
             args = StrUtil.getObjFromArgsStr(argStr)
-        elif self.areArgsFromFile():
+        elif self.__areArgsFromFile():
             filePath: str = FileUtil.getAbsolutePath(['resources', 'args', self.getArgsFileName()])
             ext: str = FileUtil.getFileExtension(filePath)
             if ext == 'json':
@@ -78,3 +64,9 @@ class ArgumentService(BaseService):
         # ObjUtil.mergeDictIntoOther(args, retDict)
         retDict.update(args)
         return retDict
+
+    def __areArgsFromCmdParam(self) -> bool:
+        return self.getArgAsStr() is not None
+
+    def __areArgsFromFile(self) -> bool:
+        return self.getArgsFileName() is not None

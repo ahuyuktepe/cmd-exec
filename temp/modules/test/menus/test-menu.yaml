@@ -1,0 +1,18 @@
+commands:
+- description: Test Command
+  executor: TestExecutor.executeTestCmd
+  fields:
+  - id: first-name
+    label: First Name
+    type: text
+  - default: User
+    id: last-name
+    label: Last Name
+    type: text
+  - id: email
+    label: Email
+    required: true
+    type: text
+  id: test-cmd
+id: test
+name: Test Menu

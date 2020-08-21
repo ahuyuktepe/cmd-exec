@@ -101,3 +101,16 @@ class FileUtil:
     @staticmethod
     def getServiceClassFilePath(module: str, cls: str) -> str:
         return FileUtil.getAbsolutePath(['modules', module, 'src', 'services', cls])
+
+    @staticmethod
+    def makeDir(dirPath: str):
+        os.mkdir(dirPath)
+
+    @staticmethod
+    def makeDirsInSrcDir(srcDirPath: str, dirs: list):
+        if FileUtil.isDirectory(srcDirPath) and FileUtil.doesDirExist(srcDirPath):
+            dirPath = srcDirPath
+            for dir in dirs:
+                dirPath = dirPath + os.sep + dir
+                if not FileUtil.doesDirExist(dirPath):
+                    FileUtil.makeDir(dirPath)

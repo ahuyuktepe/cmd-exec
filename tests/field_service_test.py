@@ -20,7 +20,7 @@ class TestFieldService(TestBaseService):
         self.setup()
         cmds = self._menu.get('commands')
         cmdObj = ListUtil.getElementByKey(cmds, 'id', 'test-cmd')
-        cmd: Command = self.cmdService.buildCmd(cmdObj)
+        cmd: Command = self.cmdService.buildCommand(cmdObj)
         self.fieldService.insertFields(cmd, cmdObj.get('fields'))
         fieldValues: dict = {
             'first-name': 'Test',

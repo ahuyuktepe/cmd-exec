@@ -27,7 +27,7 @@ class AppRunner:
     def __initializeDependencies(self):
         config: AppConfig = self.__appContext.getConfig('main')
         # LogService
-        obj: dict = config.getObjValue()
+        obj: dict = config.getObjValue('log_settings')
         self.__appContext.addService('logService', LogService(obj))
         # FieldService
         fieldService: FieldService = FieldService()
@@ -49,18 +49,17 @@ class AppRunner:
 
     def __runInCmdMode(self):
         try:
-            # 1) Get command id
-            cid: str = self.__argumentService.getCmdId()
-            # 2) Get command locator
-            appConfig: AppConfig = self.__appContext.getConfig('commands')
-            cmdLocator: dict = appConfig.getObjValue(cid)
-            # 3) Build Command object
-            cmd: Command = self.__commandService.buildCommand(cid, cmdLocator)
-            # 4) Fetch arguments
+            # 1) Set command locator
+            cid: str = self.__argumentService.getCmd()
+            appConfig: AppConfig = self.__appContext.getConfig('main')
+            cmdLocator: dict = appConfig.getObjValue('command_locators.' + cid)
+            # 2) Build Command object
+            cmd: Command = self.__commandService.buildCommand(cmdLocator)
+            # 3) Fetch arguments
             fieldValues: dict = self.__fieldService.getFieldValues(cmd)
-            # 5) Validate values
+            # 4) Validate values
             errors: FieldValidationErrors = self.__fieldService.validateFieldValues(cmd, fieldValues)
-            # 6) Call executor if no validation error
+            # 5) Call executor if no validation error
             if errors.hasErrors():
                 errors.printErrors()
             else:

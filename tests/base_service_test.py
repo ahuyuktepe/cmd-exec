@@ -1,19 +1,18 @@
 from app_runner.app.AppContext import AppContext
-from app_runner.app.MainAppConfig import MainAppConfig
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
 
-
 class TestBaseService:
     _appContext: AppContext
     _menu: dict = {
-        "id": "main",
-        "name": "Main Menu",
+        "id": "test",
+        "name": "Test Menu",
         "commands": [
             {
                 "id": "test-cmd",
                 "description": "Test Command",
+                "executor": 'TestExecutor.executeTestCmd',
                 "fields": [
                     {"id": "first-name", "label": "First Name", "type": "text"},
                     {"id": "last-name", "label": "Last Name", "type": "text", "default": "User"},
@@ -28,12 +27,18 @@ class TestBaseService:
             "level": "info",
             "dir_path": "args",
             "file_name": "test-logs"
+        },
+        'command_locators': {
+            'test': {
+                'cmd': 'test-cmd',
+                'module': 'test-module',
+                'menu': 'test-menu'
+            }
         }
     }
 
     def _initAppContext(self):
-        mainAppConfig = MainAppConfig(self._test_config)
-        self._appContext = AppContext(mainAppConfig)
+        self._appContext = AppContext()
         # LogService
         obj: dict = self._appContext.getConfig('main').getObjValue('log_settings')
         self._appContext.addService('logService', LogService(obj))

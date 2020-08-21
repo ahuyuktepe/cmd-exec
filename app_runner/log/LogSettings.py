@@ -15,7 +15,7 @@ class LogSettings:
             self._level = DataUtil.getDefaultIfNone(values.get('level'), 'info')
             self._dirPath = DataUtil.getDefaultIfNone(values.get('dir_path'), 'logs')
             self._fileName = DataUtil.getDefaultIfNone(values.get('file_name'), 'main')
-            self._maxSize = DataUtil.getDefaultIfNone(values.get('max_size'), '1 B')
+            self._maxSize = DataUtil.getDefaultIfNone(values.get('max_size'), '1 MB')
             self._msgFormat = DataUtil.getDefaultIfNone(values.get('msg_format'), '{level} : {msg}')
             self._dateFormat = DataUtil.getDefaultIfNone(values.get('date_format'), '%Y-%m-%d %H:%M:%S')
 

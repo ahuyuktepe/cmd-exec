@@ -1,7 +1,5 @@
-from app_runner.errors.CmdExecError import CmdExecError
 from app_runner.menu.Command import Command
 from app_runner.services.BaseService import BaseService
-from app_runner.utils.ErrorUtil import ErrorUtil
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ListUtil import ListUtil
 from app_runner.utils.ObjUtil import ObjUtil
@@ -10,14 +8,14 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 class CommandService(BaseService):
 
-    def buildCommand(self, cid: str, cmdLocator: dict) -> Command:
+    def buildCommand(self, cmdLocator: dict) -> Command:
         menuFilePath = FileUtil.getAbsolutePath(['modules', '{module}', 'menus', '{menu}.yaml'])
         menuFilePath = menuFilePath.format(**cmdLocator)
         ValidationUtil.failIfFileNotReadable(menuFilePath)
         menuObj = FileUtil.generateObjFromFile(menuFilePath)
         cmds: list = menuObj.get('commands')
         ValidationUtil.failIfObjNone(cmds, "The menu file '"+menuFilePath+"' does not contain commands key.")
-        cmdProps = ListUtil.getElementByKey(cmds, 'id', cid)
+        cmdProps = ListUtil.getElementByKey(cmds, 'id', cmdLocator.get('cmd'))
         ValidationUtil.validateCmdProps(cmdProps)
         cmd: Command = Command(
             id=cmdProps.get('id'),

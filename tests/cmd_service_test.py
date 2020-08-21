@@ -16,8 +16,6 @@ class TestCmdService(TestBaseService):
 
     def test_buildCmd(self):
         self.setup()
-
-
         assert cmd.getId() == 'test-cmd'
 
     def test_getValuesWithDefaultValues(self):
