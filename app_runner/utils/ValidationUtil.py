@@ -1,4 +1,5 @@
 from app_runner.errors.CmdExecError import CmdExecError
+from app_runner.menu.Command import Command
 from app_runner.utils.FileUtil import FileUtil
 
 
@@ -42,3 +43,10 @@ class ValidationUtil:
     def failIfClassMethodDoesNotExist(obj: object, classPath: str, methodName: str):
         if not hasattr(obj, methodName):
             raise CmdExecError("Class '" + classPath + "' does not have method '" + methodName + "'")
+
+    @staticmethod
+    def failIfCommandIsNone(cmd: Command):
+        if cmd is None:
+            raise CmdExecError("Given command object is None.")
+
+

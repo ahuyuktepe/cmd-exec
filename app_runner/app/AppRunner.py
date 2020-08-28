@@ -1,13 +1,13 @@
 from app_runner.app.AppConfig import AppConfig
 from app_runner.app.AppContext import AppContext
-from app_runner.errors.CmdExecError import CmdExecError
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.menu.Command import Command
 from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
-import traceback
+from app_runner.utils.ErrorUtil import ErrorUtil
+
 
 class AppRunner:
     __argumentService: ArgumentService
@@ -64,13 +64,8 @@ class AppRunner:
                 errors.printErrors()
             else:
                 self.__commandService.execute(cmd, fieldValues)
-        except CmdExecError as cmdExecError:
-            print('\033[31mCmdExecError : ' + str(cmdExecError) + '\033[0m')
-            self.__logService.error(str(cmdExecError))
         except Exception as exception:
-            errorDetails: str = traceback.format_exc()
-            self.__logService.error(errorDetails)
-            print(errorDetails)
+            ErrorUtil.handleException(exception, self.__logService)
 
     def __runInInteractiveMode(self):
         pass

@@ -52,3 +52,29 @@ class TestArgumentService(TestBaseService):
         assert cmdLocator['cmd'] == 'test-cmd'
         assert cmdLocator['menu'] == 'test-menu'
         assert cmdLocator['module'] == 'test-module'
+
+    def test_getArgsAsDict(self):
+        # given
+        sys.argv = ['prog', '--args_str', 'fname:test,lname:user']
+        argumentService = ArgumentService()
+        # when
+        args: dict = argumentService.getArgsAsDict('tst')
+        # then
+        assert args.get('fname') == 'test'
+        assert args.get('lname') == 'user'
+
+    def test_argsFile(self):
+        # given
+        argsFileName = 'test.yaml'
+        args = {
+            "fname":"test",
+            "lname":"user"
+        }
+        TestFileUtil.createArgsFile(args, argsFileName)
+        sys.argv = ['prog', '--args_file', 'test.yaml']
+        argumentService = ArgumentService()
+        # when
+        args: dict = argumentService.getArgsAsDict('tst')
+        # then
+        assert args.get('fname') == 'test'
+        assert args.get('lname') == 'user'

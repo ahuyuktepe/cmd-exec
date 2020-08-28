@@ -10,6 +10,7 @@ from app_runner.field.SingleSelectField import SingleSelectField
 from app_runner.field.TextField import TextField
 from app_runner.menu.Command import Command
 from app_runner.services.BaseService import BaseService
+from app_runner.utils.DataUtil import DataUtil
 from app_runner.utils.ErrorUtil import ErrorUtil
 from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
@@ -19,16 +20,30 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 class FieldService(BaseService):
 
     def getFieldValues(self, cmd: Command) -> dict:
+        ValidationUtil.failIfCommandIsNone(cmd)
         cid: str = cmd.getId()
-        values: dict = {}
-        defaultValuesFromConfig: dict = self._appContext.getConfig('main').getObjValue('command_locators.' + cid + '.arguments')
-        values.update(defaultValuesFromConfig)
         fields: dict = cmd.getFields()
-        defaultFieldValues: dict = self.getDefaultFieldValues(fields)
-        values.update(defaultFieldValues)
-        fieldValues: dict = self._appContext.getService('argumentService').getArgsAsDict(cid)
-        values.update(fieldValues)
+        values: dict = {}
+        if not DataUtil.isNullOrEmpty(fields):
+            defaultValuesFromConfig: dict = self._appContext.getConfig('main').getObjValue('command_locators.' + cid + '.arguments')
+            if not DataUtil.isNullOrEmpty(defaultValuesFromConfig):
+                values.update(defaultValuesFromConfig)
+            defaultFieldValues: dict = self.getDefaultFieldValues(fields)
+            if not DataUtil.isNullOrEmpty(defaultFieldValues):
+                values.update(defaultFieldValues)
+            fieldValues: dict = self._appContext.getService('argumentService').getArgsAsDict(cid)
+            if not DataUtil.isNullOrEmpty(fieldValues):
+                values.update(fieldValues)
         return values
+
+    def getDefaultFieldValues(self, fields: dict) -> dict:
+        retDict: dict = {}
+        if not DataUtil.isNullOrEmpty(fields):
+            field: Field
+            for fid, field in fields.items():
+                if field.hasDefaultValue():
+                    retDict[fid] = field.getDefault()
+        return retDict
 
     def validateFieldValues(self, cmd: Command, fieldValues: dict) -> FieldValidationErrors:
         errors: FieldValidationErrors = FieldValidationErrors()
@@ -102,10 +117,4 @@ class FieldService(BaseService):
         else:
             self.setOptions(options)
 
-    def getDefaultFieldValues(self, fields: dict) -> dict:
-        retDict: dict = {}
-        field: Field
-        for fid, field in fields.items():
-            if field.hasDefaultValue():
-                retDict[fid] = field.getDefault()
-        return retDict
+

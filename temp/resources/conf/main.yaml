@@ -1,5 +1,8 @@
 command_locators:
   test:
+    arguments:
+      first-name: test
+      last-name: user
     cmd: test-cmd
     menu: test-menu
     module: test-module

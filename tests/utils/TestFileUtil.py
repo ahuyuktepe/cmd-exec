@@ -20,3 +20,9 @@ class TestFileUtil:
         FileUtil.makeDirsInSrcDir(os.environ['APP_RUNNER_ROOT_PATH'], ['modules', module, 'menus'])
         mainConfFilePath = FileUtil.getAbsolutePath(['modules', module, 'menus', menu]) + '.yaml'
         FileUtil.saveObjIntoFileAsYaml(mainConfFilePath, configData)
+
+    @staticmethod
+    def createArgsFile(argsData: object, fileName: str):
+        FileUtil.makeDirsInSrcDir(os.environ['APP_RUNNER_ROOT_PATH'], ['resources', 'args'])
+        argsFilePath = FileUtil.getAbsolutePath(['resources', 'args', fileName])
+        FileUtil.saveObjIntoFileAsYaml(argsFilePath, argsData)

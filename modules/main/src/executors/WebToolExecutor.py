@@ -11,7 +11,7 @@ class WebToolExecutor(ContextAware):
         self._appContext.getService('logService').info('WebToolExecutor')
         service: SampleService = self._appContext.getService('sample.SampleService')
         service.print()
-        config: AppConfig = self._appContext.getConfig('main.sample1')
+        config: AppConfig = self._appContext.getConfig('main.sample')
         firstName: str = config.getObjValue('full-name.first')
         lastName: str = config.getObjValue('full-name.last')
         print('First Name : ' + firstName + ' | Last Name : ' + lastName)

@@ -9,10 +9,12 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 class CommandService(BaseService):
 
     def buildCommand(self, cmdLocator: dict) -> Command:
+        ValidationUtil.failIfObjNone(cmdLocator, 'Command locator is None.')
         menuFilePath = FileUtil.getAbsolutePath(['modules', '{module}', 'menus', '{menu}.yaml'])
         menuFilePath = menuFilePath.format(**cmdLocator)
         ValidationUtil.failIfFileNotReadable(menuFilePath)
         menuObj = FileUtil.generateObjFromFile(menuFilePath)
+        ValidationUtil.failIfObjNone(menuObj, 'Menu object is None.')
         cmds: list = menuObj.get('commands')
         ValidationUtil.failIfObjNone(cmds, "The menu file '"+menuFilePath+"' does not contain commands key.")
         cmdProps = ListUtil.getElementByKey(cmds, 'id', cmdLocator.get('cmd'))

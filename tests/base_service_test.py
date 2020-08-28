@@ -1,7 +1,10 @@
 from app_runner.app.AppContext import AppContext
+from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
+from tests.utils.TestFileUtil import TestFileUtil
+
 
 class TestBaseService:
     _appContext: AppContext
@@ -32,12 +35,17 @@ class TestBaseService:
             'test': {
                 'cmd': 'test-cmd',
                 'module': 'test-module',
-                'menu': 'test-menu'
+                'menu': 'test-menu',
+                'arguments': {
+                    'first-name': 'test',
+                    'last-name': 'user'
+                }
             }
         }
     }
 
     def _initAppContext(self):
+        self.__createConfigFiles()
         self._appContext = AppContext()
         # LogService
         obj: dict = self._appContext.getConfig('main').getObjValue('log_settings')
@@ -50,3 +58,9 @@ class TestBaseService:
         fieldService: FieldService = FieldService()
         fieldService.setAppContext(self._appContext)
         self._appContext.addService('fieldService', fieldService)
+        # ArgumentService
+        self._appContext.addService('argumentService', ArgumentService())
+
+    def __createConfigFiles(self):
+        TestFileUtil.createMainConfig(self._test_config)
+        TestFileUtil.createModuleConfig('main', 'main', self._menu)

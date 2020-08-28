@@ -9,3 +9,7 @@ class DataUtil:
         if value is None:
             return defaultValue
         return value
+
+    @staticmethod
+    def isNullOrEmpty(val: dict):
+        return not bool(val)
