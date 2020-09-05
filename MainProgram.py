@@ -1,4 +1,5 @@
-from app_runner.app.AppRunner import AppRunner
+from app_runner.app.AppRunnerFactory import AppRunnerFactory
+from app_runner.app.ApplicationRunner import ApplicationRunner
 
-appRunner = AppRunner()
-appRunner.run()
+runner: ApplicationRunner = AppRunnerFactory.buildAppRunner()
+runner.run()
