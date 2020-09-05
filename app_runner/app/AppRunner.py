@@ -16,7 +16,7 @@ class AppRunner:
     __fieldService: FieldService
     __logService: LogService
 
-    def __init__(self, configPath: str):
+    def __init__(self):
         self.__argumentService = ArgumentService()
         self.__appContext = AppContext()
         self.__initializeDependencies()
