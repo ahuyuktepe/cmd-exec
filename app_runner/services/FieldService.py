@@ -115,6 +115,4 @@ class FieldService(BaseService):
             opts = getterMethod(field)
             field.setOptions(opts)
         else:
-            self.setOptions(options)
-
-
+            field.setOptions(options)
