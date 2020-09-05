@@ -1,5 +1,5 @@
-from app_runner.app.AppConfig import AppConfig
-from app_runner.app.MainAppConfig import MainAppConfig
+from app_runner.app.config.AppConfig import AppConfig
+from app_runner.app.config.MainAppConfig import MainAppConfig
 from app_runner.menu.Menu import Menu
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ObjUtil import ObjUtil
@@ -58,16 +58,22 @@ class AppContext:
     def getMenu(self, name: str) -> Menu:
         return self.__menus.get(name)
 
-    def getConfig(self, name: str) -> object:
-        config: AppConfig = self.__configs.get(name)
-        if config is None:
+    def initializeConfig(self, name: str):
+        if name is not None:
             props = StrUtil.getConfigPropertiesFromStr(name)
             config = self.__initializeConfig(
                 props.get('module'),
                 props.get('file')
             )
             self.addConfig(name, config)
+
+    def getConfig(self, name: str) -> object:
+        config: AppConfig = self.__configs.get(name)
+        if config is None:
+            self.initializeConfig(name)
+            config = self.__configs.get(name)
         return config
+
 
     def __initializeService(self, mid: str, clsName: str):
         package: str

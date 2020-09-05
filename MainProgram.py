@@ -1,6 +1,6 @@
-from app_runner.app.AppRunner import AppRunner
-from app_runner.utils.FileUtil import FileUtil
+from app_runner.app.runner.AppRunnerFactory import AppRunnerFactory
 
-configPath = FileUtil.getAbsolutePath(['resources', 'conf', 'main.yaml'])
-appRunner = AppRunner(configPath)
-appRunner.run()
+from app_runner.app.runner.ApplicationRunner import ApplicationRunner
+
+runner: ApplicationRunner = AppRunnerFactory.buildAppRunner()
+runner.run()

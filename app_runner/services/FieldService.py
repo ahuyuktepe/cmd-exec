@@ -1,3 +1,4 @@
+from app_runner.app.config.AppConfig import AppConfig
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.DateField import DateField
 from app_runner.field.DateTimeField import DateTimeField
@@ -25,7 +26,8 @@ class FieldService(BaseService):
         fields: dict = cmd.getFields()
         values: dict = {}
         if not DataUtil.isNullOrEmpty(fields):
-            defaultValuesFromConfig: dict = self._appContext.getConfig('main').getObjValue('command_locators.' + cid + '.arguments')
+            mainConfig: AppConfig = self._appContext.getConfig('main')
+            defaultValuesFromConfig: dict = mainConfig.getObjValue('command_locators.' + cid + '.arguments')
             if not DataUtil.isNullOrEmpty(defaultValuesFromConfig):
                 values.update(defaultValuesFromConfig)
             defaultFieldValues: dict = self.getDefaultFieldValues(fields)
@@ -115,6 +117,4 @@ class FieldService(BaseService):
             opts = getterMethod(field)
             field.setOptions(opts)
         else:
-            self.setOptions(options)
-
-
+            field.setOptions(options)

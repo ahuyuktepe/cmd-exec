@@ -4,7 +4,11 @@ class ObjUtil:
 
     @staticmethod
     def getClassFromStr(classPackage: str, className: str) -> object:
-        module = importlib.import_module('{package}.{className}'.format(package=classPackage, className=className))
+        classPath: str = '{package}.{className}'.format(
+            package=classPackage,
+            className=className
+        )
+        module = importlib.import_module(classPath)
         cls = getattr(module, className)
         return cls
 

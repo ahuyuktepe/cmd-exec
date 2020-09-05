@@ -1,5 +1,5 @@
-from app_runner.app.AppConfig import AppConfig
-from app_runner.app.AppContext import AppContext
+from app_runner.app.config.AppConfig import AppConfig
+from app_runner.app.context.AppContext import AppContext
 
 
 class TestConfigUtil:

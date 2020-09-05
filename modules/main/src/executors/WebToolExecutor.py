@@ -1,4 +1,4 @@
-from app_runner.app.AppConfig import AppConfig
+from app_runner.app.config.AppConfig import AppConfig
 from app_runner.extension.ContextAware import ContextAware
 from modules.sample.src.services.SampleService import SampleService
 
