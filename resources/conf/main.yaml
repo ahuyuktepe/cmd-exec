@@ -1,5 +1,5 @@
 application:
-  name: Application Runner 123
+  name: Application Runner
 log_settings:
   level: info
   dir_path: logs
@@ -7,10 +7,3 @@ log_settings:
   file_name: main
   msg_format: '{level} | {date} | {msg}'
   date_format: '%Y-%m-%d %H:%M:%S'
-command_locators:
-  add-web-tool:
-    cmd: add-web-tool
-    module: main
-    menu: test
-    arguments:
-      name: Default Name

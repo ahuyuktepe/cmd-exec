@@ -5,6 +5,7 @@ from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
+from app_runner.services.MenuService import MenuService
 
 
 class ApplicationRunner:
@@ -13,6 +14,7 @@ class ApplicationRunner:
     _commandService: CommandService
     _fieldService: FieldService
     _logService: LogService
+    _menuService: MenuService
 
     def __init__(self, context: AppContext):
         self._appContext = context
@@ -20,6 +22,7 @@ class ApplicationRunner:
         self._fieldService = self._appContext.getService('fieldService')
         self._logService = self._appContext.getService('logService')
         self._argumentService = self._appContext.getService('argumentService')
+        self._menuService = self._appContext.getService('menuService')
 
     def run(self):
         print('Running application')

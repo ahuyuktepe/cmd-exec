@@ -75,3 +75,15 @@ class StrUtil:
         elif len(arr) == 1:
             props['file'] = arr[0]
         return props
+
+    @staticmethod
+    def getStrCenterAligned(text: str, chrCount: int) -> str:
+        return ('{:^' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)
+
+    @staticmethod
+    def getStrLeftAligned(text: str, chrCount: int) -> str:
+        return ('{:<' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)
+
+    @staticmethod
+    def getStrRightAligned(text: str, chrCount: int) -> str:
+        return ('{:>' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)

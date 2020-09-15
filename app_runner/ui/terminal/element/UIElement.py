@@ -1,3 +1,5 @@
+
+
 class UIElement:
     _id: str
     _type: str
@@ -10,7 +12,9 @@ class UIElement:
         self._id = id
         self._type = eType
 
-    def setDimensions(self, width: int, height: int ):
+    # Setter Methods
+
+    def setDimensions(self, width: int, height: int):
         self._width = width
         self._height = height
 
@@ -18,7 +22,7 @@ class UIElement:
         self._x = x
         self._y = y
 
-    def print(self):
+    def print(self, window):
         print('print element')
 
     # Getter Functions
@@ -36,3 +40,6 @@ class UIElement:
 
     def getHeight(self) -> int:
         return self._height
+
+    def toString(self):
+        print('x: ' + str(self._x) + ' | y: ' + str(self._y) + ' width: ' + str(self._width) + ' | height: ' + str(self._height))

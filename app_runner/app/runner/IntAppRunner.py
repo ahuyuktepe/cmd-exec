@@ -1,12 +1,8 @@
 from app_runner.app.config.AppConfig import AppConfig
 from app_runner.app.context.AppContext import AppContext
 from app_runner.app.runner.ApplicationRunner import ApplicationRunner
+from app_runner.menu.Menu import Menu
 from app_runner.ui.terminal.MainScreen import MainScreen
-import time
-import curses
-from app_runner.ui.terminal.element.LabelUIElement import LabelUIElement
-from app_runner.ui.terminal.screen.UISection import UISection
-from app_runner.utils.TerminalUIUtil import TerminalUIUtil
 
 
 class IntAppRunner(ApplicationRunner):
@@ -15,30 +11,26 @@ class IntAppRunner(ApplicationRunner):
         super().__init__(context)
 
     def run(self):
-        print('Running in interactive mode')
-        screen: MainScreen = self.buildScreen()
+        # 1) Print Screen
+        screen: MainScreen = self.__buildScreen()
+        # 2) Build & Add Menu
+        menu: Menu = self._menuService.buildMenu('main')
+        screen.addAndActivateMenu(menu)
+        # 3) Print Screen
         screen.print()
-        time.sleep(3)
+        # 4) Get User Input
+        userInput: str = None
+        while userInput != 'q':
+            userInput = screen.getUserInput()
+            menu = self._menuService.buildMenu(userInput)
+            if menu is not None:
+                screen.addAndActivateMenu(menu)
+                screen.refreshSection('body')
 
-    def buildScreen(self) -> MainScreen:
+    def __buildScreen(self) -> MainScreen:
         config: AppConfig = self._appContext.getConfig('main')
         appName: str = config.getObjValue('application.name')
         screen: MainScreen = MainScreen(appName)
         screen.initialize()
-        self.buildSections(screen)
+        screen.buildSections()
         return screen
-
-    def buildSections(self, screen: MainScreen):
-        screenWidth = screen.getWidth()
-        # Header
-        section: UISection = TerminalUIUtil.buildSection('header', 'section', 'Header', 0, 0, screenWidth, 3)
-        # Application Name Text
-        labelElement = LabelUIElement('appName', screen.getTitle())
-        labelElement.setLocation(2, 1)
-        section.addElement(labelElement)
-        # Username Text
-        labelElement = LabelUIElement('username', 'ahuyuktepe')
-        labelElement.setLocation(screenWidth - 12, 1)
-        section.addElement(labelElement)
-        screen.addSection(section)
-

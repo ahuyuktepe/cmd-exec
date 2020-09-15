@@ -8,5 +8,11 @@ class LabelUIElement(UIElement):
         super().__init__(id, 'label')
         self.__text = text
 
-    def getText(self):
+    def getText(self) -> str:
         return self.__text
+
+    def getDisplayText(self) -> str:
+        return self.__text
+
+    def print(self, window):
+        window.addstr(self._y, self._x, self.getDisplayText())

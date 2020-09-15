@@ -1,0 +1,16 @@
+id: main
+name: Main Menu
+mid: main
+commands:
+  - id: add
+    description: Add Tool
+    executor: WebToolExecutor.getName
+  - id: edt
+    description: Edit Tool
+    executor: WebToolExecutor.getName
+  - id: dlt
+    description: Delete Tool
+    executor: WebToolExecutor.getName
+  - id: cpy
+    description: Copy Tool
+    executor: WebToolExecutor.getName

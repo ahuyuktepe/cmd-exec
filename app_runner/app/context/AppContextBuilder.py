@@ -4,13 +4,14 @@ from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
+from app_runner.services.MenuService import MenuService
 
 
 class AppContextBuilder:
 
     @staticmethod
     def updateContextForInteractiveMode(appContext: AppContext):
-        return appContext
+        AppContextBuilder.__setMenuService(appContext)
 
     @staticmethod
     def updateContextForCommandMode(appContext: AppContext):
@@ -24,6 +25,7 @@ class AppContextBuilder:
         AppContextBuilder.__setLogService(appContext)
         AppContextBuilder.__setFieldService(appContext)
         AppContextBuilder.__setCommandService(appContext)
+        AppContextBuilder.__setMenuService(appContext)
         return appContext
 
     @staticmethod
@@ -47,3 +49,9 @@ class AppContextBuilder:
         cmdService: CommandService = CommandService()
         cmdService.setAppContext(appContext)
         appContext.addService('commandService', cmdService)
+
+    @staticmethod
+    def __setMenuService(appContext: AppContext):
+        menuService: MenuService = MenuService()
+        menuService.setAppContext(appContext)
+        appContext.addService('menuService', menuService)

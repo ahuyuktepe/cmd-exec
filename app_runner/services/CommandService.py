@@ -28,8 +28,7 @@ class CommandService(BaseService):
         self._appContext.getService('fieldService').insertFields(cmd, cmdProps.get('fields'))
         return cmd
 
-    def execute(self, cmd: Command, values: dict):
-        mid: str = cmd.getModule()
+    def execute(self, mid: str, cmd: Command, values: dict):
         clsName = cmd.getExecutorClass()
         ValidationUtil.failIfClassNotDefined(mid, clsName, 'executors')
 

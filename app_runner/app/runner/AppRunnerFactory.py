@@ -1,4 +1,3 @@
-from app_runner.app.config.AppConfig import AppConfig
 from app_runner.app.context.AppContext import AppContext
 from app_runner.app.context.AppContextBuilder import AppContextBuilder
 from app_runner.app.runner.ApplicationRunner import ApplicationRunner
@@ -19,9 +18,9 @@ class AppRunnerFactory:
             return AppRunnerFactory.__buildInteractiveRunner(appContext)
 
     @staticmethod
-    def __buildCmdRunner(appContext: AppContext) -> CmdAppRunner:
+    def __buildCmdRunner(appContext: AppContext) -> ApplicationRunner:
         return CmdAppRunner(appContext)
 
     @staticmethod
-    def __buildInteractiveRunner(appContext: AppContext) -> IntAppRunner:
+    def __buildInteractiveRunner(appContext: AppContext) -> ApplicationRunner:
         return IntAppRunner(appContext)

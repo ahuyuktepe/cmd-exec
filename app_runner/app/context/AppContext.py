@@ -1,6 +1,7 @@
 from app_runner.app.config.AppConfig import AppConfig
 from app_runner.app.config.MainAppConfig import MainAppConfig
 from app_runner.menu.Menu import Menu
+from app_runner.ui.terminal.screen.UIScreen import UIScreen
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
@@ -15,6 +16,9 @@ class AppContext:
     __valueGetters: dict = {}
     __configs: dict = {}
     __menus: dict = {}
+    __screen: UIScreen
+
+    # Setter Methods
 
     def addService(self, name: str, service: object):
         self.__services[name] = service
@@ -33,6 +37,11 @@ class AppContext:
 
     def addConfig(self, name: str, config: object):
         self.__configs[name] = config
+
+    def setScreen(self, screen: UIScreen):
+        self.__screen = screen
+
+    # Getter Methods
 
     def getService(self, name: str) -> object:
         service: object = self.__services.get(name)
@@ -55,8 +64,14 @@ class AppContext:
     def getValueGetter(self, name: str) -> object:
         return self.__valueGetters.get(name)
 
-    def getMenu(self, name: str) -> Menu:
-        return self.__menus.get(name)
+    def getConfig(self, name: str) -> object:
+        config: AppConfig = self.__configs.get(name)
+        if config is None:
+            self.initializeConfig(name)
+            config = self.__configs.get(name)
+        return config
+
+    # Utility Methods
 
     def initializeConfig(self, name: str):
         if name is not None:
@@ -67,13 +82,7 @@ class AppContext:
             )
             self.addConfig(name, config)
 
-    def getConfig(self, name: str) -> object:
-        config: AppConfig = self.__configs.get(name)
-        if config is None:
-            self.initializeConfig(name)
-            config = self.__configs.get(name)
-        return config
-
+    # Private Methods
 
     def __initializeService(self, mid: str, clsName: str):
         package: str

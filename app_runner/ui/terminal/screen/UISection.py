@@ -1,44 +1,53 @@
 import curses
-
-from app_runner.ui.terminal.element.LabelUIElement import LabelUIElement
 from app_runner.ui.terminal.element.UIElement import UIElement
+from app_runner.ui.terminal.element.UIMenuElement import UIMenuElement
 
 
 class UISection(UIElement):
-    _title: str
     _window: object
-    _elements: dict = {}
+    _elements: dict
 
-    def __init__(self, sid: str, sType: str, title: str = None):
+    def __init__(self, sid: str, sType: str):
         super().__init__(sid, sType)
-        self._title = title
+        self._elements = {}
 
     def initialize(self):
         self._window = curses.newwin(self._height, self._width, self._y, self._x)
 
-    def printBorder(self):
-        self._window.border()
+    # Setter Methods
 
-    def refresh(self):
-        self._window.refresh()
+    def addBorder(self):
+        self._window.border()
 
     def addElement(self, element: UIElement):
         if element is not None:
             self._elements[element.getId()] = element
 
-    def getTitle(self) -> str:
-        return self._title
+    def setActiveMenuElement(self, element: UIMenuElement):
+        self._elements['active_menu'] = element
+
+    def getUserInput(self) -> str:
+        curses.curs_set(1)
+        self.moveCursor(2, 1)
+        self._window.clrtoeol()
+        return self._window.getstr().decode('utf-8')
+
+    # Utility Methods
 
     def print(self):
-        self.printBorder()
-        self.printElements()
-        self.refresh()
-
-    def printElements(self):
+        self.addBorder()
         element: UIElement
         for key, element in self._elements.items():
-            if isinstance(element, LabelUIElement):
-                self.__printLabelElement(element)
+            element.print(self._window)
+        self.refresh()
 
-    def __printLabelElement(self, element: LabelUIElement):
-        self._window.addstr(element.getY(), element.getX(), element.getText(), curses.color_pair(1))
+    def clear(self):
+        self._window.clear()
+
+    def refresh(self):
+        self._window.refresh()
+
+    def moveCursor(self, x: int, y: int):
+        self._window.move(y, x)
+
+

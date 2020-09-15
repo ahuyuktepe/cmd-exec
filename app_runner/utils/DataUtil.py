@@ -1,4 +1,5 @@
 
+
 class DataUtil:
     @staticmethod
     def isInt(value: object):
