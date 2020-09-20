@@ -26,6 +26,10 @@ class Menu:
     def getCommand(self, id: str) -> Command:
         return self._commands[id]
 
+    def getCommandByIndex(self, index: int):
+        cmds: list = list(self._commands.values())
+        return cmds[index]
+
     def getCommands(self) -> dict:
         return self._commands
 
@@ -37,3 +41,6 @@ class Menu:
 
     def getId(self) -> int:
         return self._id
+
+    def hasCommands(self) -> bool:
+        return self.getCmdCount() > 0

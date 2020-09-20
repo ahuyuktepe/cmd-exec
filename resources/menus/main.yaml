@@ -1,10 +1,9 @@
 id: main
 name: Main Menu
-mid: main
 commands:
   - id: add
     description: Add Tool
-    executor: WebToolExecutor.getName
+    menu: test
   - id: edt
     description: Edit Tool
     executor: WebToolExecutor.getName

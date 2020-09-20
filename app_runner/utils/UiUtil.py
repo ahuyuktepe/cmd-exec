@@ -1,5 +1,5 @@
 from app_runner.menu.Menu import Menu
-from app_runner.ui.terminal.screen import UISection
+from app_runner.ui.terminal.element import UISection
 from app_runner.ui.terminal.element.UIElement import UiElement
 import math
 

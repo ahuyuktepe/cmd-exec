@@ -31,9 +31,10 @@ class MenuService(BaseService):
         for cmdProps in cmds:
             command: Command = Command(
                 id=cmdProps.get('id'),
-                description=cmdProps.get('description'),
-                executor=cmdProps.get('executor')
+                description=cmdProps.get('description')
             )
+            command.setExecutor(cmdProps.get('executor'))
+            command.setMenu(cmdProps.get('menu'))
             fields: list = fieldService.buildFields(cmdProps.get('fields'), mid)
             command.setFields(fields)
             commands.append(command)

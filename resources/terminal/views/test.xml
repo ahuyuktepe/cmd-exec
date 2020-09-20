@@ -1,0 +1,15 @@
+<screen>
+    <section id="header" border="true" height="3">
+        <label x="2" y="1">Test View</label>
+        <label x="100" y="1">ahuyuktepe</label>
+    </section>
+    <section id="nav" border="true" height="3">
+
+    </section>
+    <section id="body" border="true" height="20">
+        <menu id="nav-menu" nav="nav-bar" width="10" height="10"/>
+    </section>
+    <section id="footer" border="true" height="3">
+        <menu-input id="form-test">$</menu-input>
+    </section>
+</screen>

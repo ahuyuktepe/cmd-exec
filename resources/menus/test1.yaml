@@ -1,0 +1,8 @@
+id: test
+name: Test Menu
+commands:
+  - id: tst3
+    description: Test Cmd 3
+    menu: main
+  - id: tst4
+    description: Test Cmd 4

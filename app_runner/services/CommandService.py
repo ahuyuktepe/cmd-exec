@@ -21,10 +21,10 @@ class CommandService(BaseService):
         ValidationUtil.validateCmdProps(cmdProps)
         cmd: Command = Command(
             id=cmdProps.get('id'),
-            description=cmdProps.get('description'),
-            executor=cmdProps.get('executor'),
-            module=cmdLocator.get('module')
+            description=cmdProps.get('description')
         )
+        cmd.setExecutor(cmdLocator.get('executor'))
+        cmd.setMenu(cmdLocator.get('menu'))
         self._appContext.getService('fieldService').insertFields(cmd, cmdProps.get('fields'))
         return cmd
 

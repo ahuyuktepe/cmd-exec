@@ -5,11 +5,13 @@ class Command:
     _description: str = None
     _executor: str = None
     _fields: dict = {}
+    _menu: str
 
-    def __init__(self, id: str, description: str, executor: str):
+    def __init__(self, id: str, description: str):
         self._id = id
         self._description = description
-        self._executor = executor
+
+    # Getter Methods
 
     def getId(self) -> str:
         return self._id
@@ -37,6 +39,20 @@ class Command:
 
     def addField(self, field: Field):
         self._fields[field.getId()] = field
+
+    def getMenu(self) -> str:
+        return self._menu
+
+    def hasNextMenu(self) -> bool:
+        return self._menu is not None
+
+    # Setter Methods
+
+    def setExecutor(self, executor: str):
+        self._executor = executor
+
+    def setMenu(self, menu: str):
+        self._menu = menu
 
     def setFields(self, fields: list):
         field: Field
