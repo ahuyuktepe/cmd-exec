@@ -1,8 +1,6 @@
 from app_runner.app.config.AppConfig import AppConfig
 from app_runner.app.config.MainAppConfig import MainAppConfig
 from app_runner.menu.Menu import Menu
-from app_runner.ui.terminal.element.UIScreen import UIScreen
-from app_runner.ui.terminal.element.UIView import UIView
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
@@ -17,7 +15,6 @@ class AppContext:
     __valueGetters: dict = {}
     __configs: dict = {}
     __menus: dict = {}
-    __screen: UIScreen
 
     # Setter Methods
 
@@ -38,9 +35,6 @@ class AppContext:
 
     def addConfig(self, name: str, config: object):
         self.__configs[name] = config
-
-    def setScreen(self, screen: UIScreen):
-        self.__screen = screen
 
     # Getter Methods
 
@@ -71,9 +65,6 @@ class AppContext:
             self.initializeConfig(name)
             config = self.__configs.get(name)
         return config
-
-    def getScreen(self) -> UIView:
-        return self.__screen
 
     # Utility Methods
 

@@ -1,5 +1,5 @@
 id: test
-name: Test Menu
+name: Test Menu 1
 commands:
   - id: tst3
     description: Test Cmd 3

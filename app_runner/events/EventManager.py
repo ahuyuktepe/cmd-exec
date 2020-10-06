@@ -1,27 +1,44 @@
+from app_runner.ui.terminal.element.UIElement import UIElement
+from app_runner.utils.DictUtil import DictUtil
+
 
 class EventManager:
-    __bindings: dict = {}
+    __listeners: dict = {}
 
     @staticmethod
-    def bindEvent(evntId: str, obj: object):
-        binding = EventManager.__bindings.get(evntId)
+    def listenEvent(eid: str, element: UIElement):
+        binding = EventManager.__listeners.get(eid)
         if binding is None:
-            EventManager.__bindings[evntId] = []
-        EventManager.__bindings[evntId].append(obj)
+            EventManager.__listeners[eid] = []
+        EventManager.__listeners[eid].append(element)
 
     @staticmethod
-    def removeBinding(evntId: str):
-        if EventManager.__bindings.get(evntId) is not None:
-            del EventManager.__bindings[evntId]
+    def removeListenersByElementId(id: str):
+        elements: list
+        element: UIElement
+        for key, elements in EventManager.__listeners:
+            for element in elements:
+                if element.getId() == id:
+                    del element
 
     @staticmethod
-    def clearBindings():
-        EventManager.__bindings.clear()
+    def clearListeners():
+        EventManager.__listeners.clear()
 
     @staticmethod
-    def triggerEvent(evntId: str, data: dict = {}):
-        bindings: list = EventManager.__bindings.get(evntId)
-        if bindings is not None:
-            for binding in bindings:
-                func = getattr(binding, evntId)
+    def triggerEvent(eid: str, data: dict = {}):
+        listeners: list = EventManager.__listeners.get(eid)
+        if listeners is not None:
+            for listener in listeners:
+                func = getattr(listener, eid)
                 func(data)
+
+    @staticmethod
+    def triggerEventByElementId(evntId: str, elementId: str, data: dict = {}):
+        listeners: list = EventManager.__listeners.get(evntId)
+        if listeners is not None:
+            listener: UIElement
+            for listener in listeners:
+                if listener.getId() == elementId:
+                    func = getattr(listener, evntId)
+                    func(data)

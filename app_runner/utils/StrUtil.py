@@ -77,13 +77,12 @@ class StrUtil:
         return props
 
     @staticmethod
-    def getStrCenterAligned(text: str, chrCount: int) -> str:
-        return ('{:^' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)
-
-    @staticmethod
-    def getStrLeftAligned(text: str, chrCount: int) -> str:
-        return ('{:<' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)
-
-    @staticmethod
-    def getStrRightAligned(text: str, chrCount: int) -> str:
-        return ('{:>' + str(chrCount) + '.' + str(chrCount-1) + '}').format(text)
+    def getAlignedAndLimitedStr(text: str, limit: int, align: str) -> str:
+        retStr = text[0:limit]
+        if align == 'center':
+            return ('{:^' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'left':
+            return ('{:<' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'right':
+            return ('{:>' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        return retStr

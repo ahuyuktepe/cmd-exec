@@ -5,16 +5,13 @@ from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
 from app_runner.services.MenuService import MenuService
-from app_runner.services.ScreenService import ScreenService
-from app_runner.ui.terminal.element.UIScreen import UIScreen
 
 
 class AppContextBuilder:
 
     @staticmethod
     def updateContextForInteractiveMode(appContext: AppContext):
-        AppContextBuilder.__setScreenService(appContext)
-        AppContextBuilder.__setScreen(appContext)
+        pass
 
     @staticmethod
     def updateContextForCommandMode(appContext: AppContext):
@@ -32,17 +29,8 @@ class AppContextBuilder:
         return appContext
 
     @staticmethod
-    def __setScreen(appContext: AppContext):
-        screen = UIScreen()
-        appContext.setScreen(screen)
-
-    @staticmethod
     def __setArgumentService(appContext: AppContext):
         appContext.addService('argumentService', ArgumentService())
-
-    @staticmethod
-    def __setScreenService(appContext: AppContext):
-        appContext.addService('screenService', ScreenService())
 
     @staticmethod
     def __setLogService(appContext: AppContext):

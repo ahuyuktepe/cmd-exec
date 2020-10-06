@@ -14,3 +14,11 @@ class DictUtil:
         if value is None:
             return defVal
         return int(value)
+
+    @staticmethod
+    def getDefaultStrValueIfNone(srcDict: dict, key: str, defVal: str) -> str:
+        value = srcDict.get(key)
+        if value is None:
+            return defVal
+        return str(value)
+

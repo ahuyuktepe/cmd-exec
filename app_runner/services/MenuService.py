@@ -7,6 +7,15 @@ from app_runner.utils.FileUtil import FileUtil
 
 class MenuService(BaseService):
 
+    def buildMenus(self, mids: list) -> list:
+        if mids is None:
+            return None
+        menus: list = []
+        for mid in mids:
+            menu = self.buildMenu(mid)
+            menus.append(menu)
+        return menus
+
     def buildMenu(self, mid: str) -> Menu:
         menu: Menu = None
         if mid is not None:

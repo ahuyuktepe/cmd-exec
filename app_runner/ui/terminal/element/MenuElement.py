@@ -1,18 +1,19 @@
+from xml.etree.ElementTree import Element
+from app_runner.app.context.AppContext import AppContext
 from app_runner.menu.Menu import Menu
 from app_runner.ui.terminal.element.UIElement import UIElement
 
 
 class MenuElement(UIElement):
-    __menus: list
-    __nid: str
+    __menu: Menu
+    __activeIndex: int
 
-    def __init__(self, id: str, nid: str):
-        super().__init__(id, 'menu')
-        self.__menus = []
-        self.__nid = nid
+    def __init__(self, id: str, appContext: AppContext):
+        super().__init__(id, 'menu', appContext)
+        self.__menu = None
+        self.__activeIndex = 0
 
-    def addMenu(self, menu: Menu):
-        self.__menus.append(menu)
+    # Setter Methods
 
-    def print(self, data: dict = {}):
-        self.refresh()
+    def setAttributes(self, element: Element):
+        pass

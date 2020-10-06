@@ -3,6 +3,13 @@ name: Test Menu
 commands:
   - id: tst1
     description: Test Cmd 1
-    menu: test
   - id: tst2
     description: Test Cmd 2
+  - id: tst3
+    description: Test Cmd 3
+  - id: tst4
+    description: Test Cmd 4
+  - id: tst5
+    description: Test Cmd 5
+  - id: tst6
+    description: Test Cmd 6

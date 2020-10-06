@@ -1,5 +1,6 @@
-import curses
+from xml.etree.ElementTree import Element
 
+from app_runner.app.context.AppContext import AppContext
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.ui.terminal.element.UIElement import UIElement
@@ -8,18 +9,32 @@ from app_runner.ui.terminal.element.UIElement import UIElement
 class MenuInputElement(UIElement):
     __text: str
 
-    def __init__(self, id: str):
-        super().__init__(id, 'input')
+    def __init__(self, id: str, appContext: AppContext):
+        super().__init__(id, 'input', appContext)
+
+    # Setter Methods
 
     def setText(self, text: str):
         self.__text = text
 
-    def print(self, data: dict = {}):
-        self._window.addstr(self._y, self._x, self.__text)
-        x = self._x + len(self.__text) + 1
-        self.moveCursor(x, self._y)
+    def setAttributes(self, element: Element):
+        parent = self.getParent()
+        self.setDimensions(parent.getWidth(), 1)
+        self.setLocation(2, 1)
+        self.setText(element.text)
+        super().setAttributes(element)
 
-    def listenUserInput(self):
+    def setListeners(self):
+        EventManager.listenEvent(UIEventType.VIEW_LOADED, self)
+
+    # Event Listeners
+
+    def viewLoaded(self, data: dict):
+        self.__listenUserInput()
+
+    # Private Methods
+
+    def __listenUserInput(self):
         input = None
         while input != 'q':
             input = self._window.get_wch()
@@ -31,6 +46,5 @@ class MenuInputElement(UIElement):
                 EventManager.triggerEvent(UIEventType.LEFT_KEY_PRESSED)
             elif input == 'd':
                 EventManager.triggerEvent(UIEventType.RIGHT_KEY_PRESSED)
-
-    def exitListeningUserInput(self):
-        curses.unget_wch('q')
+            elif input == 'e':
+                EventManager.triggerEvent(UIEventType.ENTER_KEY_PRESSED)

@@ -1,3 +1,4 @@
+import math
 from xml.etree.ElementTree import ElementTree, Element
 
 
@@ -24,9 +25,39 @@ class XmlElementUtil:
         return int(val)
 
     @staticmethod
-    def isAttrTrue(element: Element, name: str, default: bool = True) -> bool:
+    def getAttrValueAsBool(element: Element, name: str, default: bool = False) -> bool:
         attrs: dict = element.attrib
-        val = str(attrs.get(name))
+        val = attrs.get(name)
         if val is None:
             return default
-        return val == 'True' or val == 'true' or val == '1'
+        valStr = str(val)
+        if valStr == 'True' or valStr == 'true':
+            return True
+        return False
+
+    @staticmethod
+    def calculateX(element: Element, parentWidth: int, cols: int, colSpan: int) -> int:
+        defaultX = 2
+        if colSpan <= cols:
+            colWidth = math.floor(parentWidth / cols)
+            defaultX = (colWidth * (colSpan - 1)) + 2
+        return XmlElementUtil.getAttrValueAsInt(element, 'x', defaultX)
+
+
+    @staticmethod
+    def calculateY(element: Element, parentHeight: int, rows: int, rowSpan: int) -> int:
+        defaultY = 1
+        if rowSpan <= rows:
+            rowHeight = math.floor(parentHeight / rows)
+            defaultY = (rowHeight * (rowSpan-1)) + 1
+        return XmlElementUtil.getAttrValueAsInt(element, 'y', defaultY)
+
+    @staticmethod
+    def calculateWidth(element: Element, parentWidth: int, cols: int) -> int:
+        colWidth = math.floor(parentWidth / cols)
+        return XmlElementUtil.getAttrValueAsInt(element, 'width', colWidth)
+
+    @staticmethod
+    def calculateHeight(element: Element, parentHeight: int, rows: int) -> int:
+        rowHeight = math.floor(parentHeight / rows)
+        return XmlElementUtil.getAttrValueAsInt(element, 'height', rowHeight)

@@ -1,5 +1,11 @@
 application:
   name: Application Runner
+modes:
+  interactive:
+    menus:
+      - main
+      - test
+      - test1
 log_settings:
   level: info
   dir_path: logs

@@ -8,8 +8,7 @@ class IntAppRunner(ApplicationRunner):
 
     def __init__(self, context: AppContext):
         super().__init__(context)
-        self.__screen = context.getScreen()
+        self.__screen = UIScreen(context)
 
     def run(self):
         self.__screen.displayView('menu')
-        self.__screen.listenUserInput()
