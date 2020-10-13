@@ -2,8 +2,10 @@ id: main
 name: Main Menu
 commands:
   - id: add
-    description: Add Tool
-    menu: test
+    description: Drill Down
+    menus:
+      - test2
+      - test3
   - id: edt
     description: Edit Tool
     executor: WebToolExecutor.getName
@@ -12,4 +14,13 @@ commands:
     executor: WebToolExecutor.getName
   - id: cpy
     description: Copy Tool
-    executor: WebToolExecutor.getName
+    fields:
+      - id: username
+        label: Please enter user name
+        type: text
+      - id: first_name
+        label: Please enter your first name
+        type: text
+      - id: last_name
+        label: Please enter your last name
+        type: text

@@ -60,6 +60,9 @@ class UIElement:
     def getRowSpan(self) -> int:
         return self._rowSpan
 
+    def hasBorder(self) -> bool:
+        return self._withBorder
+
     def toString(self):
         print('type: ' + self._type + ' | id: ' + self._id + ' | x: ' + str(self._x) + ' | y: ' + str(self._y) + ' width: ' + str(self._width) + ' | height: ' + str(self._height))
 
@@ -111,11 +114,8 @@ class UIElement:
     def setListeners(self):
         pass
 
-    def clearListeners(self):
-        pass
-
     def setup(self):
         self.setListeners()
 
     def destroy(self):
-        self.clearListeners()
+        pass

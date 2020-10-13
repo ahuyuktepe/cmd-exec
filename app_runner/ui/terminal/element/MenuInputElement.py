@@ -1,3 +1,4 @@
+import curses
 from xml.etree.ElementTree import Element
 
 from app_runner.app.context.AppContext import AppContext
@@ -32,9 +33,17 @@ class MenuInputElement(UIElement):
     def viewLoaded(self, data: dict):
         self.__listenUserInput()
 
+    # Utility Methods
+
+    def destroy(self):
+        print('destroy: menu input')
+        curses.unget_wch('q')
+
     # Private Methods
 
     def __listenUserInput(self):
+        curses.cbreak()
+        curses.noecho()
         input = None
         while input != 'q':
             input = self._window.get_wch()
@@ -48,3 +57,5 @@ class MenuInputElement(UIElement):
                 EventManager.triggerEvent(UIEventType.RIGHT_KEY_PRESSED)
             elif input == 'e':
                 EventManager.triggerEvent(UIEventType.ENTER_KEY_PRESSED)
+            elif input == 'r':
+                EventManager.triggerEvent(UIEventType.DISPLAY_PREVIOUS_MENUS)

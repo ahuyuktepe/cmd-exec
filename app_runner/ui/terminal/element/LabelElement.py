@@ -43,6 +43,3 @@ class LabelElement(UIElement):
 
     def setListeners(self):
         pass
-
-    def clearListeners(self):
-        pass

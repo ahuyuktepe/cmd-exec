@@ -42,6 +42,12 @@ class UISection(UIElement):
 
     # Utility Methods
 
+    def destroy(self):
+        for element in self.__elements:
+            element.destroy()
+        self.clear()
+        self.refresh()
+
     def initialize(self):
         self._window = curses.newwin(self._height, self._width, self._y, self._x)
 

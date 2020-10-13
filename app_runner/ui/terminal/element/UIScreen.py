@@ -1,6 +1,9 @@
+import curses
 from xml.etree.ElementTree import ElementTree, Element
-
 from app_runner.app.context.AppContext import AppContext
+from app_runner.events.EventManager import EventManager
+from app_runner.events.UIEventType import UIEventType
+from app_runner.menu.Command import Command
 from app_runner.ui.terminal.element.FormElement import FormElement
 from app_runner.ui.terminal.element.LabelElement import LabelElement
 from app_runner.ui.terminal.element.MenuElement import MenuElement
@@ -13,17 +16,18 @@ from app_runner.ui.terminal.element.UIView import UIView
 from app_runner.ui.terminal.enums.UIColor import UIColor
 from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.FileUtil import FileUtil
-import time
 
 
-class UIScreen:
+class UIScreen(UIElement):
     __views: dict = {}
     __activeViewId: str = None
     __appContext: AppContext
     __colorSet: bool = False
 
-    def __init__(self, appContext: AppContext):
+    def __init__(self, id: str, appContext: AppContext):
+        super().__init__(id, 'screen', appContext)
         self.__appContext = appContext
+        self.__setListeners()
 
     # Getter Methods
 
@@ -40,6 +44,9 @@ class UIScreen:
     # Utility Methods
 
     def displayView(self, vid: str):
+        currentView = self.getActiveView()
+        if currentView is not None:
+            currentView.destroy()
         self.__activeViewId = vid
         view = self.getView(vid)
         if view is None:
@@ -47,7 +54,21 @@ class UIScreen:
             self.__views[vid] = view
         view.print()
 
+    # Event Handlers
+
+    def commandSelected(self, data: dict):
+        cmd: Command = data.get('command')
+        if cmd.hasNextMenus():
+            EventManager.triggerEvent(UIEventType.DISPLAY_MENUS, {
+                'mids': cmd.getMenus()
+            })
+        else:
+            self.displayView('form')
+
     # Private Methods
+
+    def __setListeners(self):
+        EventManager.listenEvent(UIEventType.COMMAND_SELECTED, self)
 
     def __buildView(self, vid: str) -> UIView:
         # Build Object From Xml
@@ -93,7 +114,19 @@ class UIScreen:
                  uiElement = self.__buildMessageElementForSection(child, section)
             elif child.tag == 'nav':
                 uiElement = self.__buildNavElementForSection(child, section)
+            elif child.tag == 'menu':
+                uiElement = self.__buildMenuElementForSection(child, section)
+            elif child.tag == 'form':
+                uiElement = self.__buildFormElementForSection(child, section)
             section.addElement(uiElement)
+
+    def __buildFormElementForSection(self, element: Element, section: UISection) -> LabelElement:
+        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'form')
+        form = FormElement(id, self.__appContext)
+        form.setParent(section)
+        form.setAttributes(element)
+        form.setWindow(section.getWindow())
+        return form
 
     def __buildLabelElementForSection(self, element: Element, section: UISection) -> LabelElement:
         id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'lbl')
@@ -126,6 +159,15 @@ class UIScreen:
         input.setAttributes(element)
         input.setWindow(section.getWindow())
         return input
+
+    def __buildMenuElementForSection(self, element: Element, section: UISection) -> MenuElement:
+        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'menu')
+        menu = MenuElement(id, self.__appContext)
+        menu.setParent(section)
+        menu.setAttributes(element)
+        window = section.getDerivedWindow(menu.getX(), menu.getY(), menu.getWidth(), menu.getHeight())
+        menu.setWindow(window)
+        return menu
 
     def __setColorsIfNotSet(self):
         if not self.__colorSet:

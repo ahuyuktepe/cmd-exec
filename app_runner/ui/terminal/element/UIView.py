@@ -24,9 +24,6 @@ class UIView(UIElement):
 
     def initialize(self):
         self._window = curses.initscr()
-        curses.cbreak()
-        curses.noecho()
-        self._window.nodelay(True)
         self._x = 0
         self._y = 0
         self._height, self._width = self._window.getmaxyx()
@@ -38,3 +35,10 @@ class UIView(UIElement):
             section.setup()
         self.setup()
         EventManager.triggerEvent(UIEventType.VIEW_LOADED)
+
+    def destroy(self):
+        EventManager.clearListeners()
+        for section in self.__sections:
+            section.destroy()
+        self.clear()
+        self.refresh()

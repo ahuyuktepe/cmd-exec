@@ -1,9 +1,10 @@
+import curses
 from xml.etree.ElementTree import Element
-
 from app_runner.app.context.AppContext import AppContext
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.ui.terminal.element.UIElement import UIElement
+from app_runner.ui.terminal.enums.UIColor import UIColor
 from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.StrUtil import StrUtil
 
@@ -16,8 +17,9 @@ class MessageElement(UIElement):
     # Event Listeners
 
     def showMessage(self, data: dict):
-        print('showMessage')
-        self.__displayMessage(data.get('msg'))
+        msg = data.get('msg')
+        type = data.get('type')
+        self.__displayMessage(msg, type)
 
     # Setter Methods
 
@@ -36,7 +38,14 @@ class MessageElement(UIElement):
 
     # Private Methods
 
-    def __displayMessage(self, text: str):
-        text = StrUtil.getAlignedAndLimitedStr(text, self.getWidth(), 'left')
-        self._window.addstr(self._y, self._x, text)
+    def __displayMessage(self, text: str, type: str = 'info'):
+        text = StrUtil.getAlignedAndLimitedStr(text, self.getWidth()-3, 'left')
+        if type == 'error':
+            self._window.addstr(self._y, self._x, text, curses.color_pair(UIColor.ERROR_MESSAGE_COLOR))
+        elif type == 'warning':
+            self._window.addstr(self._y, self._x, text, curses.color_pair(UIColor.WARNING_MESSAGE_COLOR))
+        elif type == 'success':
+            self._window.addstr(self._y, self._x, text, curses.color_pair(UIColor.SUCCESS_MESSAGE_COLOR))
+        else:
+            self._window.addstr(self._y, self._x, text)
         self.refresh()
