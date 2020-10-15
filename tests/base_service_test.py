@@ -1,4 +1,4 @@
-from app_runner.app.AppContext import AppContext
+from app_runner.app.context.AppContext import AppContext
 from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService

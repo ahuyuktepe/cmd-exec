@@ -3,6 +3,7 @@ import os.path
 import shutil
 import yaml
 from app_runner.utils.StrUtil import StrUtil
+import xml.etree.ElementTree as ET
 
 class FileUtil:
     @staticmethod
@@ -49,6 +50,8 @@ class FileUtil:
             return FileUtil.generateObjFromJsonFile(path)
         elif fileExt == 'yaml':
             return FileUtil.generateObjFromYamlFile(path)
+        elif fileExt == 'xml':
+            return FileUtil.generateObjFromXmlFile(path)
 
     @staticmethod
     def generateObjFromJsonFile(path: str) -> object:
@@ -59,6 +62,11 @@ class FileUtil:
     def generateObjFromYamlFile(path: str) -> object:
         stream = open(path, 'r')
         return yaml.load(stream, Loader=yaml.FullLoader)
+
+    @staticmethod
+    def generateObjFromXmlFile(path: str) -> object:
+        tree = ET.parse(path)
+        return tree
 
     @staticmethod
     def doesFileExist(path: str) -> bool:

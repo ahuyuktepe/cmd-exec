@@ -75,3 +75,14 @@ class StrUtil:
         elif len(arr) == 1:
             props['file'] = arr[0]
         return props
+
+    @staticmethod
+    def getAlignedAndLimitedStr(text: str, limit: int, align: str) -> str:
+        retStr = text[0:limit]
+        if align == 'center':
+            return ('{:^' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'left':
+            return ('{:<' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'right':
+            return ('{:>' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        return retStr

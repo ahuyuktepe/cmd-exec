@@ -1,4 +1,4 @@
-from app_runner.app.AppContext import AppContext
+from app_runner.app.context.AppContext import AppContext
 from app_runner.services.LogService import LogService
 
 class BaseService:

@@ -25,6 +25,8 @@ class ArgumentService(BaseService):
                                          default='int')
         self.argumentParser.add_argument('--cmd',
                                          help='Sets command to execute.')
+        self.argumentParser.add_argument('--mid',
+                                         help='Sets menu id to execute.')
         self.argumentParser.add_argument('--args_str',
                                          help='Sets arguments to passed while executing command.')
         self.argumentParser.add_argument('--args_file',
@@ -41,6 +43,12 @@ class ArgumentService(BaseService):
 
     def getCmd(self) -> str:
         return self.__arguments.get('cmd')
+
+    def getMid(self) -> str:
+        mid = self.__arguments.get('mid')
+        if mid is None:
+            mid = 'main'
+        return mid
 
     def getArgsFileName(self) -> str:
         return self.__arguments.get('args_file')

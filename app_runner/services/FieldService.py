@@ -1,3 +1,4 @@
+from app_runner.app.config.AppConfig import AppConfig
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.DateField import DateField
 from app_runner.field.DateTimeField import DateTimeField
@@ -11,7 +12,6 @@ from app_runner.field.TextField import TextField
 from app_runner.menu.Command import Command
 from app_runner.services.BaseService import BaseService
 from app_runner.utils.DataUtil import DataUtil
-from app_runner.utils.ErrorUtil import ErrorUtil
 from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
 from app_runner.utils.ValidationUtil import ValidationUtil
@@ -19,13 +19,24 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 class FieldService(BaseService):
 
+    def buildFields(self, props: list, mid: str) -> list:
+        fields: list = []
+        if props is not None:
+            for fieldProps in props:
+                field: Field = self.__initializeField(fieldProps)
+                if field.hasOptions():
+                    self.__setFieldOptions(field, mid, fieldProps.get('options'))
+                fields.append(field)
+        return fields
+
     def getFieldValues(self, cmd: Command) -> dict:
         ValidationUtil.failIfCommandIsNone(cmd)
         cid: str = cmd.getId()
         fields: dict = cmd.getFields()
         values: dict = {}
         if not DataUtil.isNullOrEmpty(fields):
-            defaultValuesFromConfig: dict = self._appContext.getConfig('main').getObjValue('command_locators.' + cid + '.arguments')
+            mainConfig: AppConfig = self._appContext.getConfig('main')
+            defaultValuesFromConfig: dict = mainConfig.getObjValue('command_locators.' + cid + '.arguments')
             if not DataUtil.isNullOrEmpty(defaultValuesFromConfig):
                 values.update(defaultValuesFromConfig)
             defaultFieldValues: dict = self.getDefaultFieldValues(fields)
@@ -67,37 +78,30 @@ class FieldService(BaseService):
             field.validate(value, errors)
         return errors
 
-    def insertFields(self, cmd: Command, fields: list):
-        if fields is not None:
-            for fieldsProperties in fields:
-                fieldType = fieldsProperties.get('type')
-                ErrorUtil.raiseExceptionIfNone(fieldType, 'Type property of field is None.')
-                field = self.__getFieldByType(fieldType, fieldsProperties)
-                if field.hasOptions():
-                    self.setFieldOptions(field, cmd.getModule(), fieldsProperties.get('options'))
-                cmd.addField(field)
+    # Private Methods
 
-    def __getFieldByType(self, fieldType: str, fieldProps: dict) -> Field:
+    def __initializeField(self, props: dict) -> Field:
+        fieldType: str = props.get('type')
         if fieldType == 'number':
-            return NumberField(fieldProps)
+            return NumberField(props)
         elif fieldType == 'text':
-            return TextField(fieldProps)
+            return TextField(props)
         elif fieldType == 'single_select':
-            return SingleSelectField(fieldProps)
+            return SingleSelectField(props)
         elif fieldType == 'multi_select':
-            return MultiSelectField(fieldProps)
+            return MultiSelectField(props)
         elif fieldType == 'date':
-            return DateField(fieldProps)
+            return DateField(props)
         elif fieldType == 'datetime':
-            return DateTimeField(fieldProps)
+            return DateTimeField(props)
         elif fieldType == 'file':
-            return FileField(fieldProps)
+            return FileField(props)
         elif fieldType == 'directory':
-            return DirectoryField(fieldProps)
+            return DirectoryField(props)
         else:
-            return Field(fieldProps)
+            return Field(props)
 
-    def setFieldOptions(self, field: Field, mid: str, options: list):
+    def __setFieldOptions(self, field: Field, mid: str, options: list):
         if field.hasOptionGetter():
             package: str = 'modules.{module}.src.getters'.format(module=mid)
             props: dict = StrUtil.getClassMethodMapFromStr(field.getOptionGetter(), 'getOptions')

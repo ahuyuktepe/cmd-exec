@@ -1,5 +1,4 @@
-from app_runner.app.AppConfigPath import AppConfigPath
-from app_runner.errors.CmdExecError import CmdExecError
+from app_runner.app.config.AppConfigPath import AppConfigPath
 from app_runner.utils.StrUtil import StrUtil
 
 class AppConfig:

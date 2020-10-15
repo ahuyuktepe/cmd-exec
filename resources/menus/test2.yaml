@@ -1,0 +1,9 @@
+id: test
+name: Test Menu 2
+commands:
+  - id: tst21
+    description: Test Cmd 2.1
+    menus:
+      - test4
+  - id: tst22
+    description: Test Cmd 2.2
