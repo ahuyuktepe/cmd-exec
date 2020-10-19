@@ -42,6 +42,9 @@ class UIElement:
     def getY(self) -> int:
         return self._y
 
+    def getBottomY(self) -> int:
+        return self.getY() + self.getHeight()
+
     def getWidth(self) -> int:
         return self._width
 
@@ -59,6 +62,9 @@ class UIElement:
 
     def getRowSpan(self) -> int:
         return self._rowSpan
+
+    def getAppContext(self) -> AppContext:
+        return self._appContext
 
     def hasBorder(self) -> bool:
         return self._withBorder
@@ -87,6 +93,9 @@ class UIElement:
         self._colSpan = XmlElementUtil.getAttrValueAsInt(element, 'colspan', 1)
         self._rowSpan = XmlElementUtil.getAttrValueAsInt(element, 'rowspan', 1)
 
+    def setBorder(self, withBorder: bool):
+        self._withBorder = withBorder
+
     def setY(self, y: int):
         self._y = y
 
@@ -101,6 +110,9 @@ class UIElement:
 
     def initialize(self):
         self._window = curses.newwin(self._height, self._width, self._y, self._x)
+
+    def initFromParent(self):
+        self._window = self._parent.getDerivedWindow(self._x, self._y, self._width, self._height)
 
     def clear(self):
         self._window.clear()

@@ -8,6 +8,7 @@ class UIEventType:
     DISPLAY_COMMANDS = 'displayCommands'
     COMMAND_SELECTED = 'commandSelected'
     EXECUTE_COMMAND = 'executeCommand'
+    COLLECT_FIELD_VALUES = 'collectFieldValues'
     SHOW_MESSAGE = 'showMessage'
     VIEW_LOADED = 'viewLoaded'
     DISPLAY_MENUS = 'displayMenus'

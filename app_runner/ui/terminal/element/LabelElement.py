@@ -1,5 +1,4 @@
 from xml.etree.ElementTree import Element
-
 from app_runner.app.context.AppContext import AppContext
 from app_runner.ui.terminal.element.UIElement import UIElement
 from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil

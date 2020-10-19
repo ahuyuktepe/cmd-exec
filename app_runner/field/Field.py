@@ -65,6 +65,12 @@ class Field:
     def isDateTime(self) -> bool:
         return self._type == 'datetime'
 
+    def isSingleSelect(self) -> bool:
+        return self._type == 'single_select'
+
+    def isMultiSelect(self) -> bool:
+        return self._type == 'multi_select'
+
     def hasCustomValidator(self) -> bool:
         return self._validator is not None
 

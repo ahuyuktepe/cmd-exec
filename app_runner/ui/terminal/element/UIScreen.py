@@ -56,6 +56,9 @@ class UIScreen(UIElement):
 
     # Event Handlers
 
+    def executeCommand(self, data: dict):
+        print('executeCommand: ' + str(data))
+
     def commandSelected(self, data: dict):
         cmd: Command = data.get('command')
         if cmd.hasNextMenus():
@@ -69,6 +72,7 @@ class UIScreen(UIElement):
 
     def __setListeners(self):
         EventManager.listenEvent(UIEventType.COMMAND_SELECTED, self)
+        EventManager.listenEvent(UIEventType.EXECUTE_COMMAND, self)
 
     def __buildView(self, vid: str) -> UIView:
         # Build Object From Xml

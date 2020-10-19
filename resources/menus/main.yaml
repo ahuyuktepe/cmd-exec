@@ -18,9 +18,34 @@ commands:
       - id: username
         label: Please enter user name
         type: text
-      - id: first_name
-        label: Please enter your first name
+        min_size: 3
+      - id: city
+        label: Please select city
+        type: single_select
+        options:
+          - id: paris
+            label: Paris
+          - id: new_york
+            label: New York
+          - id: ankara
+            label: Ankara
+          - id: istanbul
+            label: Istanbul
+          - id: london
+            label: London
+      - id: car
+        label: Please select car
+        type: multi_select
+        options:
+          - id: corolla
+            label: Toyota Corolla
+          - id: civic
+            label: Honda Civic
+          - id: rav4
+            label: Toyota Rav4
+      - id: state
+        label: Please enter state
         type: text
-      - id: last_name
-        label: Please enter your last name
+      - id: zip
+        label: Please enter zip code
         type: text

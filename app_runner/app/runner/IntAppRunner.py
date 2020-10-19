@@ -5,7 +5,6 @@ from app_runner.events.UIEventType import UIEventType
 from app_runner.menu.Menu import Menu
 from app_runner.services.MenuService import MenuService
 from app_runner.ui.terminal.element.UIScreen import UIScreen
-import time
 
 
 class IntAppRunner(ApplicationRunner):
@@ -16,12 +15,11 @@ class IntAppRunner(ApplicationRunner):
         self.__screen = UIScreen('screen', context)
 
     def run(self):
-        self.__screen.displayView('menu')
-        # menuService: MenuService = self._appContext.getService('menuService')
-        # menu: Menu = menuService.buildMenu('main')
-        # cmd = menu.getCommand('cpy')
-        # print(cmd.getDescription())
-        # EventManager.triggerEvent(UIEventType.EXECUTE_COMMAND, {
-        #     'command': cmd
-        # })
-        # time.sleep(3)
+        # self.__screen.displayView('menu')
+        self.__screen.displayView('form')
+        menuService: MenuService = self._appContext.getService('menuService')
+        menu: Menu = menuService.buildMenu('main')
+        cmd = menu.getCommand('cpy')
+        EventManager.triggerEvent(UIEventType.COLLECT_FIELD_VALUES, {
+            'command': cmd
+        })
