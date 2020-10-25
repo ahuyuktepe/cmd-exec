@@ -3,7 +3,7 @@
         <label x="2" y="1">Form View</label>
         <label x="100" y="1">ahuyuktepe</label>
     </section>
-    <section id="body" border="true" height="20">
-        <form width="140" height="10" />
+    <section id="body" border="true" height="40">
+        <form width="140" />
     </section>
 </screen>

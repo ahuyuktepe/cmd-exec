@@ -15,9 +15,9 @@ class NumberField(Field):
         super().validate(value, errors)
         valueStr: str = str(value)
         if not valueStr.isnumeric():
-            errors.addError(FieldValidationError("Field '" + self._id + "' is number type but value is not number."))
+            errors.addError(FieldValidationError("Field '" + self._id + "' is number type but value is not number.", self.getId()))
         valueInt: int = int(valueStr)
         if self._min is not None and valueInt < self._min:
-            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is less than min '" + str(self._min) + "'."))
+            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is less than min '" + str(self._min) + "'.", self.getId()))
         elif self._max is not None and valueInt > self._max:
-            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is greater than max '" + str(self._max) + "'."))
+            errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to value '" + valueStr + "' which is greater than max '" + str(self._max) + "'.", self.getId()))

@@ -43,9 +43,3 @@ commands:
             label: Honda Civic
           - id: rav4
             label: Toyota Rav4
-      - id: state
-        label: Please enter state
-        type: text
-      - id: zip
-        label: Please enter zip code
-        type: text

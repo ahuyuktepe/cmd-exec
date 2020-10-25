@@ -29,3 +29,10 @@ class ListUtil:
     def hasElementByKey(elements: list, key: str, value: str) -> bool:
         element: object = ListUtil.getElementByKey(elements, key, value)
         return element is not None
+
+    @staticmethod
+    def mergeListsInGivenList(srcLists: list) -> list:
+        retList: list = []
+        for currentList in srcLists:
+            retList += currentList
+        return retList

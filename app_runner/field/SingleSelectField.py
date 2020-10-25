@@ -30,7 +30,7 @@ class SingleSelectField(Field):
         super().validate(value, errors)
         valStr: str = str(value)
         if not ListUtil.hasElementByKey(self._options, 'id', valStr):
-            errors.addError(FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options."))
+            errors.addError(FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options.", self.getId()))
 
     def hasOptions(self) -> bool:
         return True

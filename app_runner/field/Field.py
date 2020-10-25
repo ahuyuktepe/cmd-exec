@@ -51,7 +51,8 @@ class Field:
 
     def validate(self, value: object, errors: FieldValidationErrors):
         if self.isRequired() and value is None:
-            errors.addError(FieldValidationError("Field '" + self._id + "' is required but has no value."))
+            msg = "Field '" + self._id + "' is required but has no value."
+            errors.addError(FieldValidationError(msg, self.getId()))
 
     def isNumber(self) -> bool:
         return self._type == 'number'

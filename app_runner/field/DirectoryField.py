@@ -15,7 +15,7 @@ class DirectoryField(Field):
         if value is not None:
             path: str = str(value)
             if not FileUtil.doesFileExist(path):
-                errors.addError(FieldValidationError("Directory with path '" + str(value) + "' set for field '" + self._id + "' does not exist."))
+                errors.addError(FieldValidationError("Directory with path '" + str(value) + "' set for field '" + self._id + "' does not exist.", self.getId()))
             elif not FileUtil.isDirectory(path):
-                errors.addError(FieldValidationError("Path '" + path + "' set for field '" + self._id + "' is not a directory."))
+                errors.addError(FieldValidationError("Path '" + path + "' set for field '" + self._id + "' is not a directory.", self.getId()))
 

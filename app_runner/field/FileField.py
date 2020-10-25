@@ -16,8 +16,8 @@ class FileField(Field):
         if value is not None:
             path: str = str(value)
             if not FileUtil.doesFileExist(path):
-                errors.addError(FieldValidationError("File with path '" + str(value) + "' set for field '" + self._id + "' does not exist."))
+                errors.addError(FieldValidationError("File with path '" + str(value) + "' set for field '" + self._id + "' does not exist.", self.getId()))
             elif not FileUtil.isFile(path):
-                errors.addError(FieldValidationError("Path '" + path + "' set for field '" + self._id + "' is not a file."))
+                errors.addError(FieldValidationError("Path '" + path + "' set for field '" + self._id + "' is not a file.", self.getId()))
 
 

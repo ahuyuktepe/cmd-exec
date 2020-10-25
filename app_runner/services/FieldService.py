@@ -56,26 +56,33 @@ class FieldService(BaseService):
                     retDict[fid] = field.getDefault()
         return retDict
 
-    def validateFieldValues(self, cmd: Command, fieldValues: dict) -> FieldValidationErrors:
-        errors: FieldValidationErrors = FieldValidationErrors()
+    def validateFieldValues(self, cmd: Command, fieldValues: dict, errors: FieldValidationErrors = None) -> FieldValidationErrors:
+        if errors is None:
+            errors: FieldValidationErrors = FieldValidationErrors()
         for fid, field in cmd.getFields().items():
             value = fieldValues.get(fid)
-            if field.hasCustomValidator():
-                mid: str = cmd.getModule()
-                package: str = 'modules.{module}.src.validators'.format(module=mid)
-                validator: str = field.getValidator()
-                props: dict = StrUtil.getClassMethodMapFromStr(validator, 'validate')
-                clsName: str = props.get('class')
-                ValidationUtil.failIfClassNotDefined(mid, clsName, 'validators')
-                cls = ObjUtil.getClassFromStr(package, clsName)
-                validator = cls()
-                validator.setAppContext(self._appContext)
-                classPath: str = package + "." + clsName
-                methodName: str = props.get('method')
-                ValidationUtil.failIfClassMethodDoesNotExist(validator, classPath, methodName)
-                method: object = getattr(validator, methodName)
-                method(field, value, errors)
-            field.validate(value, errors)
+            mid: str = cmd.getModule()
+            fieldErrors: FieldValidationErrors = self.validateFieldValue(field, mid, value)
+            errors.addErrors(fieldErrors.getErrors())
+        return errors
+
+    def validateFieldValue(self, field: Field, mid: str, value: object) -> FieldValidationErrors:
+        errors: FieldValidationErrors = FieldValidationErrors()
+        if field.hasCustomValidator():
+            package: str = 'modules.{module}.src.validators'.format(module=mid)
+            validator: str = field.getValidator()
+            props: dict = StrUtil.getClassMethodMapFromStr(validator, 'validate')
+            clsName: str = props.get('class')
+            ValidationUtil.failIfClassNotDefined(mid, clsName, 'validators')
+            cls = ObjUtil.getClassFromStr(package, clsName)
+            validator = cls()
+            validator.setAppContext(self._appContext)
+            classPath: str = package + "." + clsName
+            methodName: str = props.get('method')
+            ValidationUtil.failIfClassMethodDoesNotExist(validator, classPath, methodName)
+            method: object = getattr(validator, methodName)
+            method(field, value, errors)
+        field.validate(value, errors)
         return errors
 
     # Private Methods

@@ -48,5 +48,3 @@ class ValidationUtil:
     def failIfCommandIsNone(cmd: Command):
         if cmd is None:
             raise CmdExecError("Given command object is None.")
-
-

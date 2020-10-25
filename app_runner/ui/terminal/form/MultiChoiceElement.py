@@ -3,7 +3,6 @@ from app_runner.app.context.AppContext import AppContext
 from app_runner.field.Field import Field
 from app_runner.ui.terminal.enums.UIColor import UIColor
 from app_runner.ui.terminal.form.FormUIElement import FormUIElement
-from app_runner.utils.ListUtil import ListUtil
 from app_runner.utils.StrUtil import StrUtil
 
 
@@ -16,7 +15,7 @@ class MultiChoiceElement(FormUIElement):
     def __init__(self, field: Field, appContext: AppContext, isMultiSelect: bool = False):
         super().__init__(field, appContext)
         self.__options = field.getOptions()
-        self.__activeIndex = 0
+        self.__activeIndex = -1
         self.__selectedIndexes = []
         self.__isMultiSelect = isMultiSelect
 
@@ -50,7 +49,10 @@ class MultiChoiceElement(FormUIElement):
 
     def getUserInput(self) -> object:
         self.__listenUserInput()
-        return self.getSelectedOptions()
+        selectedOptions = self.getSelectedOptions()
+        self.__activeIndex = -1
+        self.print()
+        return '|'.join(selectedOptions)
 
     # Private Methods
 
@@ -60,6 +62,8 @@ class MultiChoiceElement(FormUIElement):
             label = option['label']
             if self.__activeIndex == i:
                 self._window.addstr((i + 2), 3, self.__getOptionLabel(label, i), curses.color_pair(UIColor.ACTIVE_COMMAND_COLOR))
+            elif i in self.__selectedIndexes:
+                self._window.addstr((i + 2), 3, self.__getOptionLabel(label, i), curses.color_pair(UIColor.SUCCESS_MESSAGE_COLOR))
             else:
                 self._window.addstr((i + 2), 3, self.__getOptionLabel(label, i))
 

@@ -1,4 +1,5 @@
 from app_runner.ui.terminal.form.FormUIElement import FormUIElement
+from app_runner.utils.ListUtil import ListUtil
 
 
 class FormManager:
@@ -14,6 +15,10 @@ class FormManager:
         self.__page = 0
 
     # Getter Methods
+
+    def getAllFields(self) -> list:
+        values = self.__fields.values()
+        return ListUtil.mergeListsInGivenList(values)
 
     def getActiveField(self) -> FormUIElement:
         fields: list = self.getElementsInCurrentPage()
@@ -53,6 +58,11 @@ class FormManager:
 
     # Utility Methods
 
+    def reset(self):
+        self.__fields.clear()
+        self.__activeIndex = 0
+        self.__page = 0
+
     def clearFields(self):
         fields = self.getElementsInCurrentPage()
         for field in fields:
@@ -83,6 +93,16 @@ class FormManager:
             self.__page -= 1
             self.__activeIndex = self.getMaxIndexInCurrentPage()
 
+    def moveNextPage(self):
+        if self.hasNextPage():
+            self.__page += 1
+            self.__activeIndex = 0
+
+    def movePrePage(self):
+        if self.hasPreviousPage():
+            self.__page -= 1
+            self.__activeIndex = 0
+
     # Private Methods
 
     def addElement(self, page: int, element: FormUIElement):
@@ -91,5 +111,3 @@ class FormManager:
             elementsByPage = []
         elementsByPage.append(element)
         self.__fields[page] = elementsByPage
-
-

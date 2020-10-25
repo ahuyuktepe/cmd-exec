@@ -15,7 +15,6 @@ class IntAppRunner(ApplicationRunner):
         self.__screen = UIScreen('screen', context)
 
     def run(self):
-        # self.__screen.displayView('menu')
         self.__screen.displayView('form')
         menuService: MenuService = self._appContext.getService('menuService')
         menu: Menu = menuService.buildMenu('main')

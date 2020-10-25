@@ -18,7 +18,7 @@ class TextField(Field):
             valueStr = str(value)
             print('value: ' + valueStr)
             if self._maxSize is not None and self._maxSize < len(valueStr):
-                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size greater than max size '" + str(self._maxSize) + "'."))
+                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size greater than max size '" + str(self._maxSize) + "'.", self.getId()))
             if self._minSize is not None and self._minSize > len(valueStr):
                 print('invalid')
-                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size less than min size '" + str(self._minSize) + "'."))
+                errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size less than min size '" + str(self._minSize) + "'.", self.getId()))

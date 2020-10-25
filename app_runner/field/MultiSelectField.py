@@ -13,4 +13,4 @@ class MultiSelectField(SingleSelectField):
         values: list = str(value).split('|')
         for value in values:
             if not ListUtil.hasElementByKey(self._options, 'id', value):
-                errors.addError(FieldValidationError("Field '" + self._id + "' value '" + value + "' is not in options."))
+                errors.addError(FieldValidationError("Field '" + self._id + "' value '" + value + "' is not in options.", self.getId()))

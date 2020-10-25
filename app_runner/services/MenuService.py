@@ -31,7 +31,6 @@ class MenuService(BaseService):
                 # Set commands
                 commands: list = self.buildCommands(menuProps.get('commands'), mid)
                 menu.setCommands(commands)
-
         return menu
 
     def buildCommands(self, cmds: list, mid: str) -> list:
