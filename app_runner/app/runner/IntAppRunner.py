@@ -1,24 +1,20 @@
 from app_runner.app.context.AppContext import AppContext
 from app_runner.app.runner.ApplicationRunner import ApplicationRunner
-from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
-from app_runner.menu.Menu import Menu
-from app_runner.services.MenuService import MenuService
-from app_runner.ui.terminal.element.UIScreen import UIScreen
+from app_runner.services.TerminalService import TerminalService
+from app_runner.ui.element.UIView import UIView
+import time
 
 
 class IntAppRunner(ApplicationRunner):
-    __screen: UIScreen
+    __terminalService: TerminalService
 
     def __init__(self, context: AppContext):
         super().__init__(context)
-        self.__screen = UIScreen('screen', context)
+        self.__terminalService = context.getService('terminalService')
 
     def run(self):
-        self.__screen.displayView('form')
-        menuService: MenuService = self._appContext.getService('menuService')
-        menu: Menu = menuService.buildMenu('main')
-        cmd = menu.getCommand('cpy')
-        EventManager.triggerEvent(UIEventType.COLLECT_FIELD_VALUES, {
-            'command': cmd
-        })
+        print('run')
+        # View
+        view: UIView = self.__terminalService.buildView('test')
+        self.__terminalService.displayView(view)
+        time.sleep(3)

@@ -1,4 +1,3 @@
-import curses
 from xml.etree.ElementTree import ElementTree, Element
 from app_runner.app.context.AppContext import AppContext
 from app_runner.events.EventManager import EventManager
@@ -11,10 +10,10 @@ from app_runner.ui.terminal.element.MenuInputElement import MenuInputElement
 from app_runner.ui.terminal.element.MessageElement import MessageElement
 from app_runner.ui.terminal.element.NavElement import NavElement
 from app_runner.ui.terminal.element.UIElement import UIElement
-from app_runner.ui.terminal.element.UISection import UISection
-from app_runner.ui.terminal.element.UIView import UIView
+from app_runner.ui.element.UISection import UISection
+from app_runner.ui.element.UIView import UIView
 from app_runner.ui.terminal.enums.UIColor import UIColor
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.FileUtil import FileUtil
 
 

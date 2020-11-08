@@ -1,0 +1,5 @@
+<view id="test1">
+    <section id="header" border="true" height="3">
+        <label x="2" y="1">Test View</label>
+    </section>
+</view>

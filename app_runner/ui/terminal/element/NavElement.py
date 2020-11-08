@@ -8,7 +8,7 @@ from app_runner.services.MenuService import MenuService
 from app_runner.ui.terminal.classes.RecordPaginator import RecordPaginator
 from app_runner.ui.terminal.element.UIElement import UIElement
 from app_runner.ui.terminal.enums.UIColor import UIColor
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.StrUtil import StrUtil
 
 

@@ -31,7 +31,7 @@ class XmlElementUtil:
         if val is None:
             return default
         valStr = str(val)
-        if valStr == 'True' or valStr == 'true':
+        if valStr in ['True', 'true']:
             return True
         return False
 

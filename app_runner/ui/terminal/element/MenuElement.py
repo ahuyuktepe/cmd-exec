@@ -9,7 +9,7 @@ from app_runner.menu.Menu import Menu
 from app_runner.ui.terminal.classes.RecordPaginator import RecordPaginator
 from app_runner.ui.terminal.element.UIElement import UIElement
 from app_runner.ui.terminal.enums.UIColor import UIColor
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 
 
 class MenuElement(UIElement):

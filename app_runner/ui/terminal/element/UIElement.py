@@ -1,70 +1,39 @@
-import curses
 from xml.etree.ElementTree import Element
-
 from app_runner.app.context.AppContext import AppContext
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.classes import TerminalPrintArea
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 
 
 class UIElement:
-    _window: object
     _appContext: AppContext
     _id: str
     _type: str
-    _x: int
-    _y: int
-    _width: int
-    _height: int
     _withBorder: bool
-    _parent: object
-    _colSpan: int
-    _rowSpan: int
+    _printArea: TerminalPrintArea
 
-    def __init__(self, id: str, type: str, appContext: AppContext):
+    def __init__(self, id: str, type: str):
         self._id = id
         self._type = type
-        self._withBorder = False
-        self._appContext = appContext
 
     # Getter Functions
 
-    def getWindow(self) -> object:
-        return self._window
+    def getWidth(self) -> int:
+        return self._printArea.getWidth()
 
-    def getDerivedWindow(self, x: int, y: int, width: int, height: int):
-        return self._window.derwin(height, width, y, x)
+    def getHeight(self) -> int:
+        return self._printArea.getHeight()
 
     def getId(self) -> str:
         return self._id
 
-    def getX(self) -> int:
-        return self._x
-
-    def getY(self) -> int:
-        return self._y
-
-    def getBottomY(self) -> int:
-        return self.getY() + self.getHeight()
-
-    def getWidth(self) -> int:
-        return self._width
-
-    def getHeight(self) -> int:
-        return self._height
-
     def getType(self) -> str:
         return self._type
 
-    def getParent(self) -> object:
-        return self._parent
-
-    def getColSpan(self) -> int:
-        return self._colSpan
-
-    def getRowSpan(self) -> int:
-        return self._rowSpan
-
     def getAppContext(self) -> AppContext:
         return self._appContext
+
+    def getPrintArea(self) -> TerminalPrintArea:
+        return self._printArea
 
     def hasBorder(self) -> bool:
         return self._withBorder
@@ -74,60 +43,26 @@ class UIElement:
 
     # Setter Methods
 
-    def setParent(self, parent: object):
-        self._parent = parent
-
-    def setWindow(self, window):
-        self._window = window
-
-    def setDimensions(self, width: int, height: int):
-        self._width = width
-        self._height = height
-
-    def setLocation(self, x: int, y: int):
-        self._x = x
-        self._y = y
-
     def setAttributes(self, element: Element):
-        self._withBorder = XmlElementUtil.getAttrValueAsBool(element, 'border')
-        self._colSpan = XmlElementUtil.getAttrValueAsInt(element, 'colspan', 1)
-        self._rowSpan = XmlElementUtil.getAttrValueAsInt(element, 'rowspan', 1)
+        print('set element attributes: ' + self._id)
+        self._withBorder = XmlElementUtil.getAttrValueAsBool(element, 'border', False)
 
-    def setBorder(self, withBorder: bool):
-        self._withBorder = withBorder
-
-    def setY(self, y: int):
-        self._y = y
+    def setPrintArea(self, printArea: TerminalPrintArea):
+        self._printArea = printArea
 
     # Utility Methods
 
-    def displayBorder(self):
-        if self._withBorder:
-            self._window.border()
-
-    def print(self):
-        pass
+    def display(self):
+        print('display element: ' + self._id)
 
     def initialize(self):
-        self._window = curses.newwin(self._height, self._width, self._y, self._x)
-
-    def initFromParent(self):
-        self._window = self._parent.getDerivedWindow(self._x, self._y, self._width, self._height)
+        print('initialize element: ' + self._id)
 
     def clear(self):
-        self._window.clear()
+        print('clear element: ' + self._id)
+        self._printArea.clear()
+        self.refresh()
 
     def refresh(self):
-        self._window.refresh()
-
-    def moveCursor(self, x: int, y: int):
-        self._window.move(y, x)
-
-    def setListeners(self):
-        pass
-
-    def setup(self):
-        self.setListeners()
-
-    def destroy(self):
-        pass
+        print('refresh element: ' + self._id)
+        self._printArea.refresh()

@@ -5,7 +5,7 @@ from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.ui.terminal.element.UIElement import UIElement
 from app_runner.ui.terminal.enums.UIColor import UIColor
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.StrUtil import StrUtil
 
 

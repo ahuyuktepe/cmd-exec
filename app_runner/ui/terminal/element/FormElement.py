@@ -11,7 +11,7 @@ from app_runner.ui.terminal.form.FormUIElement import FormUIElement
 from app_runner.ui.terminal.form.MultiChoiceElement import MultiChoiceElement
 from app_runner.ui.terminal.form.TextElement import TextElement
 from app_runner.ui.terminal.element.UIElement import UIElement
-from app_runner.ui.terminal.utils.XmlElementUtil import XmlElementUtil
+from app_runner.ui.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.StrUtil import StrUtil
 
 
