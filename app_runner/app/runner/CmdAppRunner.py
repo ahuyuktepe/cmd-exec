@@ -20,11 +20,11 @@ class CmdAppRunner(ApplicationRunner):
             menu: Menu = self._menuService.buildMenu(mid)
             # 3) Get Command
             command: Command = menu.getCommand(cid)
-            # 3) Fetch Arguments
+            # 4) Fetch Arguments
             fieldValues: dict = self._fieldService.getFieldValues(command)
-            # 4) Validate Values
+            # 5) Validate Values
             errors: FieldValidationErrors = self._fieldService.validateFieldValues(command, fieldValues)
-            # 5) Call executor if no validation error
+            # 6) Call executor if no validation error
             if errors.hasErrors():
                 errors.printErrors()
             else:

@@ -13,8 +13,15 @@ class MenuService(BaseService):
         menus: list = []
         for mid in mids:
             menu = self.buildMenu(mid)
-            menus.append(menu)
+            if menu is not None:
+                menus.append(menu)
         return menus
+
+    def buildMenusFromCommaSeparatedIds(self, menuIdsStr: str) -> list:
+        if menuIdsStr is None:
+            return []
+        menuIds: list = menuIdsStr.split(',')
+        return self.buildMenus(menuIds)
 
     def buildMenu(self, mid: str) -> Menu:
         menu: Menu = None

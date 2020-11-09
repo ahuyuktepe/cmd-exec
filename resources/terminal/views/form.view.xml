@@ -1,0 +1,13 @@
+<view border="True">
+    <section id="header" height="3">
+        <text id="lbl1">BSD Application CLI (Form)</text>
+        <text id="lbl1" x="50">ahuyuktepe</text>
+    </section>
+    <section id="navigation" height="20">
+        <form />
+    </section>
+     <section id="footer" height="4">
+        <text x="2" y="1">w: Up</text>
+        <text x="2" y="2">s: Down</text>
+    </section>
+</view>

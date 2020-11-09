@@ -1,15 +1,16 @@
 from app_runner.field.Field import Field
 
 class Command:
-    _id: str = None
-    _description: str = None
-    _executor: str = None
-    _fields: dict = {}
+    _id: str
+    _description: str
+    _executor: str
+    _fields: dict
     _menus: list
 
     def __init__(self, id: str, description: str):
         self._id = id
         self._description = description
+        self._fields = {}
 
     # Getter Methods
 
@@ -33,6 +34,12 @@ class Command:
 
     def getFields(self) -> dict:
         return self._fields
+
+    def getFieldsAsList(self) -> list:
+        retList = []
+        for id, field in self._fields.items():
+            retList.append(field)
+        return retList
 
     def getModule(self) -> str:
         return self._module

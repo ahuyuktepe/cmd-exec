@@ -9,9 +9,36 @@ commands:
   - id: edt
     description: Edit Tool
     executor: WebToolExecutor.getName
-  - id: dlt
-    description: Delete Tool
+  - id: details
+    description: User Details
     executor: WebToolExecutor.getName
+    fields:
+      - id: username
+        label: Please enter user name
+        type: text
+        min_size: 3
+      - id: first_name
+        label: Please enter your first name
+        type: text
+        min_size: 10
+        max_size: 20
+      - id: last_name
+        label: Please enter your last name
+        type: text
+        min_size: 10
+        max_size: 30
+      - id: street_address
+        label: Please enter your street address.
+        type: text
+      - id: city
+        label: Please enter your city
+        type: text
+      - id: state
+        label: Please enter your state
+        type: text
+      - id: country
+        label: Please enter your country
+        type: text
   - id: cpy
     description: Copy Tool
     fields:

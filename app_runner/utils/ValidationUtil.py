@@ -1,4 +1,5 @@
 from app_runner.errors.CmdExecError import CmdExecError
+from app_runner.errors.UIError import UIError
 from app_runner.menu.Command import Command
 from app_runner.utils.FileUtil import FileUtil
 
@@ -48,3 +49,15 @@ class ValidationUtil:
     def failIfCommandIsNone(cmd: Command):
         if cmd is None:
             raise CmdExecError("Given command object is None.")
+
+    @staticmethod
+    def failIfSectionHeightDoesNotFitIntoView(y: int, sectionHeight: int, viewHeight: int):
+        bottomY = y + sectionHeight
+        if bottomY > viewHeight:
+            raise UIError('Section height does not fit into view height.')
+
+    @staticmethod
+    def failIfSectionWidthDoesNotFitIntoView(x: int, sectionWidth: int, viewWidth: int):
+        rightX = x + sectionWidth
+        if rightX > viewWidth:
+            raise UIError('Section width does not fit into view width.')

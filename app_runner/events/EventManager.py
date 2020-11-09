@@ -1,4 +1,4 @@
-from app_runner.ui.terminal.element.UIElement import UIElement
+from app_runner.ui_elements.UIElement import UIElement
 
 
 class EventManager:
@@ -39,7 +39,6 @@ class EventManager:
         if listeners is not None:
             listener: UIElement
             for listener in listeners:
-                print('id: ' + listener.getId())
                 if listener.getId() == elementId:
                     func = getattr(listener, eid)
                     func(data)
