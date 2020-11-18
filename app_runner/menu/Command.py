@@ -6,9 +6,11 @@ class Command:
     _executor: str
     _fields: dict
     _menus: list
+    _mid: str
 
-    def __init__(self, id: str, description: str):
+    def __init__(self, id: str, mid: str, description: str):
         self._id = id
+        self._mid = mid
         self._description = description
         self._fields = {}
 
@@ -41,8 +43,8 @@ class Command:
             retList.append(field)
         return retList
 
-    def getModule(self) -> str:
-        return self._module
+    def getModuleId(self) -> str:
+        return self._mid
 
     def addField(self, field: Field):
         self._fields[field.getId()] = field

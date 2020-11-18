@@ -6,7 +6,8 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 class CommandService(BaseService):
 
-    def execute(self, mid: str, cmd: Command, values: dict):
+    def execute(self, cmd: Command, values: dict):
+        mid: str = cmd.getModuleId()
         clsName = cmd.getExecutorClass()
         ValidationUtil.failIfClassNotDefined(mid, clsName, 'executors')
 

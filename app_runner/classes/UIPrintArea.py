@@ -11,8 +11,11 @@ class UIPrintArea:
         self._width = width
         self._height = height
 
-    def printText(self, x: int, y: int, text: str, colorCode: int = 1):
-        self.__window.addstr(y, x, text, colorCode)
+    def printText(self, x: int, y: int, text: str, colorCode: int = 0):
+        if colorCode == 0:
+            self.__window.addstr(y, x, text)
+        else:
+            self.__window.addstr(y, x, text, curses.color_pair(colorCode))
 
     def printLine(self, x: int, y: int, width: int):
         self.__window.hline(y, x, curses.ACS_HLINE, width)
@@ -28,11 +31,16 @@ class UIPrintArea:
 
     # Getter Methods
 
-    def getUserInput(self) -> object:
+    def getUserInputAsChar(self) -> object:
         curses.cbreak()
         curses.noecho()
         input = self.__window.get_wch()
         return input
+
+    def getUserInputAsStr(self, x: int, y: int) -> object:
+        curses.echo()
+        input = self.__window.getstr(y, x)
+        return input.decode('utf-8')
 
     def getWidth(self) -> int:
         return self._width

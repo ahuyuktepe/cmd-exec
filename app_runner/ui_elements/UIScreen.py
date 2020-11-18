@@ -3,8 +3,10 @@ from xml.etree.ElementTree import ElementTree, Element
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.menu.Command import Command
+from app_runner.services.FieldService import FieldService
 from app_runner.services.MenuService import MenuService
 from app_runner.classes.UIPrintArea import UIPrintArea
+from app_runner.ui_elements.UITextArea import UITextArea
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
 from app_runner.classes.ViewManager import ViewManager
 from app_runner.ui_elements.UIElement import UIElement
@@ -23,13 +25,15 @@ import time
 
 class UIScreen(UIElement):
     __menuService: MenuService
+    __fieldService: FieldService
     __viewManager: ViewManager
     __selectedCmd: Command
     __collectedFieldValues: dict
 
-    def __init__(self, menuService: MenuService):
+    def __init__(self, menuService: MenuService, fieldService: FieldService):
         super().__init__('root-screen', 'screen')
         self.__menuService = menuService
+        self.__fieldService = fieldService
         self.__viewManager = ViewManager()
         self.__selectedCmd = None
 
@@ -49,9 +53,15 @@ class UIScreen(UIElement):
         self.displayView('form.view', {
             'command': cmd
         })
-        time.sleep(2)
         EventManager.triggerEvent(UIEventType.COLLECT_FIELD_VALUES)
         return self.__collectedFieldValues
+
+    def displayText(self, text: str):
+        self.displayView('response.view')
+        EventManager.triggerEvent(UIEventType.DISPLAY_TEXT, {
+            'text': text
+        })
+        time.sleep(3)
 
     # Utility Methods
 
@@ -80,7 +90,7 @@ class UIScreen(UIElement):
 
     def __buildView(self, vid: str, data: dict = {}) -> UIView:
         # Build Object From Xml
-        filePath = FileUtil.getAbsolutePath(['resources', 'terminal', 'views', vid])
+        filePath = FileUtil.getAbsolutePath(['resources', 'views', vid])
         elementTree: ElementTree = FileUtil.generateObjFromFile(filePath + '.xml')
         root: Element = elementTree.getroot()
         # Build View
@@ -123,6 +133,9 @@ class UIScreen(UIElement):
             elif child.tag == 'form':
                 uiElement = self.__buildFormElement(child, section, data)
                 elements.append(uiElement)
+            elif child.tag == 'textarea':
+                uiElement = self.__buildTextAreaElement(child, section, data)
+                elements.append(uiElement)
         return elements
 
     def __buildSectionInView(self, element: Element, view: UIView) -> UISection:
@@ -132,8 +145,10 @@ class UIScreen(UIElement):
         # Set Dimensions
         x = 0
         y = view.getBottomY()
-        width = view.getWidth() - x
+        width = XmlElementUtil.getAttrValueAsInt(element, 'width', view.getWidth() - x)
         height = XmlElementUtil.getAttrValueAsInt(element, 'height', view.getHeight() - y)
+        if height < 0:
+            height = view.getHeight() + height
         # Validate If section
         ValidationUtil.failIfSectionHeightDoesNotFitIntoView(y, height, view.getHeight())
         ValidationUtil.failIfSectionWidthDoesNotFitIntoView(x, width, view.getWidth())
@@ -191,8 +206,7 @@ class UIScreen(UIElement):
     def __buildFormElement(self, element: Element, section: UISection, data: dict = {}) -> UIForm:
         id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'form')
         cmd: Command = data.get('command')
-        fields = cmd.getFieldsAsList()
-        uiElement = UIForm(id, cmd.getDescription(), fields)
+        uiElement = UIForm(id, cmd.getDescription(), cmd, self.__fieldService)
         # Set Printer
         sectionPrintArea: UIPrintArea = section.getPrintArea()
         formPrintArea = UIPrintAreaUtil.buildFullCoverageDerivedPrintArea(sectionPrintArea)
@@ -206,3 +220,12 @@ class UIScreen(UIElement):
             menuIdsStr = XmlElementUtil.getAttrValueAsStr(element, 'menus', '')
         menus = self.__menuService.buildMenusFromCommaSeparatedIds(menuIdsStr)
         return menus
+
+    def __buildTextAreaElement(self, element: Element, section: UISection, data: dict = {}) -> UITextArea:
+        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'text-area')
+        uiElement = UITextArea(id)
+        # Set Printer
+        sectionPrintArea: UIPrintArea = section.getPrintArea()
+        formPrintArea = UIPrintAreaUtil.buildFullCoverageDerivedPrintArea(sectionPrintArea)
+        uiElement.setPrintArea(formPrintArea)
+        return uiElement

@@ -5,7 +5,7 @@ from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
 from app_runner.services.MenuService import MenuService
-from app_runner.services.UIService import TerminalService
+from app_runner.services.UIService import UIService
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
 from app_runner.ui_elements.UIScreen import UIScreen
 from app_runner.enums.UIColor import UIColor
@@ -64,11 +64,12 @@ class AppContextBuilder:
 
     @staticmethod
     def __setTerminalService(appContext: AppContext):
-        terminalService = TerminalService()
-        terminalService.setAppContext(appContext)
+        uiService = UIService()
+        uiService.setAppContext(appContext)
         # Set MenuService
         menuService = appContext.getService('menuService')
-        screen = UIScreen(menuService)
-        terminalService.setScreen(screen)
+        fieldService = appContext.getService('fieldService')
+        screen = UIScreen(menuService, fieldService)
+        uiService.setScreen(screen)
         # Add Service
-        appContext.addService('terminalService', terminalService)
+        appContext.addService('uiService', uiService)

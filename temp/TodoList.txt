@@ -1,0 +1,33 @@
+Phase 4
+------------------------------------------------------------------------------------------------------------------
+- Add module dependency management feature.
+- Resizing window should automatically refresh view.
+
+Phase 3
+------------------------------------------------------------------------------------------------------------------
+- Add support for Single Select and Multi Select elements.
+- Add pagination to TextArea element.
+- Ability to exit from text area and return back to main view.
+- Update text and textarea elements' content via event.
+- Add support for theme which would display view within theme.
+- Refactor and organize code.
+
+Phase 2
+------------------------------------------------------------------------------------------------------------------
+- Collect field values from user.                                                                           [Done]
+- Validate fields and display validation message in associated field area.                                  [Done]
+- Submit user entries if values are valid then return to the caller.                                        [Done]
+- Execute command and display response                                                                      [Done]
+
+
+Phase 1
+------------------------------------------------------------------------------------------------------------------
+- Add title to form which is the selected command description.                                              [Done]
+- Moving below last item should move to next page if there is next page.                                    [Done]
+- Moving before first item should move to previous page if there is previous page.                          [Done]
+- Add left and right arrow icon to around page in info in header.                                           [Done]
+- Display icon to the left side of active field and remove border.                                          [Done]
+- Add help section to form view.                                                                            [Done]
+- Organize files and directories.                                                                           [Done]
+- Set height and width in xml.                                                                              [Done]
+

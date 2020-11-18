@@ -46,6 +46,7 @@ class MenuService(BaseService):
         for cmdProps in cmds:
             command: Command = Command(
                 id=cmdProps.get('id'),
+                mid=mid,
                 description=cmdProps.get('description')
             )
             command.setExecutor(cmdProps.get('executor'))

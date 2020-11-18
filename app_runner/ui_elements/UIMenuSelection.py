@@ -40,7 +40,7 @@ class UIMenuSelection(UIElement):
         curses.noecho()
         input = None
         while input != 'q':
-            input = self._printArea.getUserInput()
+            input = self._printArea.getUserInputAsChar()
             if input == 'w':
                 EventManager.triggerEvent(UIEventType.UP_KEY_PRESSED)
             elif input == 's':

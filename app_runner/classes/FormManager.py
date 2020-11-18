@@ -1,3 +1,4 @@
+from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.form_elements.FormUIElement import FormUIElement
 from app_runner.utils.ListUtil import ListUtil
 
@@ -35,6 +36,19 @@ class FormManager:
 
     def getPageCount(self) -> int:
         return len(list(self.__fields.keys()))
+
+    def validateFormValues(self):
+        fields: list = self.getAllFields()
+        for field in fields:
+            field.validate()
+
+    def getValidationErrors(self) -> FieldValidationErrors:
+        fields: list = self.getAllFields()
+        errors: FieldValidationErrors = FieldValidationErrors()
+        for field in fields:
+            currentFieldErrors: FieldValidationErrors = field.getValidationErrors()
+            errors.addErrors(currentFieldErrors.getErrors())
+        return errors
 
     def isLastIndexOnCurrentPage(self) -> bool:
         return self.__activeIndex == self.getMaxIndexInCurrentPage()

@@ -3,7 +3,7 @@ from app_runner.services.BaseService import BaseService
 from app_runner.ui_elements.UIScreen import UIScreen
 
 
-class TerminalService(BaseService):
+class UIService(BaseService):
     __screen: UIScreen = None
 
     def setScreen(self, screen: UIScreen):
@@ -16,3 +16,6 @@ class TerminalService(BaseService):
     def collectCmdArguments(self, cmd: Command) -> dict:
         values: dict = self.__screen.collectFieldValues(cmd)
         return values
+
+    def displayText(self, text: str):
+        self.__screen.displayText(text)
