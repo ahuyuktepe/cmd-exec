@@ -1,8 +1,0 @@
-id: test
-name: Test Menu 1
-commands:
-  - id: tst11
-    description: Test Cmd 1.1
-    menu: main
-  - id: tst12
-    description: Test Cmd 1.2

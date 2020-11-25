@@ -6,7 +6,7 @@ from app_runner.menu.Command import Command
 from app_runner.services.FieldService import FieldService
 from app_runner.services.MenuService import MenuService
 from app_runner.classes.UIPrintArea import UIPrintArea
-from app_runner.ui_elements.UITextArea import UITextArea
+from app_runner.ui_elements.UIHtml import UIHtml
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
 from app_runner.classes.ViewManager import ViewManager
 from app_runner.ui_elements.UIElement import UIElement
@@ -20,7 +20,6 @@ from app_runner.ui_elements.UIView import UIView
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ValidationUtil import ValidationUtil
-import time
 
 
 class UIScreen(UIElement):
@@ -46,22 +45,21 @@ class UIScreen(UIElement):
         view.display()
 
     def getSelectedCommand(self, data: dict = {}) -> Command:
-        self.displayView('menu.view', data)
+        self.displayView('menu', data)
         return self.__selectedCmd
 
     def collectFieldValues(self, cmd: Command) -> dict:
-        self.displayView('form.view', {
+        self.displayView('form', {
             'command': cmd
         })
         EventManager.triggerEvent(UIEventType.COLLECT_FIELD_VALUES)
         return self.__collectedFieldValues
 
-    def displayText(self, text: str):
-        self.displayView('response.view')
-        EventManager.triggerEvent(UIEventType.DISPLAY_TEXT, {
-            'text': text
+    def displayHtml(self, html: str):
+        self.displayView('html')
+        EventManager.triggerEvent(UIEventType.DISPLAY_HTML, {
+            'html': html
         })
-        time.sleep(3)
 
     # Utility Methods
 
@@ -90,9 +88,14 @@ class UIScreen(UIElement):
 
     def __buildView(self, vid: str, data: dict = {}) -> UIView:
         # Build Object From Xml
-        filePath = FileUtil.getAbsolutePath(['resources', 'views', vid])
-        elementTree: ElementTree = FileUtil.generateObjFromFile(filePath + '.xml')
+        fileName = vid + ".view.xml"
+        filePath = FileUtil.getAbsolutePath(['resources', 'views', fileName])
+        elementTree: ElementTree = FileUtil.generateObjFromFile(filePath)
         root: Element = elementTree.getroot()
+        # Merge Template
+        template = XmlElementUtil.getAttrValueAsStr(root, 'template', None)
+        if template is not None:
+            root = self.__mergeViewIntoTemplate(template, root)
         # Build View
         id = XmlElementUtil.getAttrValueAsStr(root, 'id', vid)
         view: UIView = UIView(id)
@@ -103,6 +106,23 @@ class UIScreen(UIElement):
         # Build Sections
         self.__buildSectionsForView(root, view, data)
         return view
+
+    def __mergeViewIntoTemplate(self, template: str, viewElement: Element) -> Element:
+        # Read Template File
+        templateFileName = template + '.template.xml'
+        filePath = FileUtil.getAbsolutePath(['resources', 'views', templateFileName])
+        tempTree: ElementTree = FileUtil.generateObjFromFile(filePath)
+        templateRoot = tempTree.getroot()
+        # Visit Each Element
+        destSections = templateRoot.findall('./section[@ref]')
+        for destSection in destSections:
+            ref = XmlElementUtil.getAttrValueAsStr(destSection, 'ref', None)
+            if ref is not None:
+                destSection.set('ref', None)
+                srcSections = viewElement.findall("./section[@id='" + ref + "']")
+                for srcSection in srcSections:
+                    XmlElementUtil.copyChildren(srcSection, destSection)
+        return templateRoot
 
     def __buildSectionsForView(self, element: Element, view: UIView, data: dict):
         # Build Sections
@@ -133,8 +153,8 @@ class UIScreen(UIElement):
             elif child.tag == 'form':
                 uiElement = self.__buildFormElement(child, section, data)
                 elements.append(uiElement)
-            elif child.tag == 'textarea':
-                uiElement = self.__buildTextAreaElement(child, section, data)
+            elif child.tag == 'html':
+                uiElement = self.__buildHtmlElement(child, section, data)
                 elements.append(uiElement)
         return elements
 
@@ -221,9 +241,9 @@ class UIScreen(UIElement):
         menus = self.__menuService.buildMenusFromCommaSeparatedIds(menuIdsStr)
         return menus
 
-    def __buildTextAreaElement(self, element: Element, section: UISection, data: dict = {}) -> UITextArea:
+    def __buildHtmlElement(self, element: Element, section: UISection, data: dict = {}) -> UIHtml:
         id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'text-area')
-        uiElement = UITextArea(id)
+        uiElement = UIHtml(id)
         # Set Printer
         sectionPrintArea: UIPrintArea = section.getPrintArea()
         formPrintArea = UIPrintAreaUtil.buildFullCoverageDerivedPrintArea(sectionPrintArea)

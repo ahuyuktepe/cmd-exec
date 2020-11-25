@@ -1,0 +1,52 @@
+id: main
+name: Main Menu
+commands:
+  - id: add
+    description: Drill Down
+    menus:
+      - test2
+      - test3
+  - id: edt
+    description: Edit Tool
+    executor: WebToolExecutor.getName
+  - id: details
+    description: User Details
+    executor: WebToolExecutor.getName
+    fields:
+      - id: username
+        label: Please enter user name
+        type: text
+      - id: first_name
+        label: Please enter your first name
+        type: text
+  - id: cpy
+    description: Copy Tool
+    fields:
+      - id: username
+        label: Please enter user name
+        type: text
+        min_size: 3
+      - id: city
+        label: Please select city
+        type: single_select
+        options:
+          - id: paris
+            label: Paris
+          - id: new_york
+            label: New York
+          - id: ankara
+            label: Ankara
+          - id: istanbul
+            label: Istanbul
+          - id: london
+            label: London
+      - id: car
+        label: Please select car
+        type: multi_select
+        options:
+          - id: corolla
+            label: Toyota Corolla
+          - id: civic
+            label: Honda Civic
+          - id: rav4
+            label: Toyota Rav4

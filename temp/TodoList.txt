@@ -1,16 +1,29 @@
+Phase 5
+------------------------------------------------------------------------------------------------------------------
+- Support daemon mode.
+- Support web socket mode.
+- Complete documentation.
+
 Phase 4
 ------------------------------------------------------------------------------------------------------------------
 - Add module dependency management feature.
+- Ability to install and uninstall module.
 - Resizing window should automatically refresh view.
+- Add support for following fields.
+    * FileSelectorField
+    * TableField
+    * HtmlField
+- Complete documentation.
 
 Phase 3
 ------------------------------------------------------------------------------------------------------------------
 - Add support for Single Select and Multi Select elements.
-- Add pagination to TextArea element.
-- Ability to exit from text area and return back to main view.
-- Update text and textarea elements' content via event.
-- Add support for theme which would display view within theme.
+- Add pagination to TextArea element.                                                                        [Done]
+- Ability to exit from text area and return back to main view.                                               [Done]
+- Update text and textarea elements' content via event.                                                      [Done]
+- Add support for theme which would display view within theme.                                               [Done]
 - Refactor and organize code.
+- Make sure both command and interactive mode is working properly.
 
 Phase 2
 ------------------------------------------------------------------------------------------------------------------

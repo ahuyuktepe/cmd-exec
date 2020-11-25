@@ -33,3 +33,10 @@ class UIPrintAreaUtil:
         height = srcPrintArea.getHeight() - 2
         window = srcPrintArea.getWindow().derwin(height, width, 1, 1)
         return UIPrintArea(window, width, height)
+
+    @staticmethod
+    def buildPadFullCoverageDerivedPrintArea(srcPrintArea: UIPrintArea) -> UIPrintArea:
+        width = srcPrintArea.getWidth() - 2
+        height = srcPrintArea.getHeight() - 2
+        window = curses.newpad(width, height)
+        return UIPrintArea(window, width, height)

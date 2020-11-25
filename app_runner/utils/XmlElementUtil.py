@@ -43,7 +43,6 @@ class XmlElementUtil:
             defaultX = (colWidth * (colSpan - 1)) + 2
         return XmlElementUtil.getAttrValueAsInt(element, 'x', defaultX)
 
-
     @staticmethod
     def calculateY(element: Element, parentHeight: int, rows: int, rowSpan: int) -> int:
         defaultY = 1
@@ -61,3 +60,9 @@ class XmlElementUtil:
     def calculateHeight(element: Element, parentHeight: int, rows: int) -> int:
         rowHeight = math.floor(parentHeight / rows)
         return XmlElementUtil.getAttrValueAsInt(element, 'height', rowHeight)
+
+    @staticmethod
+    def copyChildren(srcElement: Element, trgElement: Element):
+        srcChildren = srcElement.findall('*')
+        for child in srcChildren:
+            trgElement.append(child)

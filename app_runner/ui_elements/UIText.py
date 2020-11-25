@@ -1,6 +1,8 @@
 from xml.etree.ElementTree import Element
 
 from app_runner.errors.UIError import UIError
+from app_runner.events.EventManager import EventManager
+from app_runner.events.UIEventType import UIEventType
 from app_runner.ui_elements.UIElement import UIElement
 from app_runner.utils.StrUtil import StrUtil
 from app_runner.utils.XmlElementUtil import XmlElementUtil
@@ -37,3 +39,15 @@ class UIText(UIElement):
            x = self.getWidth() + x
         text = StrUtil.getAlignedAndLimitedStr(self.__text, self.__size, self.__align)
         self._printArea.printText(x, self._y, text)
+
+    def setListeners(self):
+        EventManager.listenEvent(UIEventType.UPDATE_TEXT, self)
+
+    # Event Listeners
+
+    def updateText(self, data: dict = {}):
+        text = data.get('text')
+        self.setText(text)
+        self.clear()
+        self.display()
+        self.refresh()

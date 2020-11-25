@@ -1,12 +1,8 @@
-<view border="True">
-    <section id="header" height="3">
-        <text id="lbl1" x="2" size="50" align="left">BSD Application CLI</text>
-        <text id="lbl1" x="-17" size="15" align="right">ahuyuktepe</text>
-    </section>
-    <section id="navigation" height="-5">
+<view border="True" template="main">
+    <section id="body">
         <form />
     </section>
-    <section id="footer" height="4">
+    <section id="footer">
         <text x="2" y="1" size="20" align="left">w: Up</text>
         <text x="2" y="2" size="20" align="left">s: Down</text>
         <text x="22" y="1" size="20" align="left">a: Previous Page</text>

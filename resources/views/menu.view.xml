@@ -1,7 +1,7 @@
 <view border="True">
     <section id="header" height="3">
         <text id="lbl1">BSD Application CLI</text>
-        <text id="lbl1" x="50">ahuyuktepe</text>
+        <text id="lbl2" x="50">ahuyuktepe</text>
     </section>
     <section id="navigation" height="4">
         <navigation id="nav1" menus="main,test,test1,test2,test3,test4" nameWidth="20"/>

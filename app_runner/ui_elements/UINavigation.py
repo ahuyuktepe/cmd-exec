@@ -129,7 +129,7 @@ class UINavigation(UIElement):
     def __printMenuName(self, name: str, x: int, index: int):
         name = StrUtil.getAlignedAndLimitedStr(name, self.__menuNameWidth, 'center')
         if index == self.__recordPaginator.getActiveIndex():
-            self._printArea.printText(x, 0, name, curses.color_pair(UIColor.ACTIVE_COMMAND_COLOR))
+            self._printArea.printText(x, 0, name, UIColor.ACTIVE_COMMAND_COLOR)
         else:
             self._printArea.printText(x, 0,  name)
 

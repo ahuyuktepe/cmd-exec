@@ -17,5 +17,8 @@ class UIService(BaseService):
         values: dict = self.__screen.collectFieldValues(cmd)
         return values
 
-    def displayText(self, text: str):
-        self.__screen.displayText(text)
+    def displayHtml(self, htmlText: str):
+        self.__screen.displayHtml(htmlText)
+
+    def displayView(self, vid: str, data: dict = {}):
+        self.__screen.displayView(vid, data)

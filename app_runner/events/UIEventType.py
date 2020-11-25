@@ -9,10 +9,10 @@ class UIEventType:
     EXECUTE_COMMAND = 'executeCommand'
     COLLECT_FIELD_VALUES = 'collectFieldValues'
     FIELD_VALUES_COLLECTED = 'fieldValuesCollected'
-    SHOW_MESSAGE = 'showMessage'
+    UPDATE_TEXT = 'updateText'
     VIEW_LOADED = 'viewLoaded'
     DISPLAY_COMMANDS = 'displayCommands'
     DISPLAY_MENUS = 'displayMenus'
     DISPLAY_PREVIOUS_MENUS = 'displayPreviousMenus'
-    DISPLAY_TEXT = 'displayText'
+    DISPLAY_HTML = 'displayHtml'
 

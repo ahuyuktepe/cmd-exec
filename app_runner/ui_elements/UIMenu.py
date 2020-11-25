@@ -84,7 +84,7 @@ class UIMenu(UIElement):
     def __printCommand(self, y: int, index: int, cmd: Command):
         desc = cmd.getDescription()
         if self.__recordPaginator.getActiveIndex() == index:
-            self._printArea.printText(2, y, desc, curses.color_pair(UIColor.ACTIVE_COMMAND_COLOR))
+            self._printArea.printText(2, y, desc, UIColor.ACTIVE_COMMAND_COLOR)
         else:
             self._printArea.printText(2, y, desc)
 

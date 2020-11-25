@@ -1,0 +1,8 @@
+<view border="True">
+    <section id="header" height="3">
+        <text id="lbl1" x="2" size="50" align="left">Template</text>
+        <text id="lbl1" x="-17" size="15" align="right">ahuyuktepe</text>
+    </section>
+    <section id="body" ref="body" height="-5"/>
+    <section id="body" ref="footer" height="4"/>
+</view>

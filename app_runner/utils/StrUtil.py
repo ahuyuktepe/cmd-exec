@@ -1,6 +1,9 @@
 import json
+from _elementtree import Element
+
 from app_runner.errors.InvalidJsonStrError import InvalidJsonStrError
 import os
+import xml.etree.ElementTree as ET
 
 class StrUtil:
 
@@ -86,3 +89,11 @@ class StrUtil:
         elif align == 'right':
             return ('{:>' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
         return retStr
+
+    @staticmethod
+    def buildObjFromXmlStr(xmlStr: str) -> Element:
+        return ET.fromstring(xmlStr)
+
+    @staticmethod
+    def splitStrIntoChunks(srcStr: str, chrCountPerChunk: int):
+        return [srcStr[i:i + chrCountPerChunk] for i in range(0, len(srcStr), chrCountPerChunk)]

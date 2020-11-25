@@ -1,8 +1,0 @@
-id: test
-name: Test Menu 4
-commands:
-  - id: tst41
-    description: Test Cmd 4.1
-    menu: main
-  - id: tst42
-    description: Test Cmd 4.2
