@@ -8,9 +8,21 @@ commands:
       - id: fileName
         label: Please enter file name to read content.
         type: text
-  - id: test1
-    description: Test Command 1
-  - id: test2
-    description: Test Command 2
+        required: True
+      - id: city
+        label: Please select city
+        type: multi_select
+        required: True
+        options:
+          - id: paris
+            label: Paris
+          - id: new_york
+            label: New York
+          - id: ankara
+            label: Ankara
+          - id: istanbul
+            label: Istanbul
+          - id: london
+            label: London
   - id: exit
     description: Exit Program

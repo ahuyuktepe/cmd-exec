@@ -2,6 +2,8 @@ from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.utils.DataUtil import DataUtil
 from app_runner.utils.ErrorUtil import ErrorUtil
+from app_runner.utils.ObjUtil import ObjUtil
+
 
 class Field:
     _id: str
@@ -50,8 +52,17 @@ class Field:
         return self._validator
 
     def validate(self, value: object, errors: FieldValidationErrors):
-        if self.isRequired() and value is None:
-            msg = "This field is required but has no value."
+        msg = None
+        if self.isRequired():
+            if self.isSingleSelect() and value == '':
+                msg = "Please select an option."
+                errors.addError(FieldValidationError(msg, self.getId()))
+            elif self.isMultiSelect() and len(value) == 0:
+                msg = "Please select an option."
+            elif self.isText() and value is None:
+                msg = "Please enter value."
+
+        if msg is not None:
             errors.addError(FieldValidationError(msg, self.getId()))
 
     def isNumber(self) -> bool:

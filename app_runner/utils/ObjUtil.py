@@ -17,3 +17,11 @@ class ObjUtil:
         if srcDict is not None:
             for key, value in srcDict:
                 destDict[key] = value
+
+    @staticmethod
+    def isStr(val: object) -> bool:
+        return isinstance(val, str)
+
+    @staticmethod
+    def isList(val: object) -> bool:
+        return isinstance(val, list)

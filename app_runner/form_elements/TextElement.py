@@ -39,7 +39,3 @@ class TextElement(FormUIElement):
         self.clear()
         self.display()
         return self._value
-
-    # Private Methods
-
-

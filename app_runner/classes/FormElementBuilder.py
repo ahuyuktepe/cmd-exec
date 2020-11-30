@@ -3,6 +3,9 @@ from app_runner.classes.UIPrintArea import UIPrintArea
 from app_runner.errors.UIError import UIError
 from app_runner.field.Field import Field
 from app_runner.form_elements.FormUIElement import FormUIElement
+from app_runner.form_elements.MultiChoiceElement import MultiChoiceElement
+from app_runner.form_elements.MultiSelectFormElement import MultiSelectFormElement
+from app_runner.form_elements.SingleSelectFormElement import SingleSelectFormElement
 from app_runner.form_elements.TextElement import TextElement
 from app_runner.services.FieldService import FieldService
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
@@ -43,6 +46,14 @@ class FormElementBuilder:
     def buildElementsAndAdd(self, field: Field):
         if field.isText():
             element = TextElement(field, self.__mid, self.__fieldService)
+            self.__updateElementProperties(element)
+            self.__formManager.addElement(self.__currentPage, element)
+        elif field.isSingleSelect():
+            element = SingleSelectFormElement(field, self.__mid, self.__fieldService)
+            self.__updateElementProperties(element)
+            self.__formManager.addElement(self.__currentPage, element)
+        elif field.isMultiSelect():
+            element = MultiSelectFormElement(field, self.__mid, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
 

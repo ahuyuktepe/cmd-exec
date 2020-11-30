@@ -55,6 +55,9 @@ class Command:
     def hasNextMenus(self) -> bool:
         return self._menus is not None
 
+    def hasFields(self) -> bool:
+        return self._fields is None or len(self._fields) > 0
+
     # Setter Methods
 
     def setExecutor(self, executor: str):

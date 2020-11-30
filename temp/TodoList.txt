@@ -2,28 +2,33 @@ Phase 5
 ------------------------------------------------------------------------------------------------------------------
 - Support daemon mode.
 - Support web socket mode.
+- Add module dependency management feature.
+- Ability to install and uninstall module.
 - Complete documentation.
 
 Phase 4
 ------------------------------------------------------------------------------------------------------------------
-- Add module dependency management feature.
-- Ability to install and uninstall module.
-- Resizing window should automatically refresh view.
-- Add support for following fields.
+- Add following support for UIHtml element.
+    * Table
+    * Ordered List
+- Add following field types to UIForm element.
     * FileSelectorField
-    * TableField
-    * HtmlField
-- Complete documentation.
+- Save view into application context.
+- Start writing documentation.
+- Add configuration that limits the minimal window dimensions.
 
 Phase 3
 ------------------------------------------------------------------------------------------------------------------
-- Add support for Single Select and Multi Select elements.
+- Add following support for UIForm element.
+    * Single Select
+    * Multi Select elements.
 - Add pagination to TextArea element.                                                                        [Done]
 - Ability to exit from text area and return back to main view.                                               [Done]
 - Update text and textarea elements' content via event.                                                      [Done]
 - Add support for theme which would display view within theme.                                               [Done]
 - Refactor and organize code.
 - Make sure both command and interactive mode is working properly.
+- Fix UIText element.
 
 Phase 2
 ------------------------------------------------------------------------------------------------------------------

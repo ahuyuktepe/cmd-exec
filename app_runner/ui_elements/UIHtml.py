@@ -51,10 +51,6 @@ class UIHtml(UIElement):
                 self.__start -= 1
                 self.__end -= 1
                 self.__htmlPrinter.printLines(self.__start, self.__end)
-            elif selection == 'e':
-                EventManager.triggerEventByElementId(UIEventType.UPDATE_TEXT, 'response-html', {
-                    'html': '<html><label>Testing</label></html>'
-                })
         self.__isListeningUserInput = False
 
     def __hasPreviousLine(self) -> bool:

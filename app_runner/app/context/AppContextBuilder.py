@@ -66,10 +66,7 @@ class AppContextBuilder:
     def __setTerminalService(appContext: AppContext):
         uiService = UIService()
         uiService.setAppContext(appContext)
-        # Set MenuService
-        menuService = appContext.getService('menuService')
-        fieldService = appContext.getService('fieldService')
-        screen = UIScreen(menuService, fieldService)
+        screen = UIScreen(appContext)
         uiService.setScreen(screen)
         # Add Service
         appContext.addService('uiService', uiService)

@@ -66,3 +66,9 @@ class XmlElementUtil:
         srcChildren = srcElement.findall('*')
         for child in srcChildren:
             trgElement.append(child)
+
+    @staticmethod
+    def overwriteAttributes(srcElement: Element, trgElement: Element):
+        attrs: dict = srcElement.attrib
+        for key, value in attrs.items():
+            trgElement.set(key, value)

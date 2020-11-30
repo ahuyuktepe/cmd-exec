@@ -14,23 +14,31 @@ class SingleSelectField(Field):
         super().__init__(properties)
         self._optionGetter = properties.get('getter')
 
-    def setOptions(self, options: list):
-        self._options = options
+    # Getter Methods
 
     def getOptions(self) -> list:
         return self._options
 
+    def getOptionGetter(self) -> str:
+        return self._optionGetter
+
+    # Setter Methods
+
+    def setOptions(self, options: list):
+        self._options = options
+
+    # Query Methods
+
     def hasOptionGetter(self) -> bool:
         return self._optionGetter is not None
 
-    def getOptionGetter(self) -> str:
-        return self._optionGetter
+    def hasOptions(self) -> bool:
+        return True
+
+    # Utility Methods
 
     def validate(self, value: object, errors: FieldValidationErrors):
         super().validate(value, errors)
         valStr: str = str(value)
         if not ListUtil.hasElementByKey(self._options, 'id', valStr):
             errors.addError(FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options.", self.getId()))
-
-    def hasOptions(self) -> bool:
-        return True

@@ -13,5 +13,3 @@ class WebToolExecutor(ContextAware):
         uiService: UIService = self._appContext.getService('uiService')
         uiService.displayHtml(htmlText)
         time.sleep(1)
-        uiService.displayView('test', {})
-        time.sleep(1)

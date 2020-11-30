@@ -1,5 +1,4 @@
 from xml.etree.ElementTree import Element
-from app_runner.app.context.AppContext import AppContext
 from app_runner.classes import UIPrintArea
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 
@@ -30,9 +29,6 @@ class UIElement:
 
     def getType(self) -> str:
         return self._type
-
-    def getAppContext(self) -> AppContext:
-        return self._appContext
 
     def getPrintArea(self) -> UIPrintArea:
         return self._printArea

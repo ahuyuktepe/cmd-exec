@@ -1,5 +1,7 @@
 import math
 from xml.etree.ElementTree import ElementTree, Element
+
+from app_runner.app.context.AppContext import AppContext
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.menu.Command import Command
@@ -23,16 +25,18 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 
 class UIScreen(UIElement):
+    __appContext: AppContext
     __menuService: MenuService
     __fieldService: FieldService
     __viewManager: ViewManager
     __selectedCmd: Command
     __collectedFieldValues: dict
 
-    def __init__(self, menuService: MenuService, fieldService: FieldService):
+    def __init__(self, appContext: AppContext):
         super().__init__('root-screen', 'screen')
-        self.__menuService = menuService
-        self.__fieldService = fieldService
+        self.__appContext = appContext
+        self.__menuService = appContext.getService('menuService')
+        self.__fieldService = appContext.getService('fieldService')
         self.__viewManager = ViewManager()
         self.__selectedCmd = None
 
@@ -45,6 +49,7 @@ class UIScreen(UIElement):
         view.display()
 
     def getSelectedCommand(self, data: dict = {}) -> Command:
+        self.__selectedCmd = None
         self.displayView('menu', data)
         return self.__selectedCmd
 
@@ -121,7 +126,10 @@ class UIScreen(UIElement):
                 destSection.set('ref', None)
                 srcSections = viewElement.findall("./section[@id='" + ref + "']")
                 for srcSection in srcSections:
+                    if srcSection.get('hide') == 'true':
+                        templateRoot.remove(destSection)
                     XmlElementUtil.copyChildren(srcSection, destSection)
+                    XmlElementUtil.overwriteAttributes(srcSection, destSection)
         return templateRoot
 
     def __buildSectionsForView(self, element: Element, view: UIView, data: dict):

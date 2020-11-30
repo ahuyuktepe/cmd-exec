@@ -20,7 +20,7 @@ class FormUIElement(UIElement):
         self._mid = mid
         self._fieldService = fieldService
         self._selected = False
-        self._fieldValidationErrors =  FieldValidationErrors()
+        self._fieldValidationErrors = FieldValidationErrors()
 
     # Getter Method
 
@@ -36,6 +36,9 @@ class FormUIElement(UIElement):
     def getFieldId(self) -> str:
         return self._field.getId()
 
+    def getValue(self) -> object:
+        return self._value
+
     def isSelected(self) -> bool:
         return self._selected
 
@@ -47,7 +50,8 @@ class FormUIElement(UIElement):
     # Utility Methods
 
     def validate(self):
-        self._fieldValidationErrors = self._fieldService.validateFieldValue(self._field, self._mid, self._value)
+        fieldValue = self.getValue()
+        self._fieldValidationErrors = self._fieldService.validateFieldValue(self._field, self._mid, fieldValue)
 
     def getValidationErrors(self) -> FieldValidationErrors:
         return self._fieldValidationErrors

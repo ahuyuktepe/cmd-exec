@@ -1,8 +1,0 @@
-<view border="True" template="main">
-    <section id="body">
-         <text id="lbl1">Body Section</text>
-    </section>
-    <section id="footer">
-         <text id="lbl2">Footer Section</text>
-    </section>
-</view>
