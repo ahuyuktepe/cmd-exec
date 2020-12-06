@@ -11,5 +11,5 @@ class WebToolExecutor(ContextAware):
             fileName = 'sample'
         htmlText = FileUtil.readFile('temp/' + fileName + '.html')
         uiService: UIService = self._appContext.getService('uiService')
-        uiService.displayHtml(htmlText)
+        uiService.displayXml(htmlText)
         time.sleep(1)

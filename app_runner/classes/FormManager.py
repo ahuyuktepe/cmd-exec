@@ -1,5 +1,5 @@
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
-from app_runner.form_elements.FormUIElement import FormUIElement
+from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.utils.ListUtil import ListUtil
 
 
@@ -72,6 +72,10 @@ class FormManager:
     def isActiveField(self, id: str) -> bool:
         field = self.getActiveField()
         return field is not None and field.getId() == id
+
+    def areValuesValid(self) -> bool:
+        errors: FieldValidationErrors = self.getValidationErrors()
+        return not errors.hasErrors()
 
     def hasNextPage(self) -> bool:
         nextPage = self.__page + 1

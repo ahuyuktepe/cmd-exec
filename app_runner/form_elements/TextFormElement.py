@@ -1,6 +1,6 @@
 from app_runner.enums.UIColor import UIColor
 from app_runner.field.Field import Field
-from app_runner.form_elements.FormUIElement import FormUIElement
+from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.services.FieldService import FieldService
 from app_runner.utils.StrUtil import StrUtil
 

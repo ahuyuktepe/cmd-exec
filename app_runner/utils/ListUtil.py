@@ -17,13 +17,23 @@ class ListUtil:
             if element.get(key) == value:
                 return element
 
-    def getElementsByKey(self, elements: list, key: str, value: str) -> list:
+    @staticmethod
+    def getElementsByKey(elements: list, key: str, value: str) -> list:
         ErrorUtil.raiseExceptionIfNone(elements)
         retList: list = []
         for element in elements:
             if element.get(key) == value:
                 retList.append(element)
         return retList
+
+    @staticmethod
+    def removeElementByKey(elements: list, key: str, value: str) -> object:
+        index = None
+        for i in range(0, len(elements)):
+            if elements[i].get(key) == value:
+                index = i
+                break
+        return elements.pop(index)
 
     @staticmethod
     def hasElementByKey(elements: list, key: str, value: str) -> bool:

@@ -26,30 +26,29 @@ class UIMenuSelection(UIElement):
     # Event Listeners
 
     def viewLoaded(self, data: dict):
-        self.__listenUserInput()
+        self._printArea.listenUserSelection(self)
 
     # Utility Methods
 
     def destroy(self):
         curses.unget_wch('q')
 
-    # Private Methods
+    # Event Handlers
 
-    def __listenUserInput(self):
-        curses.cbreak()
-        curses.noecho()
-        input = None
-        while input != 'q':
-            input = self._printArea.getUserInputAsChar()
-            if input == 'w':
-                EventManager.triggerEvent(UIEventType.UP_KEY_PRESSED)
-            elif input == 's':
-                EventManager.triggerEvent(UIEventType.DOWN_KEY_PRESSED)
-            elif input == 'a':
-                EventManager.triggerEvent(UIEventType.LEFT_KEY_PRESSED)
-            elif input == 'd':
-                EventManager.triggerEvent(UIEventType.RIGHT_KEY_PRESSED)
-            elif input == 'e':
-                EventManager.triggerEvent(UIEventType.ENTER_KEY_PRESSED)
-            elif input == 'r':
-                EventManager.triggerEvent(UIEventType.DISPLAY_PREVIOUS_MENUS)
+    def upKeyPressed(self):
+        EventManager.triggerEvent(UIEventType.UP_KEY_PRESSED)
+
+    def downKeyPressed(self):
+        EventManager.triggerEvent(UIEventType.DOWN_KEY_PRESSED)
+
+    def leftKeyPressed(self):
+        EventManager.triggerEvent(UIEventType.LEFT_KEY_PRESSED)
+
+    def rightKeyPressed(self):
+        EventManager.triggerEvent(UIEventType.RIGHT_KEY_PRESSED)
+
+    def enterKeyPressed(self):
+        EventManager.triggerEvent(UIEventType.ENTER_KEY_PRESSED)
+
+    def displayPreviousMenus(self):
+        EventManager.triggerEvent(UIEventType.DISPLAY_PREVIOUS_MENUS)

@@ -37,7 +37,9 @@ class MultiSelectField(Field):
 
     def validate(self, value: object, errors: FieldValidationErrors):
         super().validate(value, errors)
-        if len(value) > 0:
+        if self.isRequired() and len(value) == 0:
+            errors.addError(FieldValidationError("Please select an option.", self.getId()))
+        elif len(value) > 0:
             for currentVal in value:
                 if not ListUtil.hasElementByKey(self._options, 'id', currentVal):
                     errors.addError(FieldValidationError("Field '" + self._id + "' value '" + currentVal + "' is not in options.", self.getId()))

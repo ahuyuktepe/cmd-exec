@@ -9,6 +9,7 @@ class UIColor:
     WARNING_MESSAGE_COLOR = 5
     SUCCESS_MESSAGE_COLOR = 6
     INFO_MESSAGE_COLOR = 7
+    TABLE_HEADER_COLOR = 8
     __colorsSet: bool = False
 
     @staticmethod
@@ -22,4 +23,5 @@ class UIColor:
             curses.init_pair(UIColor.WARNING_MESSAGE_COLOR, curses.COLOR_YELLOW, curses.COLOR_BLACK)
             curses.init_pair(UIColor.SUCCESS_MESSAGE_COLOR, curses.COLOR_GREEN, curses.COLOR_BLACK)
             curses.init_pair(UIColor.INFO_MESSAGE_COLOR, curses.COLOR_WHITE, curses.COLOR_BLACK)
+            curses.init_pair(UIColor.TABLE_HEADER_COLOR, curses.COLOR_YELLOW, curses.COLOR_BLACK)
             UIColor.colorsSet = True

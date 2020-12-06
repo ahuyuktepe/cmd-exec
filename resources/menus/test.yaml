@@ -1,5 +1,5 @@
-id: main
-name: Main Menu
+id: main1
+name: Main Menu 1
 commands:
   - id: displayXml
     description: Display Html Content
@@ -11,7 +11,7 @@ commands:
         required: True
       - id: city
         label: Please select city
-        type: single_select
+        type: multi_select
         required: True
         options:
           - id: paris
@@ -23,26 +23,6 @@ commands:
           - id: istanbul
             label: Istanbul
           - id: london
-            label: London
-          - id: paris1
-            label: Paris
-          - id: new_york1
-            label: New York
-          - id: ankara1
-            label: Ankara
-          - id: istanbul1
-            label: Istanbul
-          - id: london1
-            label: London
-          - id: paris2
-            label: Paris
-          - id: new_york2
-            label: New York
-          - id: ankara2
-            label: Ankara
-          - id: istanbul2
-            label: Istanbul
-          - id: london2
             label: London
   - id: exit
     description: Exit Program

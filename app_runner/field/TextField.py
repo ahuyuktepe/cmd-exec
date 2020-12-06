@@ -11,10 +11,21 @@ class TextField(Field):
         self._minSize = properties.get('min_size')
         self._maxSize = properties.get('max_size')
 
+    # Getter Methods
+
+    def getMaxSize(self) -> int:
+        return self._maxSize
+
+    def getMinSize(self) -> int:
+        return self._minSize
+
+    # Utility Methods
+
     def validate(self, value: object, errors: FieldValidationErrors):
         super().validate(value, errors)
-
-        if value is not None:
+        if self.isRequired() and value is None:
+            errors.addError(FieldValidationError("Please enter value.", self.getId()))
+        else:
             valueStr = str(value)
             if self._maxSize is not None and self._maxSize < len(valueStr):
                 errors.addError(FieldValidationError("Field '" + self._id + "' is assigned to string '" + valueStr + "' with size greater than max size '" + str(self._maxSize) + "'.", self.getId()))

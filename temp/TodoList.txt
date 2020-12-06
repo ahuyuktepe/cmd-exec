@@ -8,18 +8,19 @@ Phase 5
 
 Phase 4
 ------------------------------------------------------------------------------------------------------------------
-- Add following support for UIHtml element.
+- Add following support for UIHtml element.                                                                  [Done]
     * Table
     * Ordered List
 - Add following field types to UIForm element.
     * FileSelectorField
-- Save view into application context.
+- Save view into application context.                                                                        [Done]
 - Start writing documentation.
 - Add configuration that limits the minimal window dimensions.
+- Add plain text printer element which autoscrolls each line.
 
 Phase 3
 ------------------------------------------------------------------------------------------------------------------
-- Add following support for UIForm element.
+- Add following support for UIForm element.                                                                  [Done]
     * Single Select
     * Multi Select elements.
 - Add pagination to TextArea element.                                                                        [Done]

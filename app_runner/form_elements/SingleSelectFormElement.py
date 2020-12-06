@@ -1,7 +1,6 @@
-import curses
 from app_runner.enums.UIColor import UIColor
 from app_runner.field.SingleSelectField import SingleSelectField
-from app_runner.form_elements.FormUIElement import FormUIElement
+from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.services.FieldService import FieldService
 from app_runner.utils.StrUtil import StrUtil
 
@@ -36,35 +35,32 @@ class SingleSelectFormElement(FormUIElement):
     # Getter Methods
 
     def getUserInput(self) -> object:
-        self.__listenUserInput()
+        self._printArea.listenUserSelection(self)
         self.display()
         return self.getValue()
 
     def getCalculatedHeight(self) -> int:
         return len(self.__options) + 3 + self._fieldValidationErrors.getErrorCount()
 
-    # Private Methods
+    # Event Handlers
 
-    def __listenUserInput(self):
-        self.__activeIndex = 0
+    def upKeyPressed(self):
+        self.__decreaseActiveIndexAndPrint()
+
+    def downKeyPressed(self):
+        self.__increaseActiveIndexAndPrint()
+
+    def enterKeyPressed(self):
+        self.__activeIndex = -1
         self.display()
-        curses.cbreak()
-        curses.noecho()
-        input = None
-        while input != 'q':
-            input = self._printArea.getUserInputAsChar()
-            if input == 'w':
-                self.__decreaseActiveIndexAndPrint()
-            elif input == 's':
-                self.__increaseActiveIndexAndPrint()
-            elif input == ' ':
-                self.__selectedIndex = self.__activeIndex
-                self.display()
-            elif input == 'e':
-                if self.__selectedIndex >= 0:
-                    curses.unget_wch('q')
-                    self.__activeIndex = -1
-                    self.display()
+        return True
+
+    def multiChoiceOptionSelected(self):
+        self.__selectedIndex = self.__activeIndex
+        self._value = self.__options[self.__selectedIndex]['id']
+        self.display()
+
+    # Private Methods
 
     def __printOptions(self):
         for i in range(0, len(self.__options)):

@@ -6,7 +6,8 @@ from app_runner.menu.Menu import Menu
 from app_runner.services.CommandService import CommandService
 from app_runner.services.MenuService import MenuService
 from app_runner.services.UIService import UIService
-import time
+from app_runner.utils.FileUtil import FileUtil
+
 
 class IntAppRunner(ApplicationRunner):
     __uiService: UIService
@@ -20,11 +21,16 @@ class IntAppRunner(ApplicationRunner):
     def run(self):
         # self.runWithMenu()
         self.runWithFormView()
+        # self.runWithXmlView()
+
+    def runWithXmlView(self):
+        htmlText = FileUtil.readFile('temp/sample.xml')
+        self.__uiService.displayXml(htmlText)
 
     def runWithFormView(self):
         menuService: MenuService = self._appContext.getService('menuService')
         menu: Menu = menuService.buildMenu('main')
-        cmd: Command = menu.getCommand('displayHtml')
+        cmd: Command = menu.getCommand('displayXml')
         values: dict = self.__uiService.collectCmdArguments(cmd)
         print('Values: ' + str(values))
 

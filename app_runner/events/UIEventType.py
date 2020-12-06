@@ -5,7 +5,9 @@ class UIEventType:
     LEFT_KEY_PRESSED = 'leftKeyPressed'
     RIGHT_KEY_PRESSED = 'rightKeyPressed'
     ENTER_KEY_PRESSED = 'enterKeyPressed'
+    QUIT_KEY_PRESSED = 'quitKeyPressed'
     COMMAND_SELECTED = 'commandSelected'
+    MULTI_CHOICE_OPTION_SELECTED = 'multiChoiceOptionSelected'
     EXECUTE_COMMAND = 'executeCommand'
     COLLECT_FIELD_VALUES = 'collectFieldValues'
     FIELD_VALUES_COLLECTED = 'fieldValuesCollected'
@@ -14,5 +16,5 @@ class UIEventType:
     DISPLAY_COMMANDS = 'displayCommands'
     DISPLAY_MENUS = 'displayMenus'
     DISPLAY_PREVIOUS_MENUS = 'displayPreviousMenus'
-    DISPLAY_HTML = 'displayHtml'
+    DISPLAY_XML = 'displayXml'
 

@@ -39,6 +39,9 @@ class SingleSelectField(Field):
 
     def validate(self, value: object, errors: FieldValidationErrors):
         super().validate(value, errors)
-        valStr: str = str(value)
-        if not ListUtil.hasElementByKey(self._options, 'id', valStr):
-            errors.addError(FieldValidationError("Field '" + self._id + "' value '" + valStr + "' is not in options.", self.getId()))
+        if self.isRequired() and len(value) == 0:
+            errors.addError(FieldValidationError("Please select an option.", self.getId()))
+        elif len(value) > 1:
+            errors.addError(FieldValidationError("Single select field '" + self._id + "' can not accept more then one selection.", self.getId()))
+        elif not ListUtil.hasElementByKey(self._options, 'id', value[0]):
+            errors.addError(FieldValidationError("Field '" + self._id + "' value '" + value[0] + "' is not in options.", self.getId()))

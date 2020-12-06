@@ -1,8 +1,5 @@
-import curses
-
 from app_runner.classes.FormElementBuilder import FormElementBuilder
 from app_runner.classes.FormManager import FormManager
-from app_runner.enums.UIColor import UIColor
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
@@ -18,6 +15,8 @@ class UIForm(UIElement):
     __formManager: FormManager
     __fieldService: FieldService
     __values: dict
+    __userInput: dict
+    __isFormSubmitted: bool
     # Static Variables
     _pageInfoWidth = 15
 
@@ -28,6 +27,8 @@ class UIForm(UIElement):
         self.__formManager = FormManager()
         self.__fieldService = fieldService
         self.__values = {}
+        self.__userInput = {}
+        self.__isFormSubmitted = False
 
     # Setter Methods
 
@@ -47,9 +48,8 @@ class UIForm(UIElement):
         isValid = False
         formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService, self.__cmd.getModuleId())
         while not isValid:
-            self.__setFieldValuesByUserInput()
-            self.__formManager.validateFormValues()
-            if not self.__isValid():
+            self._printArea.listenUserSelection(self)
+            if not self.__formManager.areValuesValid():
                 formElementBuilder.refreshElements()
                 self.__printForm()
                 isValid = False
@@ -58,6 +58,33 @@ class UIForm(UIElement):
         EventManager.triggerEvent(UIEventType.FIELD_VALUES_COLLECTED, {
             'values': self.__values
         })
+
+    def upKeyPressed(self):
+        if not self.__formManager.isFirstIndexOnFirstPage():
+            self.__formManager.decreaseActiveIndex()
+            self.__printForm()
+
+    def downKeyPressed(self):
+        if not self.__formManager.isLastIndexOnLastPage():
+            self.__formManager.increaseActiveIndex()
+            self.__printForm()
+
+    def leftKeyPressed(self):
+        if self.__formManager.hasPreviousPage():
+            self.__formManager.movePrePage()
+            self.__printForm()
+
+    def rightKeyPressed(self):
+        if self.__formManager.hasNextPage():
+            self.__formManager.moveNextPage()
+            self.__printForm()
+
+    def enterKeyPressed(self):
+        activeElement = self.__formManager.getActiveField()
+        self.__values[activeElement.getId()] = activeElement.getUserInput()
+
+    def quitKeyPressed(self):
+        self.__formManager.validateFormValues()
 
     # Private Methods
 
@@ -93,44 +120,6 @@ class UIForm(UIElement):
         for element in elementsInCurrentPage:
             element.display()
             element.setListeners()
-
-    def __setFieldValuesByUserInput(self):
-        userInput: dict = self.__fetchUserInput()
-        while userInput['action'] != 'submit':
-            activeElement = userInput['active_element']
-            self.__values[activeElement.getId()] = activeElement.getUserInput()
-            userInput: dict = self.__fetchUserInput()
-
-    def __fetchUserInput(self):
-        userInput: dict = {}
-        exitWhile = False
-        while not exitWhile:
-            selection = self._printArea.getUserInputAsChar()
-            if selection == 'w' and not self.__formManager.isFirstIndexOnFirstPage():
-                self.__formManager.decreaseActiveIndex()
-                self.__printForm()
-            elif selection == 's' and not self.__formManager.isLastIndexOnLastPage():
-                self.__formManager.increaseActiveIndex()
-                self.__printForm()
-            elif selection == 'a' and self.__formManager.hasPreviousPage():
-                self.__formManager.movePrePage()
-                self.__printForm()
-            elif selection == 'd' and self.__formManager.hasNextPage():
-                self.__formManager.moveNextPage()
-                self.__printForm()
-            elif selection == 'e':
-                userInput['active_element'] = self.__formManager.getActiveField()
-                userInput['action'] = 'field-selection'
-                exitWhile = True
-            elif selection == 'q':
-                self.__formManager.validateFormValues()
-                userInput['action'] = 'submit'
-                exitWhile = True
-        return userInput
-
-    def __isValid(self) -> bool:
-        errors: FieldValidationErrors = self.__formManager.getValidationErrors()
-        return not errors.hasErrors()
 
     def __buildFormElements(self):
         formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService, self.__cmd.getModuleId())

@@ -1,0 +1,140 @@
+<html>
+    <ul indentation="1">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+        <li>Item 4
+            <ul>
+                <li>Item 4.1</li>
+            </ul>
+        </li>
+        <li>Item 5
+            <ul>
+                <li>Item 5.1</li>
+                <li>Item 5.2</li>
+                <li>Item 5.3
+                    <ul>
+                        <li>Item 5.3.1</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Item 6</li>
+        <li>Item 7</li>
+        <li>Item 8</li>
+        <li>Item 9</li>
+        <li>Item 10
+            <ul>
+                <li>Item 10.1</li>
+                <li>Item 10.2</li>
+                <li>Item 10.3
+                    <ul>
+                        <li>Item 10.3.1</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Item 11</li>
+        <li>Item 12</li>
+        <li>Item 13</li>
+    </ul>
+    <hr/>
+    <p>The PyCharm editor is the main part of the IDE that you use to create, read and modify code.The PyCharm editor</p>
+    <label>This is a test 1</label>
+    <br lines="2"/>
+    <label color="5">This is a test 2</label>
+    <br lines="3"/>
+    <table>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+        </tr>
+        <tr>
+            <td>The PyCharm editor is</td>
+            <td>Value 2</td>
+            <td>Value 3</td>
+            <td>Value 4</td>
+        </tr>
+        <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>The PyCharm editor is</td>
+            <td>Value 4</td>
+        </tr>
+         <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>Value 3</td>
+            <td>Value 4</td>
+        </tr>
+         <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>The PyCharm editor is</td>
+            <td>Value 4</td>
+        </tr>
+         <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>Value 3</td>
+            <td>Value 4</td>
+        </tr>
+         <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>Value 3</td>
+            <td>The PyCharm</td>
+        </tr>
+         <tr>
+            <td>Value 1</td>
+            <td>Value 2</td>
+            <td>Value 3</td>
+            <td>Value 4</td>
+        </tr>
+    </table>
+    <grid >
+        <row>
+            <col>
+                <label>The PyCharm editor is</label>
+                <value>The PyCharm editor isThe PyCharm editor is</value>
+            </col>
+            <col>
+                <label>Last Name</label>
+                <value>Huyuktepe</value>
+            </col>
+        </row>
+        <row>
+            <col>
+                <label>Username</label>
+                <value>ahuyuktepe</value>
+            </col>
+            <col>
+                <label>Address</label>
+                <value>3503 Welling Ct. Hillsborough NJ</value>
+            </col>
+        </row>
+        <row>
+            <col>
+                <label>First Name</label>
+                <value>Alper</value>
+            </col>
+            <col>
+                <label>Last Name</label>
+                <value>Huyuktepe</value>
+            </col>
+        </row>
+         <row>
+            <col>
+                <label>Username</label>
+                <value>ahuyuktepe</value>
+            </col>
+            <col>
+                <label>Address</label>
+                <value>3503 Welling Ct. Hillsborough NJ</value>
+            </col>
+        </row>
+    </grid>
+
+</html>

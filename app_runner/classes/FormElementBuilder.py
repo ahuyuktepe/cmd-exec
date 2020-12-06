@@ -2,14 +2,11 @@ from app_runner.classes.FormManager import FormManager
 from app_runner.classes.UIPrintArea import UIPrintArea
 from app_runner.errors.UIError import UIError
 from app_runner.field.Field import Field
-from app_runner.form_elements.FormUIElement import FormUIElement
-from app_runner.form_elements.MultiChoiceElement import MultiChoiceElement
-from app_runner.form_elements.MultiSelectFormElement import MultiSelectFormElement
-from app_runner.form_elements.SingleSelectFormElement import SingleSelectFormElement
-from app_runner.form_elements.TextElement import TextElement
+from app_runner.form_elements.FormElement import FormUIElement
+from app_runner.form_elements.MultiChoiceFormElement import MultiChoiceFormElement
+from app_runner.form_elements.TextFormElement import TextElement
 from app_runner.services.FieldService import FieldService
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
-from app_runner.utils.ValidationUtil import ValidationUtil
 
 
 class FormElementBuilder:
@@ -49,11 +46,11 @@ class FormElementBuilder:
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
         elif field.isSingleSelect():
-            element = SingleSelectFormElement(field, self.__mid, self.__fieldService)
+            element = MultiChoiceFormElement(field, False, self.__mid, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
         elif field.isMultiSelect():
-            element = MultiSelectFormElement(field, self.__mid, self.__fieldService)
+            element = MultiChoiceFormElement(field, True, self.__mid, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
 

@@ -8,7 +8,7 @@ from app_runner.menu.Command import Command
 from app_runner.services.FieldService import FieldService
 from app_runner.services.MenuService import MenuService
 from app_runner.classes.UIPrintArea import UIPrintArea
-from app_runner.ui_elements.UIHtml import UIHtml
+from app_runner.ui_elements.UlXml import UIHtml
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
 from app_runner.classes.ViewManager import ViewManager
 from app_runner.ui_elements.UIElement import UIElement
@@ -60,9 +60,9 @@ class UIScreen(UIElement):
         EventManager.triggerEvent(UIEventType.COLLECT_FIELD_VALUES)
         return self.__collectedFieldValues
 
-    def displayHtml(self, html: str):
+    def displayXml(self, html: str):
         self.displayView('html')
-        EventManager.triggerEvent(UIEventType.DISPLAY_HTML, {
+        EventManager.triggerEvent(UIEventType.DISPLAY_XML, {
             'html': html
         })
 
