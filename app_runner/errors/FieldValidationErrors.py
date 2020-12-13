@@ -24,6 +24,9 @@ class FieldValidationErrors:
     def hasErrors(self) -> bool:
         return len(self.__errors) > 0
 
+    def getErrorByIndex(self, index: int) -> FieldValidationError:
+        return self.__errors[index]
+
     # Setter Methods
 
     def addError(self, error: FieldValidationError):

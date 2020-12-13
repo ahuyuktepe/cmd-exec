@@ -13,6 +13,7 @@ class FormUIElement(UIElement):
     _fieldValidationErrors: FieldValidationErrors
     _selected: bool
     _value: object
+    _maxErrorLineCount: int = 4
 
     def __init__(self, field: Field, mid: str, fieldService: FieldService):
         super().__init__(field.getId(), 'form-element')
@@ -39,6 +40,14 @@ class FormUIElement(UIElement):
     def getValue(self) -> object:
         return self._value
 
+    def getErrorLineCount(self) -> int:
+        errorCount = self._fieldValidationErrors.getErrorCount()
+        if errorCount > self._maxErrorLineCount:
+            return self._maxErrorLineCount
+        return errorCount
+
+    # Query Methods
+
     def isSelected(self) -> bool:
         return self._selected
 
@@ -60,12 +69,14 @@ class FormUIElement(UIElement):
         return self._fieldValidationErrors.hasErrors()
 
     def printValidationErrors(self, y: int):
-        count = 1
-        for error in self._fieldValidationErrors.getErrors():
+        maxErrorCount: int = self.getErrorLineCount()
+        for i in range(0, maxErrorCount):
             y += 1
-            msg = '  * ' + error.getMsg()
-            msg = StrUtil.getAlignedAndLimitedStr(msg, self.getWidth(), 'left')
+            error = self._fieldValidationErrors.getErrorByIndex(i)
+            msg = '  * '
+            if i == (self._maxErrorLineCount - 1):
+                msg += '...'
+            else:
+                msg += error.getMsg()
+                msg = StrUtil.getAlignedAndLimitedStr(msg, self.getWidth(), 'left')
             self._printArea.printText(1, y, msg, UIColor.ERROR_MESSAGE_COLOR)
-            if count == 5:
-                break
-            count += 1

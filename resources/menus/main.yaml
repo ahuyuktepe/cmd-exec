@@ -1,6 +1,9 @@
 id: main
 name: Main Menu
 commands:
+  - id: print-text
+    description: Print Text
+    executor: WebToolExecutor.displayContent
   - id: displayXml
     description: Display Html Content
     executor: WebToolExecutor.displayContent

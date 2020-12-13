@@ -44,7 +44,6 @@ class ViewManager:
     def addAndActivateView(self, view: UIView):
         if self.hasActiveView():
             self.__activeView.destroy()
-        EventManager.clearListeners()
         self.addView(view)
         self.__activeView = view
 

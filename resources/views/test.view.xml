@@ -1,0 +1,5 @@
+<view border="True" template="main">
+    <section id="body">
+        <label>This is a test view</label>
+    </section>
+</view>

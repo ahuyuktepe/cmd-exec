@@ -1,53 +1,36 @@
-from xml.etree.ElementTree import Element
-
-from app_runner.errors.UIError import UIError
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
 from app_runner.ui_elements.UIElement import UIElement
-from app_runner.utils.StrUtil import StrUtil
-from app_runner.utils.XmlElementUtil import XmlElementUtil
 
 
 class UIText(UIElement):
-    __text: str
-    __size: int
-    __align: str
+    __lineCount: int
+    __lines: list
 
     def __init__(self, id: str):
-        super().__init__(id, 'label')
-
-    # Setter Functions
-
-    def setText(self, text: str):
-        self.__text = text
-
-    def setAttributes(self, element: Element):
-        # Set Common Attributes
-        super().setAttributes(element)
-        # Set Label Attributes
-        self.__size = XmlElementUtil.getAttrValueAsInt(element, 'size', 10)
-        self.__align = XmlElementUtil.getAttrValueAsStr(element, 'align', 'right')
-        self.setText(element.text)
+        super().__init__(id, 'text')
+        self._y = 0
+        self.__lines = []
 
     # Utility Methods
 
     def display(self):
-        if self._y > self.getHeight():
-            raise UIError("Label '" + self.getId() + "' does not fit into section.")
-        x = self._x
-        if x < 0:
-           x = self.getWidth() + x
-        text = StrUtil.getAlignedAndLimitedStr(self.__text, self.__size, self.__align)
-        self._printArea.printText(x, self._y, text)
-
-    def setListeners(self):
-        EventManager.listenEvent(UIEventType.UPDATE_TEXT, self)
+        super(UIText, self).display()
+        self.__lineCount = self.getHeight() - 2
 
     # Event Listeners
 
-    def updateText(self, data: dict = {}):
-        text = data.get('text')
-        self.setText(text)
+    def appendText(self, data: dict = {}):
         self.clear()
-        self.display()
+        text = data.get('text')
+        if self._y == self.__lineCount:
+            self.__scrollUp()
+        else:
+            self._y += 1
+        self._printArea.printText(1, self._y, text)
         self.refresh()
+
+    # Private Methods
+
+    def upKeyPressed(self, data):
+        print('UIText: upKeyPressed')

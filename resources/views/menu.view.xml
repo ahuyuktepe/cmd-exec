@@ -1,17 +1,13 @@
 <view border="True" template="main">
-    <section id="message" height="4">
-        <navigation id="nav1" menus="main,test" nameWidth="20"/>
-    </section>
-    <section id="body" height="-8">
-        <menu/>
-        <menu-selection />
+    <section id="body" height="-7">
+        <cmd-selector menus="main,menu1,menu2,menu3"/>
     </section>
     <section id="footer" ref="footer" height="4">
-        <text x="2" y="1" size="20" align="left">w: Previous Command</text>
-        <text x="2" y="2" size="20" align="left">s: Next Command</text>
-        <text x="27" y="1" size="20" align="left">a: Previous Menu</text>
-        <text x="27" y="2" size="20" align="left">d: Next Menu</text>
-        <text x="52" y="1" size="20" align="left">e: Select Command</text>
-        <text x="52" y="2" size="20" align="left">q: Quit Program</text>
+        <label x="2" y="1" size="20" align="left">w: Previous Command</label>
+        <label x="2" y="2" size="20" align="left">s: Next Command</label>
+        <label x="27" y="1" size="20" align="left">a: Previous Menu</label>
+        <label x="27" y="2" size="20" align="left">d: Next Menu</label>
+        <label x="52" y="1" size="20" align="left">e: Select Command</label>
+        <label x="52" y="2" size="20" align="left">q: Quit Program</label>
     </section>
 </view>

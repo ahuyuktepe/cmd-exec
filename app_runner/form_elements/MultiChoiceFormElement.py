@@ -1,5 +1,6 @@
 from app_runner.classes.RecordPaginator import RecordPaginator
 from app_runner.enums.UIColor import UIColor
+from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.field.Field import Field
 from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.services.FieldService import FieldService
@@ -12,7 +13,6 @@ class MultiChoiceFormElement(FormUIElement):
     __selectedOptions: list
     __printedOptionCount: int
     __maxOptionLineCount: int = 10
-    __maxErrorLineCount: int = 4
     __width: int = 30
     __recordPaginator: RecordPaginator
     __isMultiSelect: bool
@@ -40,7 +40,7 @@ class MultiChoiceFormElement(FormUIElement):
         self.__printOptions()
         self.refresh()
 
-        # Event Handlers
+    # Event Handlers
 
     def upKeyPressed(self):
         if not self.__recordPaginator.isFirstRecordOnFirstPage():
@@ -84,12 +84,11 @@ class MultiChoiceFormElement(FormUIElement):
     # Private Methods
 
     def __printOptions(self):
-        y = self.__getErrorLineCount() + 2
+        y = self.getErrorLineCount() + 2
         # Print Previous Page Icon
-        iconStr = ''
         if self.__recordPaginator.hasPreviousPage():
             iconStr = StrUtil.getAlignedAndLimitedStr(u' \u25B2 ', self.__width, 'center')
-        self._printArea.printText(3, y, iconStr)
+            self._printArea.printText(3, y, iconStr)
         y += 1
         # Print Options
         options = self.__recordPaginator.getRecordsInPage()
@@ -103,16 +102,9 @@ class MultiChoiceFormElement(FormUIElement):
             i += 1
             y += 1
         # Print Next Page Icon
-        iconStr = ''
         if self.__recordPaginator.hasNextPage():
             iconStr = StrUtil.getAlignedAndLimitedStr(u' \u25BC ', self.__width, 'center')
-        self._printArea.printText(3, y, iconStr)
-
-    def __getErrorLineCount(self) -> int:
-        errorCount = self._fieldValidationErrors.getErrorCount()
-        if errorCount > self.__maxErrorLineCount:
-            return self.__maxErrorLineCount
-        return errorCount
+            self._printArea.printText(3, y, iconStr)
 
     def __getOptionLabel(self, option: dict) -> str:
         retStr = '['

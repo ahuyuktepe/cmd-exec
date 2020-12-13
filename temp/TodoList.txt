@@ -19,17 +19,19 @@ Phase 4
 - Add plain text printer element which autoscrolls each line.
 
 Phase 3
-------------------------------------------------------------------------------------------------------------------
-- Add following support for UIForm element.                                                                  [Done]
-    * Single Select
-    * Multi Select elements.
-- Add pagination to TextArea element.                                                                        [Done]
-- Ability to exit from text area and return back to main view.                                               [Done]
-- Update text and textarea elements' content via event.                                                      [Done]
-- Add support for theme which would display view within theme.                                               [Done]
-- Refactor and organize code.
-- Make sure both command and interactive mode is working properly.
-- Fix UIText element.
+---------------------------------------------------------------------------------------------------------------------
+1)  Add following support for UIForm element.                                                                  [Done]
+        * Single Select
+        * Multi Select elements.
+2)  Add pagination to TextArea element.                                                                        [Done]
+3)  Ability to exit from text area and return back to main view.                                               [Done]
+4)  Update text and textarea elements' content via event.                                                      [Done]
+5)  Add support for theme which would display view within theme.                                               [Done]
+6)  Refactor and organize code.
+7)  Make sure both command and interactive mode is working properly.
+8)  Fix UIText element.
+9)  Complete menu displaying and command selection with threading.
+10) Complete command execution with threading
 
 Phase 2
 ------------------------------------------------------------------------------------------------------------------

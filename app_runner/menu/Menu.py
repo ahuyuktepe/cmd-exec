@@ -33,6 +33,9 @@ class Menu:
     def getCommands(self) -> dict:
         return self._commands
 
+    def getCommandsAsList(self) -> list:
+        return list(self._commands.values())
+
     def getCmdCount(self) -> int:
         return len(self._commands)
 
