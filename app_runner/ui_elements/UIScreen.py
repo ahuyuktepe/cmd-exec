@@ -17,7 +17,7 @@ from app_runner.ui_elements.UIMenu import UIMenu
 from app_runner.ui_elements.UIMenuSelection import UIMenuSelection
 from app_runner.ui_elements.UINavigation import UINavigation
 from app_runner.ui_elements.UISection import UISection
-from app_runner.ui_elements.UIText import UIText
+from app_runner.ui_elements.UILabel import UILabel
 from app_runner.ui_elements.UIView import UIView
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 from app_runner.utils.FileUtil import FileUtil
@@ -144,8 +144,8 @@ class UIScreen(UIElement):
     def __buildElementsInSection(self, element: Element, section: UISection, data: dict = {}) -> list:
         elements: list = []
         for child in element:
-            if child.tag == 'text':
-                uiElement = self.__buildTextElement(child, section)
+            if child.tag == 'label':
+                uiElement = self.__buildLabelElement(child, section)
                 elements.append(uiElement)
             elif child.tag == 'navigation':
                 uiElement = self.__buildNavigationElement(child, section)
@@ -186,9 +186,9 @@ class UIScreen(UIElement):
         section.setPrintArea(sectionPrintArea)
         return section
 
-    def __buildTextElement(self, element: Element, section: UISection) -> UIText:
+    def __buildLabelElement(self, element: Element, section: UISection) -> UILabel:
         id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'lbl')
-        label = UIText(id)
+        label = UILabel(id)
         label.setAttributes(element)
         # Set Printer
         sectionPrintArea: UIPrintArea = section.getPrintArea()

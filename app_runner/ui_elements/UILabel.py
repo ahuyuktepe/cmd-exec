@@ -1,5 +1,4 @@
 from xml.etree.ElementTree import Element
-
 from app_runner.errors.UIError import UIError
 from app_runner.events.EventManager import EventManager
 from app_runner.events.UIEventType import UIEventType
@@ -8,7 +7,7 @@ from app_runner.utils.StrUtil import StrUtil
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 
 
-class UIText(UIElement):
+class UILabel(UIElement):
     __text: str
     __size: int
     __align: str

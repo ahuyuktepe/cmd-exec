@@ -3,8 +3,8 @@
         <html id="response-html" />
     </section>
     <section id="footer">
-        <text x="2" y="1" size="20" align="left">w: Scroll Up</text>
-        <text x="2" y="2" size="20" align="left">s: Scroll Down</text>
-        <text x="42" y="1" size="20" align="left">q: Exit</text>
+        <label x="2" y="1" size="20" align="left">w: Scroll Up</label>
+        <label x="2" y="2" size="20" align="left">s: Scroll Down</label>
+        <label x="42" y="1" size="20" align="left">q: Exit</label>
     </section>
 </view>

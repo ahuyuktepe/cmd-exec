@@ -3,11 +3,11 @@
         <form />
     </section>
     <section id="footer">
-        <text x="2" y="1" size="20" align="left">w: Up</text>
-        <text x="2" y="2" size="20" align="left">s: Down</text>
-        <text x="22" y="1" size="20" align="left">a: Previous Page</text>
-        <text x="22" y="2" size="20" align="left">d: Next Page</text>
-        <text x="42" y="1" size="20" align="left">q: Submit Form</text>
-        <text x="42" y="2" size="20" align="left">e: Select Field</text>
+        <label x="2" y="1" size="20" align="left">w: Up</label>
+        <label x="2" y="2" size="20" align="left">s: Down</label>
+        <label x="22" y="1" size="20" align="left">a: Previous Page</label>
+        <label x="22" y="2" size="20" align="left">d: Next Page</label>
+        <label x="42" y="1" size="20" align="left">q: Submit Form</label>
+        <label x="42" y="2" size="20" align="left">e: Select Field</label>
     </section>
 </view>
