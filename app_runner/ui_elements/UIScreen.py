@@ -8,6 +8,7 @@ from app_runner.menu.Command import Command
 from app_runner.services.FieldService import FieldService
 from app_runner.services.MenuService import MenuService
 from app_runner.classes.UIPrintArea import UIPrintArea
+from app_runner.ui_elements.UIText import UIText
 from app_runner.ui_elements.UlXml import UIHtml
 from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
 from app_runner.classes.ViewManager import ViewManager
@@ -144,25 +145,24 @@ class UIScreen(UIElement):
     def __buildElementsInSection(self, element: Element, section: UISection, data: dict = {}) -> list:
         elements: list = []
         for child in element:
+            uiElement = None
             if child.tag == 'label':
                 uiElement = self.__buildLabelElement(child, section)
-                elements.append(uiElement)
             elif child.tag == 'navigation':
                 uiElement = self.__buildNavigationElement(child, section)
                 menus = self.__buildMenus(child, data)
                 uiElement.setMenus(menus)
-                elements.append(uiElement)
             elif child.tag == 'menu-selection':
                 uiElement = self.__buildMenuSelectionElement(child, section)
-                elements.append(uiElement)
             elif child.tag == 'menu':
                 uiElement = self.__buildMenuElement(child, section)
-                elements.append(uiElement)
             elif child.tag == 'form':
                 uiElement = self.__buildFormElement(child, section, data)
-                elements.append(uiElement)
             elif child.tag == 'html':
                 uiElement = self.__buildHtmlElement(child, section, data)
+            elif child.tag == 'text':
+                uiElement = self.__buildTextElement(child, section)
+            if uiElement is not None:
                 elements.append(uiElement)
         return elements
 
@@ -185,6 +185,15 @@ class UIScreen(UIElement):
         sectionPrintArea: UIPrintArea = UIPrintAreaUtil.buildDerivedPrintArea(x, y, width, height, viewPrintArea)
         section.setPrintArea(sectionPrintArea)
         return section
+
+    def __buildTextElement(self, element: Element, section: UISection):
+        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'lbl')
+        text = UIText(id)
+        text.setAttributes(element)
+        # Set Printer
+        sectionPrintArea: UIPrintArea = section.getPrintArea()
+        text.setPrintArea(sectionPrintArea)
+        return text
 
     def __buildLabelElement(self, element: Element, section: UISection) -> UILabel:
         id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'lbl')

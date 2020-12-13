@@ -7,6 +7,7 @@ from app_runner.services.CommandService import CommandService
 from app_runner.services.MenuService import MenuService
 from app_runner.services.UIService import UIService
 from app_runner.utils.FileUtil import FileUtil
+import time
 
 
 class IntAppRunner(ApplicationRunner):
@@ -19,9 +20,14 @@ class IntAppRunner(ApplicationRunner):
         self.__commandService = context.getService('commandService')
 
     def run(self):
+        self.runWithTextView()
         # self.runWithMenu()
-        self.runWithFormView()
+        # self.runWithFormView()
         # self.runWithXmlView()
+
+    def runWithTextView(self):
+        self.__uiService.displayView('text', {})
+        time.sleep(3)
 
     def runWithXmlView(self):
         htmlText = FileUtil.readFile('temp/sample.xml')

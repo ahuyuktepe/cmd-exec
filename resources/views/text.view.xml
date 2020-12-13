@@ -1,0 +1,13 @@
+<view border="True" template="main">
+    <section id="body">
+        <text />
+    </section>
+    <section id="footer">
+        <label x="2" y="1" size="20" align="left">w: Up</label>
+        <label x="2" y="2" size="20" align="left">s: Down</label>
+        <label x="22" y="1" size="20" align="left">a: Previous Page</label>
+        <label x="22" y="2" size="20" align="left">d: Next Page</label>
+        <label x="42" y="1" size="20" align="left">q: Submit Form</label>
+        <label x="42" y="2" size="20" align="left">e: Select Field</label>
+    </section>
+</view>
