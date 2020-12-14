@@ -187,12 +187,16 @@ class UIScreen(UIElement):
         return section
 
     def __buildTextElement(self, element: Element, section: UISection):
-        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'lbl')
+        id = XmlElementUtil.getAttrValueAsStr(element, 'id', 'text')
         text = UIText(id)
         text.setAttributes(element)
+        # Set Dimensions
+        width = XmlElementUtil.getAttrValueAsInt(element, 'width', section.getWidth() - 2)
+        height = XmlElementUtil.getAttrValueAsInt(element, 'height', section.getHeight() - 2)
         # Set Printer
         sectionPrintArea: UIPrintArea = section.getPrintArea()
-        text.setPrintArea(sectionPrintArea)
+        printArea: UIPrintArea = UIPrintAreaUtil.buildDerivedPrintArea(1, 1, width, height, sectionPrintArea)
+        text.setPrintArea(printArea)
         return text
 
     def __buildLabelElement(self, element: Element, section: UISection) -> UILabel:

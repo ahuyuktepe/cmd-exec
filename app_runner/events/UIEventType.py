@@ -12,6 +12,7 @@ class UIEventType:
     COLLECT_FIELD_VALUES = 'collectFieldValues'
     FIELD_VALUES_COLLECTED = 'fieldValuesCollected'
     UPDATE_TEXT = 'updateText'
+    APPEND_TEXT = 'appendText'
     VIEW_LOADED = 'viewLoaded'
     DISPLAY_COMMANDS = 'displayCommands'
     DISPLAY_MENUS = 'displayMenus'

@@ -26,8 +26,12 @@ class IntAppRunner(ApplicationRunner):
         # self.runWithXmlView()
 
     def runWithTextView(self):
-        self.__uiService.displayView('text', {})
-        time.sleep(3)
+        # Get Command
+        menuService: MenuService = self._appContext.getService('menuService')
+        menu: Menu = menuService.buildMenu('main')
+        cmd: Command = menu.getCommand('read_file')
+        # Execute Command
+        self.__commandService.execute(cmd, {})
 
     def runWithXmlView(self):
         htmlText = FileUtil.readFile('temp/sample.xml')
