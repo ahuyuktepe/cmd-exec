@@ -5,19 +5,19 @@ from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
 from app_runner.services.MenuService import MenuService
-from app_runner.services.UIService import UIService
-from app_runner.utils.UIPrintAreaUtil import UIPrintAreaUtil
-from app_runner.ui_elements.UIScreen import UIScreen
-from app_runner.enums.UIColor import UIColor
+from app_runner.services.TerminalService import TerminalService
+from app_runner.ui_elements.TerminalScreen import TerminalScreen
 
 
 class AppContextBuilder:
 
     @staticmethod
     def updateContextForInteractiveMode(appContext: AppContext):
-        AppContextBuilder.__setTerminalService(appContext)
-        UIPrintAreaUtil.initializeScreen()
-        UIColor.setColorCodes()
+        # Initialize Screen
+        screen = TerminalScreen(appContext)
+        AppContextBuilder.__setTerminalService(screen, appContext)
+        # Setup Screen
+        screen.setup()
 
     @staticmethod
     def updateContextForCommandMode(appContext: AppContext):
@@ -63,10 +63,7 @@ class AppContextBuilder:
         appContext.addService('menuService', menuService)
 
     @staticmethod
-    def __setTerminalService(appContext: AppContext):
-        uiService = UIService()
-        uiService.setAppContext(appContext)
-        screen = UIScreen(appContext)
-        uiService.setScreen(screen)
-        # Add Service
-        appContext.addService('uiService', uiService)
+    def __setTerminalService(screen, appContext: AppContext):
+        # Initialize TerminalService
+        terminalService = TerminalService(screen)
+        appContext.addService('terminalService', terminalService)

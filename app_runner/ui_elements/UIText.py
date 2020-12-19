@@ -18,14 +18,7 @@ class UIText(UIElement):
         super(UIText, self).display()
         self.__lineCount = self.getHeight() - 2
 
-    def setListeners(self):
-        EventManager.listenEvent(UIEventType.APPEND_TEXT, self)
-        EventManager.listenEvent(UIEventType.VIEW_LOADED, self)
-
     # Event Listeners
-
-    def viewLoaded(self, data):
-        self._printArea.listenUserSelection(self)
 
     def appendText(self, data: dict = {}):
         self.clear()
@@ -39,10 +32,5 @@ class UIText(UIElement):
 
     # Private Methods
 
-    def __scrollUp(self):
-        pass
-
-    def __scrollDown(self):
-        pass
-
-
+    def upKeyPressed(self, data):
+        print('UIText: upKeyPressed')

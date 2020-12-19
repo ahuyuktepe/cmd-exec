@@ -23,7 +23,8 @@ class EventManager:
 
     @staticmethod
     def clearListeners():
-        EventManager.__listeners.clear()
+        pass
+        # EventManager.__listeners.clear()
 
     @staticmethod
     def triggerEvent(eid: str, data: dict = {}):

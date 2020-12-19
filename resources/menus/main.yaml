@@ -1,9 +1,9 @@
 id: main
 name: Main Menu
 commands:
-  - id: read_file
-    descirption: Read File
-    executor: FileReadExecutor.readFile
+  - id: print-text
+    description: Print Text
+    executor: WebToolExecutor.displayContent
   - id: displayXml
     description: Display Html Content
     executor: WebToolExecutor.displayContent

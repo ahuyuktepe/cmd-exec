@@ -1,10 +1,6 @@
 <view border="True" template="main">
-    <section id="message" height="4">
-        <navigation id="nav1" menus="main,test" nameWidth="20"/>
-    </section>
-    <section id="body" height="-8">
-        <menu/>
-        <menu-selection />
+    <section id="body" height="-7">
+        <cmd-selector menus="main,menu1,menu2,menu3"/>
     </section>
     <section id="footer" ref="footer" height="4">
         <label x="2" y="1" size="20" align="left">w: Previous Command</label>

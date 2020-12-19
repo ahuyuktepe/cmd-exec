@@ -14,6 +14,7 @@ class UIEventType:
     UPDATE_TEXT = 'updateText'
     APPEND_TEXT = 'appendText'
     VIEW_LOADED = 'viewLoaded'
+    DISPLAY_VIEW = 'displayView'
     DISPLAY_COMMANDS = 'displayCommands'
     DISPLAY_MENUS = 'displayMenus'
     DISPLAY_PREVIOUS_MENUS = 'displayPreviousMenus'
