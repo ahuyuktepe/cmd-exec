@@ -74,7 +74,6 @@ class MultiChoiceFormElement(FormUIElement):
     # Getter Methods
 
     def getUserInput(self) -> object:
-        self._printArea.listenUserSelection(self)
         self.display()
         return self.getValue()
 

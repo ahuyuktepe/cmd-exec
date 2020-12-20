@@ -45,6 +45,8 @@ class KeyboardListenerThread:
                 elif input == 'q':
                     EventManager.triggerEvent(UIEventType.QUIT_KEY_PRESSED)
                     exitWhile = True
+                elif input == 'z':
+                    EventManager.triggerEvent(UIEventType.RETURN_TO_MENU_VIEW)
                 elif input == ' ':
                     EventManager.triggerEvent(UIEventType.MULTI_CHOICE_OPTION_SELECTED)
         except Exception as exp:

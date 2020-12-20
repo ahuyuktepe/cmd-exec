@@ -19,4 +19,5 @@ class UIEventType:
     DISPLAY_MENUS = 'displayMenus'
     DISPLAY_PREVIOUS_MENUS = 'displayPreviousMenus'
     DISPLAY_XML = 'displayXml'
+    RETURN_TO_MENU_VIEW = 'returnToMenuView'
 

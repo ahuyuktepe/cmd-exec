@@ -58,6 +58,9 @@ class Command:
     def hasFields(self) -> bool:
         return self._fields is None or len(self._fields) > 0
 
+    def hasExecutor(self) -> bool:
+        return self._executor is not None
+
     # Setter Methods
 
     def setExecutor(self, executor: str):

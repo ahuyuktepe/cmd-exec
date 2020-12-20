@@ -1,7 +1,8 @@
+from threading import Timer
+
 from app_runner.app.context.AppContext import AppContext
 from app_runner.services.CommandService import CommandService
-from app_runner.thread.CommandExecutorThread import CommandExecutorThread
-from app_runner.thread.KeyboardListenerThread import KeyboardListenerThread
+from app_runner.classes.KeyboardListenerThread import KeyboardListenerThread
 from app_runner.classes.ViewBuilder import ViewBuilder
 from app_runner.classes.ViewManager import ViewManager
 from app_runner.enums.UIColor import UIColor
@@ -22,6 +23,7 @@ class TerminalScreen(UIElement):
     __viewManager: ViewManager = None
     __keyboardListener: KeyboardListenerThread = None
     __quit: bool
+    __msgTimer: object
 
     def __init__(self, appContext: AppContext):
         super().__init__('root-screen', 'screen')
@@ -41,6 +43,7 @@ class TerminalScreen(UIElement):
         EventManager.listenEvent(UIEventType.DISPLAY_VIEW, self)
         EventManager.listenEvent(UIEventType.QUIT_KEY_PRESSED, self)
         EventManager.listenEvent(UIEventType.COMMAND_SELECTED, self)
+        EventManager.listenEvent(UIEventType.RETURN_TO_MENU_VIEW, self)
 
     # Utility Methods
 
@@ -59,7 +62,21 @@ class TerminalScreen(UIElement):
         self.displayView({'vid': 'menu'})
         self.__keyboardListener.listen()
 
+    def displayMessage(self, text: str):
+        EventManager.triggerEventByElementId(UIEventType.UPDATE_TEXT, 'msg-box', {
+            'text': text
+        })
+        self.__msgTimer = Timer(5, self.clearMessage)
+        self.__msgTimer.start()
+
+    def clearMessage(self):
+        EventManager.triggerEventByElementId(UIEventType.UPDATE_TEXT, 'msg-box', {'text': ''})
+        self.__msgTimer.cancel()
+
     # Event Listeners
+
+    def returnToMenuView(self, data):
+        self.displayView({'vid': 'menu'})
 
     def commandSelected(self, data):
         cmd = data.get('command')
@@ -70,14 +87,16 @@ class TerminalScreen(UIElement):
                 'parentMenuName': cmd.getDescription(),
                 'menus': menus
             })
-        elif not cmd.hasFields():
+        elif cmd.hasFields():
+            # Collect Parameter Values
+            self.__viewManager.closeActiveView()
+            self.displayView({'vid': 'form'})
+        elif cmd.hasExecutor():
             # Set Command Executor Thread
             cmdService: CommandService = self.__appContext.getService('commandService')
             cmdService.execute(cmd, {})
         else:
-            # Collect Parameter Values
-            self.__viewManager.closeActiveView()
-            self.displayView({'vid': 'form'})
+            self.displayMessage("Given command '" + cmd.getDescription() + "' does not have executor.")
 
     def quitKeyPressed(self, data):
         self.__quit = True
@@ -89,3 +108,4 @@ class TerminalScreen(UIElement):
             view = self.__viewBuilder.buildView(self.getPrintArea(), vid, data)
         self.__viewManager.addAndActivateView(view)
         view.display()
+        self.setListeners()

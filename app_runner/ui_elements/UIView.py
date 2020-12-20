@@ -44,5 +44,6 @@ class UIView(UIElement):
         super(UIView, self).destroy()
         self._printArea.clear()
         self._printArea.refresh()
+        EventManager.clearListeners()
         for section in self.__sections:
             section.destroy()

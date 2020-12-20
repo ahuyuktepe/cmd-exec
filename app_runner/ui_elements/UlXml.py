@@ -22,7 +22,6 @@ class UIHtml(UIElement):
         htmlText = data.get('html')
         self.__xmlPrinter = XmlPrinter(htmlText, self._printArea)
         self.printLines()
-        self._printArea.listenUserSelection(self)
 
     def printLines(self):
         self.clear()
@@ -38,14 +37,14 @@ class UIHtml(UIElement):
 
     # Listener Methods
 
-    def upKeyPressed(self):
+    def upKeyPressed(self, data):
         if self.__xmlPrinter.hasLine(self.__start - 1):
             # Move Previous Line
             self.__start -= 1
             self.__end -= 1
             self.printLines()
 
-    def downKeyPressed(self):
+    def downKeyPressed(self, data):
         if self.__xmlPrinter.hasLine(self.__end):
             # Move Next Line
             self.__start += 1
@@ -57,3 +56,5 @@ class UIHtml(UIElement):
     def setListeners(self):
         EventManager.listenEvent(UIEventType.DISPLAY_XML, self)
         EventManager.listenEvent(UIEventType.UPDATE_TEXT, self)
+        EventManager.listenEvent(UIEventType.UP_KEY_PRESSED, self)
+        EventManager.listenEvent(UIEventType.DOWN_KEY_PRESSED, self)

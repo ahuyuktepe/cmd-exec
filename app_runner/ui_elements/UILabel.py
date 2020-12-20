@@ -47,6 +47,5 @@ class UILabel(UIElement):
     def updateText(self, data: dict = {}):
         text = data.get('text')
         self.setText(text)
-        self.clear()
         self.display()
         self.refresh()

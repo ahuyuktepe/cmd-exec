@@ -3,7 +3,9 @@
         <label id="lbl1" x="2" size="50" align="left">Template</label>
         <label id="lbl1" x="-17" size="15" align="right">ahuyuktepe</label>
     </section>
-    <section id="message" ref="message" height="3"/>
+    <section id="message" ref="message" height="3">
+        <label id="msg-box" x="2" size="50" align="left"> </label>
+    </section>
     <section id="body" ref="body" height="-7"/>
     <section id="footer" ref="footer" height="4"/>
 </view>

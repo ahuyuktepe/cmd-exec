@@ -48,7 +48,6 @@ class UIForm(UIElement):
         isValid = False
         formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService, self.__cmd.getModuleId())
         while not isValid:
-            self._printArea.listenUserSelection(self)
             if not self.__formManager.areValuesValid():
                 formElementBuilder.refreshElements()
                 self.__printForm()

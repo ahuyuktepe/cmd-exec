@@ -100,7 +100,10 @@ class UITopMenu(UIElement):
     def __printPreviousMenusIcon(self):
         if self.__activeIndex > 0:
             obj = self.__recordPaginators[self.__activeIndex]
-            self._printArea.printText(0, 1,  u'\u00AB ' + obj.get('parentMenuName') + ' (r)')
+            text = obj.get('parentMenuName')
+            if text is None:
+                text = 'Previous Menus'
+            self._printArea.printText(0, 1,  u'\u00AB ' + text + ' (r)')
 
     def __printMenuName(self, name: str, x: int, index: int):
         name = StrUtil.getAlignedAndLimitedStr(name, self.__menuNameWidth, 'center')
