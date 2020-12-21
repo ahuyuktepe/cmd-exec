@@ -1,6 +1,6 @@
 from app_runner.classes.XmlPrinter import XmlPrinter
 from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.ui_elements.UIElement import UIElement
 
 
@@ -53,8 +53,6 @@ class UIHtml(UIElement):
 
     # Utility Methods
 
-    def setListeners(self):
-        EventManager.listenEvent(UIEventType.DISPLAY_XML, self)
-        EventManager.listenEvent(UIEventType.UPDATE_TEXT, self)
-        EventManager.listenEvent(UIEventType.UP_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.DOWN_KEY_PRESSED, self)
+    def listenEvents(self):
+        EventManager.listenEvent(FlowEventType.DISPLAY_XML, self)
+        EventManager.listenEvent(FlowEventType.UPDATE_TEXT, self)

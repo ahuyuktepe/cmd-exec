@@ -1,9 +1,11 @@
 import json
-from _elementtree import Element
-
-from app_runner.errors.InvalidJsonStrError import InvalidJsonStrError
 import os
 import xml.etree.ElementTree as ET
+
+from app_runner.enums.UIColor import UIColor
+from app_runner.errors.AppRunnerError import AppRunnerError
+from _elementtree import Element
+
 
 class StrUtil:
 
@@ -18,12 +20,11 @@ class StrUtil:
         try:
             return json.loads(jsonStr)
         except ValueError:
-            raise InvalidJsonStrError()
+            raise AppRunnerError("Json content is not valid.")
 
     @staticmethod
     def isNoneOrEmpty(value: str):
         return value is None or value == ''
-
 
     @staticmethod
     def getFileNameFromPath(path: str) -> str:
@@ -48,14 +49,33 @@ class StrUtil:
     @staticmethod
     def getClassMethodMapFromStr(clsPath: str, defaultMethod: str) -> dict:
         arr: list = clsPath.split('.')
-        props: dict = {'class': None, 'method': None}
-        if len(arr) > 1:
-            props['class'] = arr[0]
-            props['method'] = arr[1]
-        elif len(arr) == 1:
-            props['class'] = arr[0]
-            props['method'] = defaultMethod
-        return props
+        idCount = len(arr)
+        if idCount == 3:
+            return {
+                'module': arr[0],
+                'class': arr[1],
+                'method': arr[2]
+            }
+        elif idCount == 2:
+            return {
+                'module': arr[0],
+                'class': arr[1],
+                'method': defaultMethod
+            }
+        else:
+            raise Exception('Given class path is invalid.')
+
+    @staticmethod
+    def prependModule(path: str, module: str) -> str:
+        if not StrUtil.isNoneOrEmpty(path):
+            arr: list = path.split('.')
+            idCount = len(arr)
+            if idCount < 3:
+                return module + '.' + path
+            else:
+                return path
+        else:
+            return None
 
     @staticmethod
     def getServicePropertiesFromStr(sid: str) -> dict:
@@ -97,3 +117,25 @@ class StrUtil:
     @staticmethod
     def splitStrIntoChunks(srcStr: str, chrCountPerChunk: int):
         return [srcStr[i:i + chrCountPerChunk] for i in range(0, len(srcStr), chrCountPerChunk)]
+
+    @staticmethod
+    def parseColoredText(text: str, defaultCode: int) -> dict:
+        if text.startswith('#red#'):
+            return {
+                'text': text.replace('#red#', ''),
+                'colorCode': UIColor.RED_COLOR
+            }
+        elif text.startswith('#yellow#'):
+            return {
+                'text': text.replace('#yellow#', ''),
+                'colorCode': UIColor.YELLOW_COLOR
+            }
+        elif text.startswith('#green#'):
+            return {
+                'text': text.replace('#green#', ''),
+                'colorCode': UIColor.GREEN_COLOR
+            }
+        return {
+                'text': text,
+                'colorCode': defaultCode
+        }

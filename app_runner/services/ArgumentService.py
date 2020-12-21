@@ -1,7 +1,6 @@
 import argparse
 from app_runner.services.BaseService import BaseService
 from app_runner.utils.FileUtil import FileUtil
-from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
 
 class ArgumentService(BaseService):
@@ -12,43 +11,21 @@ class ArgumentService(BaseService):
         self.__setDefaultArguments()
         self.__parseArguments()
 
-    def __parseArguments(self):
-        # Parse arguments
-        args = self.argumentParser.parse_args()
-        self.__arguments = vars(args)
-
-    def __setDefaultArguments(self):
-        # Setup argument parser
-        self.argumentParser.add_argument('--mode',
-                                         help='Sets program execution mode.',
-                                         choices=['int', 'cmd'],
-                                         default='int')
-        self.argumentParser.add_argument('--cmd',
-                                         help='Sets command to execute.')
-        self.argumentParser.add_argument('--mid',
-                                         help='Sets menu id to execute.')
-        self.argumentParser.add_argument('--args_str',
-                                         help='Sets arguments to passed while executing command.')
-        self.argumentParser.add_argument('--args_file',
-                                         help='Sets file path to json file which contains arguments '
-                                              'to be used while executing command.')
-
-    def isInteractiveMode(self) -> bool:
-        mode: str = self.__arguments.get('mode')
-        return mode == 'int'
-
-    def isCmdMode(self) -> bool:
-        mode: str = self.__arguments.get('mode')
-        return mode == 'cmd'
+    # Getter Methods
 
     def getCmd(self) -> str:
         return self.__arguments.get('cmd')
 
-    def getMid(self) -> str:
-        mid = self.__arguments.get('mid')
-        if mid is None:
-            mid = 'main'
-        return mid
+    def getMenu(self) -> str:
+        if self.isCmdMode():
+            cmd: str = self.__arguments.get('cmd')
+            arr = cmd.split('.')
+            count = len(arr)
+            if count == 2:
+                return arr[0]
+            elif count == 1:
+                return 'main'
+        return None
 
     def getArgsFileName(self) -> str:
         return self.__arguments.get('args_file')
@@ -72,6 +49,37 @@ class ArgumentService(BaseService):
         # ObjUtil.mergeDictIntoOther(args, retDict)
         retDict.update(args)
         return retDict
+
+    # Query Methods
+
+    def isInteractiveMode(self) -> bool:
+        mode: str = self.__arguments.get('mode')
+        return mode == 'int'
+
+    def isCmdMode(self) -> bool:
+        mode: str = self.__arguments.get('mode')
+        return mode == 'cmd'
+
+    # Private Methods
+
+    def __parseArguments(self):
+        # Parse arguments
+        args = self.argumentParser.parse_args()
+        self.__arguments = vars(args)
+
+    def __setDefaultArguments(self):
+        # Setup argument parser
+        self.argumentParser.add_argument('--mode',
+                                         help='Sets program execution mode.',
+                                         choices=['int', 'cmd'],
+                                         default='int')
+        self.argumentParser.add_argument('--cmd',
+                                         help='Sets command to execute.')
+        self.argumentParser.add_argument('--args_str',
+                                         help='Sets arguments to passed while executing command.')
+        self.argumentParser.add_argument('--args_file',
+                                         help='Sets file path to json file which contains arguments '
+                                              'to be used while executing command.')
 
     def __areArgsFromCmdParam(self) -> bool:
         return self.getArgAsStr() is not None

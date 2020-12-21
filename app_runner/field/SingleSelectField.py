@@ -2,7 +2,6 @@ from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 from app_runner.utils.ListUtil import ListUtil
-from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
 
 
@@ -12,7 +11,6 @@ class SingleSelectField(Field):
 
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self._optionGetter = properties.get('getter')
 
     # Getter Methods
 
@@ -26,6 +24,12 @@ class SingleSelectField(Field):
 
     def setOptions(self, options: list):
         self._options = options
+
+    def setOptionGetter(self, module: str, getter: str):
+        getterPath = None
+        if getter is not None:
+            getterPath = StrUtil.prependModule(getter, module)
+        self._optionGetter = getterPath
 
     # Query Methods
 

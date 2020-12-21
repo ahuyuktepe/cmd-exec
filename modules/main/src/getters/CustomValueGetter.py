@@ -5,9 +5,9 @@ from app_runner.field.Field import Field
 class CustomValueGetter(ContextAware):
 
     def getOptions(self, field: Field) -> list:
-        print('CustomValueGetter.getOptions')
         return [
-            {"id": "toyota", "label": "Toyota Corolla"}
+            {"id": "ankara", "label": "Ankara"},
+            {"id": "kirikkale", "label": "Kirikkale"}
         ]
 
     def getMultiSelectFieldOptions(self, field: Field):

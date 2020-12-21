@@ -1,4 +1,3 @@
-from app_runner.events.EventManager import EventManager
 from app_runner.ui_elements.UIView import UIView
 
 
@@ -11,11 +10,6 @@ class ViewManager:
         self.__activeView = None
 
     # Getter Methods
-
-    def addView(self, view: UIView):
-        vid = view.getId()
-        if not self.hasView(vid):
-            self.__views.append(view)
 
     def getView(self, id: str) -> UIView:
         for view in self.__views:
@@ -35,17 +29,27 @@ class ViewManager:
                 return True
         return False
 
-    def closeActiveView(self):
-        self.__activeView.destroy()
-        self.__activeView = None
-
     # Setter Methods
 
-    def addAndActivateView(self, view: UIView):
-        if self.hasActiveView():
+    def addView(self, view: UIView):
+        vid = view.getId()
+        if not self.hasView(vid):
+            self.__views.append(view)
+
+    def activateView(self, view: UIView):
+        if view is None:
+            raise Exception('Given view is null.')
+        elif not self.hasView(view.getId()):
+            raise Exception('Given view does not exist in view list.')
+        elif self.hasActiveView():
             self.__activeView.destroy()
-        self.addView(view)
         self.__activeView = view
 
     def setActiveView(self, id: str):
         self.__activeView = self.getView(id)
+
+    # ============= Code To Be Enabled ==============
+
+    # def closeActiveView(self):
+    #     self.__activeView.destroy()
+    #     self.__activeView = None

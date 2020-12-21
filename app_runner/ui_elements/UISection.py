@@ -5,12 +5,22 @@ from app_runner.utils.XmlElementUtil import XmlElementUtil
 
 class UISection(UIElement):
     __elements: list
-    __cols: int
-    __rows: int
+    __hasBorder: bool
 
     def __init__(self, sid: str):
         super().__init__(sid, 'section')
         self.__elements = []
+
+    # Getter Methods
+
+    def getFirstElementByType(self, type: str) -> UIElement:
+        for element in self.__elements:
+            if element.getType() == type:
+                return element
+        return None
+
+    def hasBorder(self) -> bool:
+        return self.__hasBorder
 
     # Setter Methods
 
@@ -22,33 +32,19 @@ class UISection(UIElement):
         self.__elements = elements
 
     def setAttributes(self, element: Element):
-        super().setAttributes(element)
-        self.__cols = XmlElementUtil.getAttrValueAsInt(element, 'cols', 1)
-        self.__rows = XmlElementUtil.getAttrValueAsInt(element, 'rows', 1)
+        self.__hasBorder = XmlElementUtil.getAttrValueAsBool(element, 'border', True)
 
-    # Getter Methods
+    def setX(self, x: int):
+        self._x = x
 
-    def getBottomY(self) -> int:
-        y = 0
-        for section in self.__elements:
-            y += section.getPrintArea().getHeight() - 1
-        return y
+    def setY(self, y: int):
+        self._y = y
 
-    def getCols(self) -> int:
-        return self.__cols
-
-    def getRows(self) -> int:
-        return self.__rows
-
-    # Utility Methods
+    # Flow Methods
 
     def display(self):
-        self._printArea.addBorder()
+        if self.hasBorder():
+            self._printArea.addBorder()
         for element in self.__elements:
             element.display()
-            element.setListeners()
-
-    def destroy(self):
-        for element in self.__elements:
-            element.destroy()
-        self.clear()
+            element.listenEvents()

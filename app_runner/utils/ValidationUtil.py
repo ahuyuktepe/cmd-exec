@@ -1,5 +1,5 @@
-from app_runner.errors.CmdExecError import CmdExecError
-from app_runner.errors.UIError import UIError
+import os
+from app_runner.errors.AppRunnerError import AppRunnerError
 from app_runner.menu.Command import Command
 from app_runner.utils.FileUtil import FileUtil
 
@@ -7,57 +7,41 @@ from app_runner.utils.FileUtil import FileUtil
 class ValidationUtil:
 
     @staticmethod
-    def failIfFileNotReadable(filePath: str):
-        if FileUtil.isDirectory(filePath):
-            raise CmdExecError("File expected but directory given by path '" + filePath + "'.")
-        elif not FileUtil.doesFileExist(filePath):
-            raise CmdExecError("File '" + filePath + "' does not exist.")
-        elif not FileUtil.doesUserHaveAccessOnFile(filePath):
-            raise CmdExecError("Executing user does not have read access on file '" + filePath + "'.")
-    @staticmethod
-    def validateCmdProps(props: dict):
-        if props is None:
-            raise CmdExecError('Given command properties object is null.')
-        elif props.get('executor') is None:
-            raise CmdExecError("Command '" + props.get('id') + "' is not assigned to an executor.")
+    def failIfNotInstanceOf(obj: object, instanceOf, msg: str):
+        if not isinstance(obj, instanceOf):
+            raise AppRunnerError(msg)
 
     @staticmethod
     def failIfObjNone(obj: object, msg: str):
         if obj is None:
-            raise CmdExecError(msg)
+            raise AppRunnerError(msg)
 
     @staticmethod
-    def failIfServiceClassIsNotDefined(mid: str, cls: str):
-        if mid is not None:
-            filePath: str = FileUtil.getAbsolutePath(['modules', mid, 'src', 'services', cls + '.py'])
-            if not FileUtil.doesFileExist(filePath):
-                raise CmdExecError("Service class does not exist in given path '" + filePath + "'.")
+    def failIfEnvironmentVarIsNotSet(name: str):
+        if name not in os.environ:
+            raise AppRunnerError("Environment variable '" + name + "' is not set.")
 
     @staticmethod
-    def failIfClassNotDefined(mid: str, cls: str, dirName: str):
-        if mid is not None:
-            filePath: str = FileUtil.getAbsolutePath(['modules', mid, 'src', dirName, cls + '.py'])
-            if not FileUtil.doesFileExist(filePath):
-                raise CmdExecError("Class does not exist in given path '" + filePath + "'.")
+    def failIfFileIsNotReadable(path: str, msg: str):
+        if not FileUtil.isFileReadable(path):
+            raise AppRunnerError(msg)
+
+    @staticmethod
+    def failIfDoesNotFit(parentSize: int, childSize: int, msg: str):
+        if childSize > parentSize:
+            raise AppRunnerError(msg)
 
     @staticmethod
     def failIfClassMethodDoesNotExist(obj: object, classPath: str, methodName: str):
         if not hasattr(obj, methodName):
-            raise CmdExecError("Class '" + classPath + "' does not have method '" + methodName + "'")
+            raise AppRunnerError("Class '" + classPath + "' does not have method '" + methodName + "'")
 
     @staticmethod
     def failIfCommandIsNone(cmd: Command):
         if cmd is None:
-            raise CmdExecError("Given command object is None.")
+            raise AppRunnerError("Given command object is None.")
 
     @staticmethod
-    def failIfSectionHeightDoesNotFitIntoView(y: int, sectionHeight: int, viewHeight: int):
-        bottomY = y + sectionHeight
-        if bottomY > viewHeight:
-            raise UIError('Section height does not fit into view height.')
-
-    @staticmethod
-    def failIfSectionWidthDoesNotFitIntoView(x: int, sectionWidth: int, viewWidth: int):
-        rightX = x + sectionWidth
-        if rightX > viewWidth:
-            raise UIError('Section width does not fit into view width.')
+    def failIfDerivedAreaWidthDoesNotFit(derivedWidth: int, parentAreaWidth: int):
+        if derivedWidth > parentAreaWidth:
+            raise AppRunnerError("Derived print area does not fit.")

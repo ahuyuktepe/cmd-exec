@@ -3,7 +3,7 @@ import math
 from app_runner.classes.RecordPaginator import RecordPaginator
 from app_runner.enums.UIColor import UIColor
 from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.menu.Command import Command
 from app_runner.menu.Menu import Menu
 from app_runner.ui_elements.UIElement import UIElement
@@ -22,6 +22,7 @@ class UICmdMenu(UIElement):
     def displayCommandsInMenu(self, menu: Menu):
         self.__menu = menu
         self.__setRecordPaginator()
+        self.__recordPaginator.setActiveIndex(0)
         self.__printMenuCommands()
 
     # Getter Methods
@@ -29,6 +30,15 @@ class UICmdMenu(UIElement):
     def getActiveCommand(self) -> Command:
         cmd = self.__recordPaginator.getActiveRecord()
         return cmd
+
+    # Utility Methods
+
+    def reset(self, isActive: bool = True):
+        if isActive:
+            self.__recordPaginator.setActiveIndex(0)
+        else:
+            self.__recordPaginator.setActiveIndex(-1)
+        self.__printMenuCommands()
 
     # Event Handlers
 
@@ -55,7 +65,6 @@ class UICmdMenu(UIElement):
             cmdCount = self.getHeight() - 5
             cmds = self.__menu.getCommandsAsList()
             self.__recordPaginator = RecordPaginator(cmds, cmdCount)
-            self.__recordPaginator.setActiveIndex(0)
 
     def __printMenuCommands(self):
         if self.__menu is not None:

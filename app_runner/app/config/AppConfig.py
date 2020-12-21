@@ -25,7 +25,6 @@ class AppConfig:
         if not configPath.hasNextName():
             return value
         elif not isinstance(value, dict):
-            # raise CmdExecError("Invalid config path '{path}' provided.".format(path=configPath.getPath()))
             return None
         configPath.nextName()
         name = configPath.getCurrentName()

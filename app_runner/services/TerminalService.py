@@ -1,23 +1,27 @@
-from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
+from app_runner.enums.UIColor import UIColor
+from app_runner.services.BaseService import BaseService
+from app_runner.services.LogService import LogService
 from app_runner.ui_elements.TerminalScreen import TerminalScreen
+from app_runner.utils.ErrorUtil import ErrorUtil
+from app_runner.utils.ValidationUtil import ValidationUtil
 
 
-class TerminalService:
+class TerminalService(BaseService):
     __screen: TerminalScreen = None
+    __logService: LogService = None
 
     def __init__(self, screen: TerminalScreen):
         self.__screen = screen
 
-    def displayScreen(self):
-        self.__screen.start()
-
     def displayView(self, data):
-        self.__screen.displayView(data)
-
-    def displayHtml(self, html: str):
-        self.__screen.displayView({'vid': 'html'})
-        EventManager.triggerEvent(UIEventType.DISPLAY_XML, {'html': html})
-
-    def displayMessage(self, text: str):
-        self.__screen.displayMessage(text)
+        try:
+            ValidationUtil.failIfObjNone(data, 'Given data object to view is null.')
+            self.__screen.displayView(data)
+        except Exception as exception:
+            logService = self._appContext.getService('logService')
+            ErrorUtil.handleException(exception, logService)
+            self.__screen.clear()
+            self.__screen.print(1, 1, 'Error:', UIColor.ERROR_MESSAGE_COLOR)
+            self.__screen.print(3, 2, str(exception), UIColor.ERROR_MESSAGE_COLOR)
+            self.__screen.print(1, 4, "Press 'q' to quit.", UIColor.WARNING_MESSAGE_COLOR)
+            self.__screen.refresh()

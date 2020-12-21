@@ -1,4 +1,5 @@
 from app_runner.ui_elements.UIElement import UIElement
+from app_runner.utils.ObjUtil import ObjUtil
 
 
 class EventManager:
@@ -13,13 +14,25 @@ class EventManager:
             EventManager.__listeners[eid].append(element)
 
     @staticmethod
-    def removeListenersByElementId(id: str):
-        elements: list
-        element: UIElement
-        for key, elements in EventManager.__listeners.items():
-            for element in elements:
-                if element.getId() == id:
-                    del element
+    def listenEvents(eids: list, element: UIElement):
+        for eid in eids:
+            EventManager.listenEvent(eid, element)
+
+    @staticmethod
+    def removeListenersByElementId(id: str, ignoreEventTypes: list = []):
+        for eventType, elements in EventManager.__listeners.items():
+            for i in range(len(elements)):
+                element = elements[i]
+                if element.getId() == id and eventType not in ignoreEventTypes :
+                    del elements[i]
+
+    @staticmethod
+    def removeListenersForElement(id: str, eventTypes: list = []):
+        for eventType, elements in EventManager.__listeners.items():
+            for i in range(len(elements)):
+                element = elements[i]
+                if element.getId() == id and eventType in eventTypes:
+                    del elements[i]
 
     @staticmethod
     def clearListeners():
@@ -30,8 +43,9 @@ class EventManager:
         listeners: list = EventManager.__listeners.get(eid)
         if listeners is not None:
             for listener in listeners:
-                func = getattr(listener, eid)
-                func(data)
+                if ObjUtil.hasMethod(listener, eid):
+                    func = getattr(listener, eid)
+                    func(data)
 
     @staticmethod
     def triggerEventByElementId(eid: str, elementId: str, data: dict = {}):

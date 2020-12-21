@@ -1,7 +1,6 @@
-from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.utils.DataUtil import DataUtil
-from app_runner.utils.ErrorUtil import ErrorUtil
+from app_runner.utils.StrUtil import StrUtil
 
 
 class Field:
@@ -13,14 +12,10 @@ class Field:
     _default: object
 
     def __init__(self, properties: dict):
-        ErrorUtil.raiseExceptionIfNone(properties, "Field 'properties' is None.")
-        ErrorUtil.raiseExceptionIfNone(properties.get('id'), "Field 'id' is None.")
-        ErrorUtil.raiseExceptionIfNone(properties.get('label'), "Field 'label' is None.")
         self._id = properties.get('id')
         self._type = properties.get('type')
         self._label = properties.get('label')
         self._required = DataUtil.getDefaultIfNone(properties.get('required'), False)
-        self._validator = properties.get('validator')
         self._default = properties.get('default')
 
     def toString(self) -> str:
@@ -79,3 +74,9 @@ class Field:
 
     def hasDefaultValue(self) -> bool:
         return self._default is not None
+
+    def setValidator(self, mid: str, validator: str):
+        validatorPath = None
+        if validator is not None:
+            validatorPath = StrUtil.prependModule(validator, mid)
+        self._validator = validatorPath

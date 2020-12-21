@@ -8,17 +8,15 @@ from app_runner.utils.StrUtil import StrUtil
 
 class FormUIElement(UIElement):
     _field: Field
-    _mid: str
     _fieldService: FieldService
     _fieldValidationErrors: FieldValidationErrors
     _selected: bool
     _value: object
     _maxErrorLineCount: int = 4
 
-    def __init__(self, field: Field, mid: str, fieldService: FieldService):
+    def __init__(self, field: Field, fieldService: FieldService):
         super().__init__(field.getId(), 'form-element')
         self._field = field
-        self._mid = mid
         self._fieldService = fieldService
         self._selected = False
         self._fieldValidationErrors = FieldValidationErrors()
@@ -31,7 +29,7 @@ class FormUIElement(UIElement):
     def getCalculatedWidth(self) -> int:
         return self.getWidth()
 
-    def getUserInput(self) -> object:
+    def collectUserInput(self):
         return None
 
     def getFieldId(self) -> str:
@@ -60,7 +58,7 @@ class FormUIElement(UIElement):
 
     def validate(self):
         fieldValue = self.getValue()
-        self._fieldValidationErrors = self._fieldService.validateFieldValue(self._field, self._mid, fieldValue)
+        self._fieldValidationErrors = self._fieldService.validateFieldValue(self._field, fieldValue)
 
     def getValidationErrors(self) -> FieldValidationErrors:
         return self._fieldValidationErrors

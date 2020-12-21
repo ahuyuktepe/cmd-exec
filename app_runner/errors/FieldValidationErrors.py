@@ -43,7 +43,7 @@ class FieldValidationErrors:
 
     def printErrors(self):
         error: FieldValidationError
-        retStr: str = 'Field Validation Errors \n'
+        retStr: str = '\nField Validation Errors \n'
         for error in self.__errors:
-            retStr += ' - ' + error.getMsg() + '\n'
+            retStr += "\n - " + error.getMsg()
         print(retStr)

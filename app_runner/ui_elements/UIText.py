@@ -1,5 +1,3 @@
-from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
 from app_runner.ui_elements.UIElement import UIElement
 
 
@@ -17,6 +15,9 @@ class UIText(UIElement):
     def display(self):
         super(UIText, self).display()
         self.__lineCount = self.getHeight() - 2
+
+    def isSelectable(self) -> bool:
+        return True
 
     # Event Listeners
 

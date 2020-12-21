@@ -14,24 +14,17 @@ class RecordPaginator:
         self.__page = 1
         self.__recordCountPerPage = recordCountPerPage
         self.__records = records
-        self.__totalRecordCount = len(self.__records)
-        self.__activeIndex = -1
-        self.__recordsInPage = self.__getRecordsInPage()
-        self.__totalPageCount = math.ceil(self.__totalRecordCount / self.__recordCountPerPage)
-
-    # Private Methods
-
-    def __getRecordsInPage(self) -> list:
-        fromIndex = (self.__page - 1) * self.__recordCountPerPage
-        toIndex = fromIndex + self.__recordCountPerPage
-        if toIndex > self.__totalRecordCount:
-            toIndex = self.__totalRecordCount
-        return self.__records[fromIndex:toIndex]
+        self.__activeIndex = 0
+        self.__initialize()
 
     # Setter Methods
 
     def setActiveIndex(self, index: int):
         self.__activeIndex = index
+
+    def addRecord(self, record: object):
+        self.__records.append(record)
+        self.__initialize()
 
     # Getter Methods
 
@@ -39,19 +32,15 @@ class RecordPaginator:
         return len(self.__recordsInPage)
 
     def getActiveRecord(self) -> object:
-        return self.__recordsInPage[self.__activeIndex]
+        if self.__activeIndex >= 0:
+            return self.__recordsInPage[self.__activeIndex]
+        return None
 
     def getRecordsInPage(self) -> list:
         return self.__recordsInPage
 
     def getActiveIndex(self) -> int:
         return self.__activeIndex
-
-    def printDetails(self):
-        print('page: ' + str(self.__page) + ' | recordCountPerPage: ' + str(self.__recordCountPerPage) +
-              ' | records: ' + str(self.__records) + ' | totalRecordCount: ' + str(self.__totalRecordCount) +
-              ' | activeIndex: ' + str(self.__activeIndex) + ' | recordsInPage: ' + str(self.__recordsInPage) +
-              ' | totalPageCount: ' + str(self.__totalPageCount))
 
     # Utility Methods
 
@@ -104,3 +93,17 @@ class RecordPaginator:
                 self.moveToPreviousPage()
         else:
             self.__activeIndex -= 1
+
+    # Private Methods
+
+    def __initialize(self):
+        self.__totalRecordCount = len(self.__records)
+        self.__recordsInPage = self.__getRecordsInPage()
+        self.__totalPageCount = math.ceil(self.__totalRecordCount / self.__recordCountPerPage)
+
+    def __getRecordsInPage(self) -> list:
+        fromIndex = (self.__page - 1) * self.__recordCountPerPage
+        toIndex = fromIndex + self.__recordCountPerPage
+        if toIndex > self.__totalRecordCount:
+            toIndex = self.__totalRecordCount
+        return self.__records[fromIndex:toIndex]

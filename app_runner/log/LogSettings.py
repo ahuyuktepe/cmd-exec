@@ -11,13 +11,16 @@ class LogSettings:
     _dateFormat: str
 
     def __init__(self, values: dict):
+        self.__setDefaultValues()
         if values is not None:
-            self._level = DataUtil.getDefaultIfNone(values.get('level'), 'info')
-            self._dirPath = DataUtil.getDefaultIfNone(values.get('dir_path'), 'logs')
-            self._fileName = DataUtil.getDefaultIfNone(values.get('file_name'), 'main')
-            self._maxSize = DataUtil.getDefaultIfNone(values.get('max_size'), '1 MB')
-            self._msgFormat = DataUtil.getDefaultIfNone(values.get('msg_format'), '{level} : {msg}')
-            self._dateFormat = DataUtil.getDefaultIfNone(values.get('date_format'), '%Y-%m-%d %H:%M:%S')
+            self._level = DataUtil.getDefaultIfNone(values.get('level'), self._level)
+            self._dirPath = DataUtil.getDefaultIfNone(values.get('dir_path'), self._dirPath)
+            self._fileName = DataUtil.getDefaultIfNone(values.get('file_name'), self._fileName)
+            self._maxSize = DataUtil.getDefaultIfNone(values.get('max_size'), self._maxSize)
+            self._msgFormat = DataUtil.getDefaultIfNone(values.get('msg_format'), self._msgFormat)
+            self._dateFormat = DataUtil.getDefaultIfNone(values.get('date_format'), self._dateFormat)
+
+    # Getter Methods
 
     def getLevel(self) -> str:
         return self._level
@@ -43,3 +46,13 @@ class LogSettings:
     def getMaxSize(self) -> int:
         arr: list = self._maxSize.split(' ')
         return int(arr[0])
+
+    # Private Methods
+
+    def __setDefaultValues(self):
+        self._level = 'info'
+        self._dirPath = 'logs'
+        self._fileName = 'main'
+        self._maxSize = '1 MB'
+        self._msgFormat = '{level} : {msg}'
+        self._dateFormat = '%Y-%m-%d %H:%M:%S'

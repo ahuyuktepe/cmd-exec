@@ -1,9 +1,7 @@
-from app_runner.utils.ErrorUtil import ErrorUtil
 
 class ListUtil:
     @staticmethod
     def isAnyNone(values: list) -> bool:
-        ErrorUtil.raiseExceptionIfNone(values)
         for value in values:
             if value is None:
                 return True
@@ -11,7 +9,6 @@ class ListUtil:
 
     @staticmethod
     def getElementByKey(elements: list, key: str, value: str) -> object:
-        ErrorUtil.raiseExceptionIfNone(elements)
         element: dict
         for element in elements:
             if element.get(key) == value:
@@ -19,7 +16,6 @@ class ListUtil:
 
     @staticmethod
     def getElementsByKey(elements: list, key: str, value: str) -> list:
-        ErrorUtil.raiseExceptionIfNone(elements)
         retList: list = []
         for element in elements:
             if element.get(key) == value:

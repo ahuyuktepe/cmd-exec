@@ -8,6 +8,40 @@ class LogService:
     def __init__(self, obj: dict):
         self.__settings = LogSettings(obj)
 
+    # Getter Methods
+
+    def getLogFilePath(self) -> str:
+        return self.__settings.getFilePath()
+
+    # Setter Methods
+
+    def info(self, msg: str):
+        self.__write(LogMessage('info',  msg))
+
+    def debug(self, msg: str):
+        self.__write(LogMessage('debug',  msg))
+
+    def warn(self, msg: str):
+        self.__write(LogMessage('warn',  msg))
+
+    def error(self, msg: str):
+        self.__write(LogMessage('error',  msg))
+
+    # Private Methods
+
+    def __getBackupFileName(self) -> str:
+        version = 1
+        filePath = self.__settings.getVersionFilePath(version)
+        while FileUtil.doesFileExist(filePath):
+            version = version + 1
+            filePath = self.__settings.getVersionFilePath(version)
+        return filePath
+
+    def __clearLogs(self):
+        file = open(self.__settings.getFilePath(), 'r+')
+        file.truncate()
+        file.close()
+
     def __write(self, logMsg: LogMessage):
         file = open(self.__settings.getFilePath(), 'a')
         logLevel: str = self.__settings.getLevel()
@@ -26,28 +60,3 @@ class LogService:
             srcFilePath = self.__settings.getFilePath()
             FileUtil.copyFile(srcFilePath, backupFilePath)
             self.__clearLogs()
-
-    def info(self, msg: str):
-        self.__write(LogMessage('info',  msg))
-
-    def debug(self, msg: str):
-        self.__write(LogMessage('debug',  msg))
-
-    def warn(self, msg: str):
-        self.__write(LogMessage('warn',  msg))
-
-    def error(self, msg: str):
-        self.__write(LogMessage('error',  msg))
-
-    def __getBackupFileName(self) -> str:
-        version = 1
-        filePath = self.__settings.getVersionFilePath(version)
-        while FileUtil.doesFileExist(filePath):
-            version = version + 1
-            filePath = self.__settings.getVersionFilePath(version)
-        return filePath
-
-    def __clearLogs(self):
-        file = open(self.__settings.getFilePath(), 'r+')
-        file.truncate()
-        file.close()

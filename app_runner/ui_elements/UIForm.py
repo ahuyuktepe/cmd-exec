@@ -1,8 +1,10 @@
+import math
+
 from app_runner.classes.FormElementBuilder import FormElementBuilder
+from app_runner.classes.FormFieldValueGetter import FormFieldValueGetter
 from app_runner.classes.FormManager import FormManager
-from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.menu.Command import Command
 from app_runner.services.FieldService import FieldService
 from app_runner.ui_elements.UIElement import UIElement
@@ -11,42 +13,29 @@ from app_runner.utils.StrUtil import StrUtil
 
 class UIForm(UIElement):
     __title: str
-    __cmd: Command
     __formManager: FormManager
     __fieldService: FieldService
     __values: dict
     __userInput: dict
     __isFormSubmitted: bool
+    __cmd: Command
     # Static Variables
     _pageInfoWidth = 15
 
-    def __init__(self, id: str, title: str, cmd: Command, fieldService: FieldService):
+    def __init__(self, id: str, fieldService: FieldService):
         super().__init__(id, 'form')
-        self.__cmd = cmd
-        self.__title = title
         self.__formManager = FormManager()
         self.__fieldService = fieldService
         self.__values = {}
         self.__userInput = {}
         self.__isFormSubmitted = False
 
-    # Setter Methods
+    # Getter Methods
 
-    def setListeners(self):
-        EventManager.listenEvent(UIEventType.COLLECT_FIELD_VALUES, self)
-
-    # Utility Methods
-
-    def display(self):
-        self.__formManager.reset()
-        self.__buildFormElements()
-        self.__printForm()
-
-    # Event Handlers
-
-    def collectFieldValues(self, data: dict):
+    def getCommandArguments(self, cmd: Command) -> dict:
+        self.__cmd = cmd
+        formElementBuilder: FormElementBuilder = self.__displayFields(cmd)
         isValid = False
-        formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService, self.__cmd.getModuleId())
         while not isValid:
             if not self.__formManager.areValuesValid():
                 formElementBuilder.refreshElements()
@@ -54,49 +43,73 @@ class UIForm(UIElement):
                 isValid = False
             else:
                 isValid = True
-        EventManager.triggerEvent(UIEventType.FIELD_VALUES_COLLECTED, {
-            'values': self.__values
-        })
+        return self.__values
 
-    def upKeyPressed(self):
+    # Utility Methods
+
+    def listenEvents(self):
+        EventManager.listenEvent(FlowEventType.FORM_ELEMENT_VALUE_ENTERED, self)
+        EventManager.listenEvent(FlowEventType.SUBMIT_FORM, self)
+
+    # Event Handlers
+
+    def formElementValueEntered(self, data):
+        self.listenEvents()
+
+    def upKeyPressed(self, data):
         if not self.__formManager.isFirstIndexOnFirstPage():
             self.__formManager.decreaseActiveIndex()
             self.__printForm()
 
-    def downKeyPressed(self):
+    def downKeyPressed(self, data):
         if not self.__formManager.isLastIndexOnLastPage():
             self.__formManager.increaseActiveIndex()
             self.__printForm()
 
-    def leftKeyPressed(self):
+    def leftKeyPressed(self, data):
         if self.__formManager.hasPreviousPage():
             self.__formManager.movePrePage()
             self.__printForm()
 
-    def rightKeyPressed(self):
+    def rightKeyPressed(self, data):
         if self.__formManager.hasNextPage():
             self.__formManager.moveNextPage()
             self.__printForm()
 
-    def enterKeyPressed(self):
+    def enterKeyPressed(self, data):
+        EventManager.removeListenersByElementId(self.getId(), [
+            FlowEventType.FORM_ELEMENT_VALUE_ENTERED
+        ])
         activeElement = self.__formManager.getActiveField()
-        self.__values[activeElement.getId()] = activeElement.getUserInput()
+        activeElement.collectUserInput()
 
-    def quitKeyPressed(self):
+    def submitForm(self, data):
         self.__formManager.validateFormValues()
 
     # Private Methods
 
+    def __displayFields(self, cmd: Command) -> FormElementBuilder:
+        self.__formManager.reset()
+        # Build Elements
+        formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService)
+        formElementBuilder.reset()
+        for field in cmd.getFieldsAsList():
+            formElementBuilder.buildElementsAndAdd(field)
+        self.__printForm()
+        return formElementBuilder
+
     def __printForm(self):
         self.clear()
+        self.__printButtons()
         self.__formManager.updateSelection()
-        self.__printHeader()
+        # self.__printHeader()
         self.__printElementsInCurrentPage()
 
     def __printHeader(self):
         # Print Title
         titleWidth = self.getWidth() - self._pageInfoWidth
-        formTitle = StrUtil.getAlignedAndLimitedStr(self.__title, titleWidth, 'center')
+        cmdDesc = self.__cmd.getDescription()
+        formTitle = StrUtil.getAlignedAndLimitedStr(cmdDesc, titleWidth, 'center')
         self._printArea.printText(1, 0, formTitle)
         # Print Page Information
         pageCount = self.__formManager.getPageCount()
@@ -118,10 +131,15 @@ class UIForm(UIElement):
         elementsInCurrentPage = self.__formManager.getElementsInCurrentPage()
         for element in elementsInCurrentPage:
             element.display()
-            element.setListeners()
+            element.listenEvents()
 
-    def __buildFormElements(self):
-        formElementBuilder = FormElementBuilder(self.__formManager, self.getPrintArea(), self.__fieldService, self.__cmd.getModuleId())
-        formElementBuilder.reset()
-        for field in self.__cmd.getFieldsAsList():
-            formElementBuilder.buildElementsAndAdd(field)
+    def __printButtons(self):
+        width = self.getWidth()
+        x = math.floor((width - 24) / 2)
+        y = self.getHeight() - 1
+        text = StrUtil.getAlignedAndLimitedStr('[ Submit ]', 11, 'center')
+        self._printArea.printText(x, y, text)
+        text = StrUtil.getAlignedAndLimitedStr('[ Cancel ]', 11, 'center')
+        x += 13
+        self._printArea.printText(x, y, text)
+        self.refresh()

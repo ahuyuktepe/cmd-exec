@@ -2,6 +2,7 @@ from app_runner.errors.FieldValidationError import FieldValidationError
 from app_runner.errors.FieldValidationErrors import FieldValidationErrors
 from app_runner.field.Field import Field
 from app_runner.utils.ListUtil import ListUtil
+from app_runner.utils.StrUtil import StrUtil
 
 
 class MultiSelectField(Field):
@@ -10,7 +11,6 @@ class MultiSelectField(Field):
 
     def __init__(self, properties: dict):
         super().__init__(properties)
-        self._optionGetter = properties.get('getter')
 
     # Getter Methods
 
@@ -21,6 +21,12 @@ class MultiSelectField(Field):
         return self._optionGetter
 
     # Setter Methods
+
+    def setOptionGetter(self, mid: str, getter: str):
+        getterPath = None
+        if getter is not None:
+            getterPath = StrUtil.prependModule(getter, mid)
+        self._optionGetter = getterPath
 
     def setOptions(self, options: list):
         self._options = options

@@ -1,5 +1,9 @@
 from app_runner.app.config.AppConfig import AppConfig
 from app_runner.app.context.AppContext import AppContext
+from app_runner.builders.BuilderFactory import BuilderFactory
+from app_runner.builders.BuilderFactoryProducer import BuilderFactoryProducer
+from app_runner.classes.KeyboardListener import KeyboardListener
+from app_runner.classes.ViewManager import ViewManager
 from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
@@ -13,11 +17,14 @@ class AppContextBuilder:
 
     @staticmethod
     def updateContextForInteractiveMode(appContext: AppContext):
+        # Instantiate Screen Dependencies
+        builderFactory: BuilderFactory = BuilderFactoryProducer.getFactory('curses')
+        viewBuilder = builderFactory.getViewBuilder()
+        printAreaBuilder = builderFactory.getPrintAreaBuilder()
         # Initialize Screen
-        screen = TerminalScreen(appContext)
-        AppContextBuilder.__setTerminalService(screen, appContext)
-        # Setup Screen
+        screen = TerminalScreen(appContext, viewBuilder, printAreaBuilder)
         screen.setup()
+        AppContextBuilder.__setTerminalService(screen, appContext)
 
     @staticmethod
     def updateContextForCommandMode(appContext: AppContext):
@@ -64,6 +71,6 @@ class AppContextBuilder:
 
     @staticmethod
     def __setTerminalService(screen, appContext: AppContext):
-        # Initialize TerminalService
         terminalService = TerminalService(screen)
+        terminalService.setAppContext(appContext)
         appContext.addService('terminalService', terminalService)

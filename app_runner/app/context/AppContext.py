@@ -9,32 +9,20 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 class AppContext:
     __mainConfig: MainAppConfig
-    __services: dict = {}
-    __executors: dict = {}
-    __validators: dict = {}
-    __valueGetters: dict = {}
-    __configs: dict = {}
-    __menus: dict = {}
+    __services: dict
+    __executors: dict
+    __validators: dict
+    __valueGetters: dict
+    __configs: dict
+    __menus: dict
 
-    # Setter Methods
-
-    def addService(self, name: str, service: object):
-        self.__services[name] = service
-
-    def addExecutor(self, name: str, executor: object):
-        self.__executors[name] = executor
-
-    def addValidator(self, name: str, validator: object):
-        self.__validators[name] = validator
-
-    def addValueGetter(self, name: str, valueGetter: object):
-        self.__valueGetters[name] = valueGetter
-
-    def addMenu(self, name: str, menu: Menu):
-        self.__menus[name] = menu
-
-    def addConfig(self, name: str, config: object):
-        self.__configs[name] = config
+    def __init__(self):
+        self.__services = {}
+        self.__executors = {}
+        self.__validators = {}
+        self.__valueGetters = {}
+        self.__configs = {}
+        self.__menus = {}
 
     # Getter Methods
 
@@ -66,7 +54,27 @@ class AppContext:
             config = self.__configs.get(name)
         return config
 
-    # Utility Methods
+    # Setter Methods
+
+    def addService(self, name: str, service: object):
+        self.__services[name] = service
+
+    def addExecutor(self, name: str, executor: object):
+        self.__executors[name] = executor
+
+    def addValidator(self, name: str, validator: object):
+        self.__validators[name] = validator
+
+    def addValueGetter(self, name: str, valueGetter: object):
+        self.__valueGetters[name] = valueGetter
+
+    def addMenu(self, name: str, menu: Menu):
+        self.__menus[name] = menu
+
+    def addConfig(self, name: str, config: object):
+        self.__configs[name] = config
+
+    # Flow Methods
 
     def initializeConfig(self, name: str):
         if name is not None:
@@ -85,7 +93,7 @@ class AppContext:
             package = 'services.' + clsName
         else:
             package = 'modules.' + mid + '.src.services'
-        ValidationUtil.failIfServiceClassIsNotDefined(mid, clsName)
+        FileUtil.failIfClassFileNotDefined(mid, clsName, 'services')
         cls = ObjUtil.getClassFromStr(package, clsName)
         return cls()
 
@@ -96,7 +104,6 @@ class AppContext:
             filePath = FileUtil.getAbsolutePath(['resources', 'conf', fileName])
         else:
             filePath = FileUtil.getAbsolutePath(['modules', mid, 'conf', fileName])
-        ValidationUtil.failIfFileNotReadable(filePath)
         props = FileUtil.generateObjFromYamlFile(filePath)
         ValidationUtil.failIfObjNone(props, "No properties available in configuration file '" + filePath + "'.")
         return AppConfig(props)

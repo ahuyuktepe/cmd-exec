@@ -12,6 +12,7 @@ from app_runner.field.TextField import TextField
 from app_runner.menu.Command import Command
 from app_runner.services.BaseService import BaseService
 from app_runner.utils.DataUtil import DataUtil
+from app_runner.utils.FileUtil import FileUtil
 from app_runner.utils.ObjUtil import ObjUtil
 from app_runner.utils.StrUtil import StrUtil
 from app_runner.utils.ValidationUtil import ValidationUtil
@@ -19,13 +20,15 @@ from app_runner.utils.ValidationUtil import ValidationUtil
 
 class FieldService(BaseService):
 
-    def buildFields(self, props: list, mid: str) -> list:
+    # Utility Methods
+
+    def buildFields(self, module: str, props: list) -> list:
         fields: list = []
         if props is not None:
             for fieldProps in props:
-                field: Field = self.__initializeField(fieldProps)
+                field: Field = self.__initializeField(module, fieldProps)
                 if field.hasOptions():
-                    self.__setFieldOptions(field, mid, fieldProps.get('options'))
+                    self.__setFieldOptions(field, fieldProps.get('options'))
                 fields.append(field)
         return fields
 
@@ -61,24 +64,23 @@ class FieldService(BaseService):
             errors: FieldValidationErrors = FieldValidationErrors()
         for fid, field in cmd.getFields().items():
             value = fieldValues.get(fid)
-            mid: str = cmd.getModule()
-            fieldErrors: FieldValidationErrors = self.validateFieldValue(field, mid, value)
+            fieldErrors: FieldValidationErrors = self.validateFieldValue(field, value)
             errors.addErrors(fieldErrors.getErrors())
         return errors
 
-    def validateFieldValue(self, field: Field, mid: str, value: object) -> FieldValidationErrors:
+    def validateFieldValue(self, field: Field, value: object) -> FieldValidationErrors:
         errors: FieldValidationErrors = FieldValidationErrors()
         if field.hasCustomValidator():
-            package: str = 'modules.{module}.src.validators'.format(module=mid)
             validator: str = field.getValidator()
             props: dict = StrUtil.getClassMethodMapFromStr(validator, 'validate')
             clsName: str = props.get('class')
-            ValidationUtil.failIfClassNotDefined(mid, clsName, 'validators')
-            cls = ObjUtil.getClassFromStr(package, clsName)
+            mid: str = props.get('module')
+            methodName: str = props.get('method')
+            classPath: str = 'modules.{module}.src.validators.{className}'.format(module=mid, className=clsName)
+            FileUtil.failIfClassFileDoesNotExist(mid, clsName, 'validators')
+            cls = ObjUtil.getClassFromStr(classPath, clsName)
             validator = cls()
             validator.setAppContext(self._appContext)
-            classPath: str = package + "." + clsName
-            methodName: str = props.get('method')
             ValidationUtil.failIfClassMethodDoesNotExist(validator, classPath, methodName)
             method: object = getattr(validator, methodName)
             method(field, value, errors)
@@ -87,39 +89,43 @@ class FieldService(BaseService):
 
     # Private Methods
 
-    def __initializeField(self, props: dict) -> Field:
+    def __initializeField(self, module: str, props: dict) -> Field:
         fieldType: str = props.get('type')
         if fieldType == 'number':
-            return NumberField(props)
+            field = NumberField(props)
         elif fieldType == 'text':
-            return TextField(props)
+            field = TextField(props)
         elif fieldType == 'single_select':
-            return SingleSelectField(props)
+            field = SingleSelectField(props)
+            field.setOptionGetter(module, props.get('getter'))
         elif fieldType == 'multi_select':
-            return MultiSelectField(props)
+            field = MultiSelectField(props)
+            field.setOptionGetter(module, props.get('getter'))
         elif fieldType == 'date':
-            return DateField(props)
+            field = DateField(props)
         elif fieldType == 'datetime':
-            return DateTimeField(props)
+            field = DateTimeField(props)
         elif fieldType == 'file':
-            return FileField(props)
+            field = FileField(props)
         elif fieldType == 'directory':
-            return DirectoryField(props)
+            field = DirectoryField(props)
         else:
-            return Field(props)
+            field = Field(props)
+        field.setValidator(module, props.get('validator'))
+        return field
 
-    def __setFieldOptions(self, field: Field, mid: str, options: list):
+    def __setFieldOptions(self, field: Field, options: list):
         if field.hasOptionGetter():
-            package: str = 'modules.{module}.src.getters'.format(module=mid)
             props: dict = StrUtil.getClassMethodMapFromStr(field.getOptionGetter(), 'getOptions')
+            mid = props['module']
             clsName: str = props.get('class')
-            ValidationUtil.failIfClassNotDefined(mid, clsName, 'getters')
-            cls = ObjUtil.getClassFromStr(package, clsName)
+            getterClassPath: str = 'modules.{module}.src.getters.{className}'.format(module=mid, className=clsName)
+            FileUtil.failIfClassFileDoesNotExist(mid, clsName, 'getters')
+            cls = ObjUtil.getClassFromStr(getterClassPath, clsName)
 
             optGetter = cls()
-            classPath: str = package + "." + clsName
             methodName: str = props.get('method')
-            ValidationUtil.failIfClassMethodDoesNotExist(optGetter, classPath, methodName)
+            ValidationUtil.failIfClassMethodDoesNotExist(optGetter, getterClassPath, methodName)
 
             optGetter.setAppContext(self._appContext)
             getterMethod: object = getattr(optGetter, methodName)

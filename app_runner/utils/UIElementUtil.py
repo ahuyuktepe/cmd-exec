@@ -1,7 +1,7 @@
 from xml.etree.ElementTree import Element
 from app_runner.classes.UIPrintArea import UIPrintArea
 from app_runner.ui_elements.UIElement import UIElement
-from app_runner.ui_elements.UILabel import UIText
+from app_runner.ui_elements.UIText import UIText
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 
 

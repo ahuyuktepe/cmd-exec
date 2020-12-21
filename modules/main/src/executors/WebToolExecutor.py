@@ -13,3 +13,6 @@ class WebToolExecutor(ContextAware):
         htmlText = FileUtil.readFile('temp/sample.xml')
         terminalService.displayHtml(htmlText)
         terminalService.displayMessage('This is a test html page.')
+
+    def displayContent(self, values: dict):
+        print('displayContent1: ' + str(values))

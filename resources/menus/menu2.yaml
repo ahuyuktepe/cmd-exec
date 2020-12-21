@@ -1,4 +1,3 @@
-id: menu2
 name: Top Menu 2
 commands:
   - id: item-2-1

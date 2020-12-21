@@ -1,6 +1,6 @@
 from xml.etree.ElementTree import Element
 from app_runner.events.EventManager import EventManager
-from app_runner.events.UIEventType import UIEventType
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.menu.Menu import Menu
 from app_runner.ui_elements.UICmdMenu import UICmdMenu
 from app_runner.ui_elements.UIElement import UIElement
@@ -11,7 +11,6 @@ class UICmdSelector(UIElement):
     __topNavMenu: UITopMenu
     __cmdMenu: UICmdMenu
     __topMenuNameWidth: int
-    __menus: list
 
     def __init__(self, id: str):
         super().__init__(id, 'menu')
@@ -27,25 +26,18 @@ class UICmdSelector(UIElement):
     def setTopMenu(self, topMenu: UITopMenu):
         self.__topNavMenu = topMenu
 
-    def setMenus(self, menus: list):
-        self.__menus = menus
-
     # Utility Methods
 
-    def display(self):
-        self.__topNavMenu.displayMenus({
-            'menus': self.__menus
-        })
+    def listenEvents(self):
+        EventManager.listenEvent(FlowEventType.DISPLAY_MENUS, self)
+
+    def focus(self):
+        self.__topNavMenu.reset()
         self.__displayActiveMenuCommands()
 
-    def setListeners(self):
-        EventManager.listenEvent(UIEventType.LEFT_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.RIGHT_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.UP_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.DOWN_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.ENTER_KEY_PRESSED, self)
-        EventManager.listenEvent(UIEventType.DISPLAY_MENUS, self)
-        EventManager.listenEvent(UIEventType.DISPLAY_PREVIOUS_MENUS, self)
+    def unfocus(self):
+        self.__topNavMenu.reset(False)
+        self.__cmdMenu.reset(False)
 
     # Event Listeners
 
@@ -59,9 +51,7 @@ class UICmdSelector(UIElement):
 
     def enterKeyPressed(self, data):
         cmd = self.__cmdMenu.getActiveCommand()
-        EventManager.triggerEvent(UIEventType.COMMAND_SELECTED, {
-            'command': cmd
-        })
+        EventManager.triggerEvent(FlowEventType.COMMAND_SELECTED, {'command': cmd})
 
     def upKeyPressed(self, data):
         self.__cmdMenu.moveUp()

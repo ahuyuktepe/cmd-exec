@@ -3,11 +3,7 @@ import importlib
 class ObjUtil:
 
     @staticmethod
-    def getClassFromStr(classPackage: str, className: str) -> object:
-        classPath: str = '{package}.{className}'.format(
-            package=classPackage,
-            className=className
-        )
+    def getClassFromStr(classPath: str, className: str) -> object:
         module = importlib.import_module(classPath)
         cls = getattr(module, className)
         return cls
@@ -25,3 +21,7 @@ class ObjUtil:
     @staticmethod
     def isList(val: object) -> bool:
         return isinstance(val, list)
+
+    @staticmethod
+    def hasMethod(obj: object, methodName: str) -> bool:
+        return hasattr(obj, methodName)

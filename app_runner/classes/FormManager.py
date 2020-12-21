@@ -115,18 +115,10 @@ class FormManager:
         if not self.isLastIndexOnCurrentPage():
             self.__activeIndex += 1
             self.updateSelection()
-        elif self.isLastIndexOnCurrentPage() and self.hasNextPage():
-            self.__activeIndex = 0
-            self.__page += 1
-            self.updateSelection()
 
     def decreaseActiveIndex(self):
         if not self.isFirstIndexOnCurrentPage():
             self.__activeIndex -= 1
-            self.updateSelection()
-        elif self.isFirstIndexOnCurrentPage() and self.hasPreviousPage():
-            self.__page -= 1
-            self.__activeIndex = self.getMaxIndexInCurrentPage()
             self.updateSelection()
 
     def moveNextPage(self):

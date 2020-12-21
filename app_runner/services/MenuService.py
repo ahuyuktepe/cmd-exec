@@ -3,9 +3,12 @@ from app_runner.menu.Menu import Menu
 from app_runner.services.BaseService import BaseService
 from app_runner.services.FieldService import FieldService
 from app_runner.utils.FileUtil import FileUtil
+from app_runner.utils.StrUtil import StrUtil
 
 
 class MenuService(BaseService):
+
+    # Utility Methods
 
     def buildMenus(self, mids: list) -> list:
         if mids is None:
@@ -23,35 +26,37 @@ class MenuService(BaseService):
         menuIds: list = menuIdsStr.split(',')
         return self.buildMenus(menuIds)
 
-    def buildMenu(self, mid: str) -> Menu:
+    def buildMenu(self, menuId: str) -> Menu:
         menu: Menu = None
-        if mid is not None:
-            fileName = mid + '.yaml'
+        if menuId is not None:
+            fileName = menuId + '.yaml'
             filePath = FileUtil.getAbsolutePath(['resources', 'menus', fileName])
             if FileUtil.doesFileExist(filePath):
                 menuProps = FileUtil.generateObjFromYamlFile(filePath)
                 menu = Menu(
                     id=menuProps.get('id'),
                     name=menuProps.get('name'),
-                    mid=menuProps.get('mid')
+                    module=menuProps.get('module')
                 )
                 # Set commands
-                commands: list = self.buildCommands(menuProps.get('commands'), mid)
+                commands: list = self.buildCommands(menuProps.get('commands'), menuId)
                 menu.setCommands(commands)
+            else:
+                raise Exception("Menu file '{filePath}' does not exist.".format(filePath=filePath))
         return menu
 
-    def buildCommands(self, cmds: list, mid: str) -> list:
+    def buildCommands(self, cmds: list, module: str) -> list:
         fieldService: FieldService = self._appContext.getService('fieldService')
         commands: list = []
         for cmdProps in cmds:
             command: Command = Command(
                 id=cmdProps.get('id'),
-                mid=mid,
                 description=cmdProps.get('description')
             )
-            command.setExecutor(cmdProps.get('executor'))
+            executorPath = StrUtil.prependModule(cmdProps.get('executor'), module)
+            command.setExecutor(executorPath)
             command.setMenus(cmdProps.get('menus'))
-            fields: list = fieldService.buildFields(cmdProps.get('fields'), mid)
+            fields: list = fieldService.buildFields(module, cmdProps.get('fields'))
             command.setFields(fields)
             commands.append(command)
         return commands

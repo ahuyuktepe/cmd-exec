@@ -1,4 +1,6 @@
 from app_runner.enums.UIColor import UIColor
+from app_runner.events.EventManager import EventManager
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.field.Field import Field
 from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.services.FieldService import FieldService
@@ -7,8 +9,8 @@ from app_runner.utils.StrUtil import StrUtil
 
 class TextElement(FormUIElement):
 
-    def __init__(self, field: Field, mid: str, fieldService: FieldService):
-        super().__init__(field, mid, fieldService)
+    def __init__(self, field: Field, fieldService: FieldService):
+        super().__init__(field, fieldService)
         self._value = None
 
     # Utility Methods
@@ -33,9 +35,9 @@ class TextElement(FormUIElement):
     def getCalculatedHeight(self) -> int:
         return 4 + self._fieldValidationErrors.getErrorCount()
 
-    def getUserInput(self) -> object:
+    def collectUserInput(self):
         y = self.getCalculatedHeight() - 2
         self._value = self._printArea.getUserInputAsStr(1, y)
         self.clear()
         self.display()
-        return self._value
+        EventManager.triggerEvent(FlowEventType.FORM_ELEMENT_VALUE_ENTERED)

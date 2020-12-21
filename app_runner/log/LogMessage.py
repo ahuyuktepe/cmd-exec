@@ -15,6 +15,8 @@ class LogMessage:
         self.__level = level
         self.__message = msg
 
+    # Getter Methods
+
     def isLevel(self, level: str) -> bool:
         return self.__level in self.__levelConfig[level]
 

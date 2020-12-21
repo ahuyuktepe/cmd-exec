@@ -4,13 +4,15 @@ class Menu:
     _id: str
     _name: str
     _commands: dict
-    _mid: str
+    _module: str
 
-    def __init__(self, id: str, name: str, mid: str):
+    def __init__(self, id: str, name: str, module: str):
         self._id = id
         self._name = name
-        self._mid = mid
+        self._module = module
         self._commands = {}
+
+    # Getter Methods
 
     def getName(self) -> str:
         return self._name
@@ -24,7 +26,7 @@ class Menu:
         self._commands[cmd.getId()] = cmd
 
     def getCommand(self, id: str) -> Command:
-        return self._commands[id]
+        return self._commands.get(id)
 
     def getCommandByIndex(self, index: int):
         cmds: list = list(self._commands.values())
@@ -40,7 +42,7 @@ class Menu:
         return len(self._commands)
 
     def getModuleId(self) -> str:
-        return self._mid
+        return self._module
 
     def getId(self) -> int:
         return self._id

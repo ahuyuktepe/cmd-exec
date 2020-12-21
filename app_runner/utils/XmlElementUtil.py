@@ -1,5 +1,5 @@
 import math
-from xml.etree.ElementTree import ElementTree, Element
+from xml.etree.ElementTree import Element
 
 
 class XmlElementUtil:
@@ -36,30 +36,10 @@ class XmlElementUtil:
         return False
 
     @staticmethod
-    def calculateX(element: Element, parentWidth: int, cols: int, colSpan: int) -> int:
-        defaultX = 2
-        if colSpan <= cols:
-            colWidth = math.floor(parentWidth / cols)
-            defaultX = (colWidth * (colSpan - 1)) + 2
-        return XmlElementUtil.getAttrValueAsInt(element, 'x', defaultX)
-
-    @staticmethod
-    def calculateY(element: Element, parentHeight: int, rows: int, rowSpan: int) -> int:
-        defaultY = 1
-        if rowSpan <= rows:
-            rowHeight = math.floor(parentHeight / rows)
-            defaultY = (rowHeight * (rowSpan-1)) + 1
-        return XmlElementUtil.getAttrValueAsInt(element, 'y', defaultY)
-
-    @staticmethod
-    def calculateWidth(element: Element, parentWidth: int, cols: int) -> int:
-        colWidth = math.floor(parentWidth / cols)
-        return XmlElementUtil.getAttrValueAsInt(element, 'width', colWidth)
-
-    @staticmethod
-    def calculateHeight(element: Element, parentHeight: int, rows: int) -> int:
-        rowHeight = math.floor(parentHeight / rows)
-        return XmlElementUtil.getAttrValueAsInt(element, 'height', rowHeight)
+    def removeAllChildren(element: Element):
+        srcChildren = element.findall('*')
+        for child in srcChildren:
+            element.remove(child)
 
     @staticmethod
     def copyChildren(srcElement: Element, trgElement: Element):
@@ -72,3 +52,45 @@ class XmlElementUtil:
         attrs: dict = srcElement.attrib
         for key, value in attrs.items():
             trgElement.set(key, value)
+
+    @staticmethod
+    def calculateElementX(x: str, sectionWidth: int, defaultX: int = 1) -> int:
+        if x is None:
+            return defaultX
+        elif x.startswith('-'):
+            return sectionWidth - int(x[1:])
+        elif x.startswith('/'):
+            return math.floor(sectionWidth / int(x[1:]))
+        else:
+            return int(x)
+
+    @staticmethod
+    def calculateElementY(y: str, sectionHeight: int, defaultY: int = 1) -> int:
+        if y is None:
+            return defaultY
+        elif y.startswith('-'):
+            return sectionHeight - int(y[1:])
+        elif y.startswith('/'):
+            return math.floor(sectionHeight / int(y[1:]))
+        else:
+            return int(y)
+
+    # ============= Code To Be Enabled ==============
+
+    # @staticmethod
+    # def calculateY(element: Element, parentHeight: int, rows: int, rowSpan: int) -> int:
+    #     defaultY = 1
+    #     if rowSpan <= rows:
+    #         rowHeight = math.floor(parentHeight / rows)
+    #         defaultY = (rowHeight * (rowSpan-1)) + 1
+    #     return XmlElementUtil.getAttrValueAsInt(element, 'y', defaultY)
+
+    # @staticmethod
+    # def calculateWidth(element: Element, parentWidth: int, cols: int) -> int:
+    #     colWidth = math.floor(parentWidth / cols)
+    #     return XmlElementUtil.getAttrValueAsInt(element, 'width', colWidth)
+
+    # @staticmethod
+    # def calculateHeight(element: Element, parentHeight: int, rows: int) -> int:
+    #     rowHeight = math.floor(parentHeight / rows)
+    #     return XmlElementUtil.getAttrValueAsInt(element, 'height', rowHeight)

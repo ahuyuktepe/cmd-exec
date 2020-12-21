@@ -1,6 +1,6 @@
 from app_runner.classes.FormManager import FormManager
 from app_runner.classes.UIPrintArea import UIPrintArea
-from app_runner.errors.UIError import UIError
+from app_runner.errors.AppRunnerError import AppRunnerError
 from app_runner.field.Field import Field
 from app_runner.form_elements.FormElement import FormUIElement
 from app_runner.form_elements.MultiChoiceFormElement import MultiChoiceFormElement
@@ -15,15 +15,13 @@ class FormElementBuilder:
     __formHeight: int
     __formWidth: int
     __formPrintArea: UIPrintArea
-    __mid: str
     __currentY: int
     __currentPage: int
 
-    def __init__(self, formManager: FormManager, formPrintArea: UIPrintArea, fieldService: FieldService, mid: str):
+    def __init__(self, formManager: FormManager, formPrintArea: UIPrintArea, fieldService: FieldService):
         self.__formManager = formManager
         self.__fieldService = fieldService
         self.__formPrintArea = formPrintArea
-        self.__mid = mid
 
     def refreshElements(self):
         elements = self.__formManager.getAllFields().copy()
@@ -42,17 +40,19 @@ class FormElementBuilder:
 
     def buildElementsAndAdd(self, field: Field):
         if field.isText():
-            element = TextElement(field, self.__mid, self.__fieldService)
+            element = TextElement(field, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
         elif field.isSingleSelect():
-            element = MultiChoiceFormElement(field, False, self.__mid, self.__fieldService)
+            element = MultiChoiceFormElement(field, False, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
         elif field.isMultiSelect():
-            element = MultiChoiceFormElement(field, True, self.__mid, self.__fieldService)
+            element = MultiChoiceFormElement(field, True, self.__fieldService)
             self.__updateElementProperties(element)
             self.__formManager.addElement(self.__currentPage, element)
+
+    # Private Methods
 
     def __updateElementProperties(self, element: FormUIElement):
         width = self.__formWidth
@@ -70,4 +70,4 @@ class FormElementBuilder:
 
     def __failIfHeightIsBiggerThanFormHeight(self, height: int):
         if height >= self.__formHeight:
-            raise UIError("Form element's height '" + str(height) + "' exceeds form's height (" + str(self.__formHeight) + ").")
+            raise AppRunnerError("Form element's height '" + str(height) + "' exceeds form's height (" + str(self.__formHeight) + ").")

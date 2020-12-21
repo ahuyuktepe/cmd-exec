@@ -20,6 +20,12 @@ class XmlPrinter:
         self.__maxCharCountPerLine = self.__printArea.getWidth() - 2
         self.__buildLines()
 
+    # Getter Methods
+
+    def hasLine(self, lineNo: int) -> bool:
+        lineProps = self.__lines.get(lineNo)
+        return lineProps is not None
+
     # Utility Methods
 
     def printLine(self, lineNo: int, y: int):
@@ -27,10 +33,6 @@ class XmlPrinter:
             lineProps = self.__lines.get(lineNo)
             for props in lineProps:
                 self.__printArea.printText(props['x'], y, props['text'], props['color'])
-
-    def hasLine(self, lineNo: int) -> bool:
-        lineProps = self.__lines.get(lineNo)
-        return lineProps is not None
 
     # Private Methods
 

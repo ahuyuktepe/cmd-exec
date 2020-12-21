@@ -1,5 +1,4 @@
 from app_runner.app.config.AppConfig import AppConfig
-from app_runner.errors.InvalidConfigPathError import InvalidConfigPathError
 import os
 import pytest
 
@@ -48,6 +47,4 @@ class TestAppConfig:
         assert self.appConfig.getObjValue('f.g.k') == 2
         values = self.appConfig.getObjValue('f.g.o')
         assert isinstance(values, list) and values[0] == 'value_o'
-        with pytest.raises(InvalidConfigPathError):
-            self.appConfig.getObjValue('d.e')
         self.cleanUp()

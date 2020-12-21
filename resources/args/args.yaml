@@ -1,5 +1,2 @@
-car: toyota
-computer: assus
-purchase_date: 01-02-2020
-car_photos_dir: tests
-city: 08540
+fileName: Test_File.txt
+city: ['ankara1']

@@ -6,11 +6,9 @@ class Command:
     _executor: str
     _fields: dict
     _menus: list
-    _mid: str
 
-    def __init__(self, id: str, mid: str, description: str):
+    def __init__(self, id: str, description: str):
         self._id = id
-        self._mid = mid
         self._description = description
         self._fields = {}
 
@@ -22,17 +20,8 @@ class Command:
     def getDescription(self) -> str:
         return self._description
 
-    def getExecutorClass(self) -> str:
-        arr: list = self._executor.split('.')
-        if len(arr) > 0:
-            return arr[0]
-        return None
-
-    def getExecutorMethod(self) -> str:
-        arr: list = self._executor.split('.')
-        if len(arr) > 1:
-            return arr[1]
-        return 'execute'
+    def getExecutor(self) -> str:
+        return self._executor
 
     def getFields(self) -> dict:
         return self._fields
@@ -42,9 +31,6 @@ class Command:
         for id, field in self._fields.items():
             retList.append(field)
         return retList
-
-    def getModuleId(self) -> str:
-        return self._mid
 
     def addField(self, field: Field):
         self._fields[field.getId()] = field
@@ -73,13 +59,3 @@ class Command:
         field: Field
         for field in fields:
             self._fields[field.getId()] = field
-
-    def print(self):
-        strVal = "id: {id}\ndescription: {description}\nexecutor: {executor}".format(
-            id=self._id,
-            description=self._description,
-            executor=self._executor
-        )
-        for id, field in self._fields.items():
-            strVal += '\n' + (field.toString())
-        print(strVal)

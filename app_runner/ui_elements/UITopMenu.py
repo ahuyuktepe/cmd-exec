@@ -1,6 +1,8 @@
 import math
 from app_runner.classes.RecordPaginator import RecordPaginator
 from app_runner.enums.UIColor import UIColor
+from app_runner.events.EventManager import EventManager
+from app_runner.events.FlowEventType import FlowEventType
 from app_runner.ui_elements.UIElement import UIElement
 from app_runner.utils.StrUtil import StrUtil
 
@@ -29,23 +31,33 @@ class UITopMenu(UIElement):
         obj = self.__recordPaginators[self.__activeIndex]
         return obj.get('recordPaginator')
 
-    # Event Listeners
+    # Setter Methods
 
-    def displayMenus(self, data: dict):
-        self.clear()
-        menus = data.get('menus')
-        parentMenuName = data.get('parentMenuName')
+    def addMenus(self, menus: list, parentMenuName: str = None):
         recordPaginator = RecordPaginator(menus, self.__menuCountPerPage)
-        recordPaginator.setActiveIndex(0)
         self.__recordPaginators.append({
             'parentMenuName': parentMenuName,
             'recordPaginator': recordPaginator
         })
         self.__activeIndex = len(self.__recordPaginators) - 1
+
+    # Event Listeners
+
+    def displayMenus(self, data: dict):
+        self.clear()
+        self.addMenus(data.get('menus'), data.get('parentMenuName'))
         self.display()
         self.refresh()
 
     # Utility Methods
+
+    def reset(self, isActive: bool = True):
+        if isActive:
+            self.getRecordPaginator().setActiveIndex(0)
+        else:
+            self.getRecordPaginator().setActiveIndex(-1)
+        self.display()
+        self.refresh()
 
     def movePreviousMenus(self):
         if self.__activeIndex > 0:
@@ -100,10 +112,11 @@ class UITopMenu(UIElement):
     def __printPreviousMenusIcon(self):
         if self.__activeIndex > 0:
             obj = self.__recordPaginators[self.__activeIndex]
-            text = obj.get('parentMenuName')
-            if text is None:
-                text = 'Previous Menus'
-            self._printArea.printText(0, 1,  u'\u00AB ' + text + ' (r)')
+            EventManager.triggerEventByElementId(FlowEventType.ADD_BUTTON, 'btn-grp1', {
+                'id': 'pre-menu',
+                'event': 'moveToPreviousMenus',
+                'label': '<<< Back to Previous Menus'
+            })
 
     def __printMenuName(self, name: str, x: int, index: int):
         name = StrUtil.getAlignedAndLimitedStr(name, self.__menuNameWidth, 'center')
