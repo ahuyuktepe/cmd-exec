@@ -1,9 +1,5 @@
-import re
 from xml.etree.ElementTree import Element
-
-from app_runner.enums.UIColor import UIColor
 from app_runner.ui_elements.UIElement import UIElement
-from app_runner.utils.StrUtil import StrUtil
 from app_runner.utils.XmlElementUtil import XmlElementUtil
 
 

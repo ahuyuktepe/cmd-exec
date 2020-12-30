@@ -29,7 +29,7 @@ class ApplicationRunner:
 
     def _getCommand(self, cid: str) -> Command:
         # Get command locator
-        appConfig: AppConfig = self._appContext.getConfig('main')
+        appConfig: AppConfig = self._appContext.getConfig('core')
         cmdLocator: dict = appConfig.getObjValue('command_locators.' + cid)
         # Build command
         cmd: Command = self._commandService.buildCommand(cmdLocator)

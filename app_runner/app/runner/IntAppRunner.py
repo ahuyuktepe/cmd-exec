@@ -15,4 +15,4 @@ class IntAppRunner(ApplicationRunner):
         self.__commandService = context.getService('commandService')
 
     def run(self):
-        self.__terminalService.displayView({'vid': 'test'})
+        self.__terminalService.displayView({'vid': 'core.test'})

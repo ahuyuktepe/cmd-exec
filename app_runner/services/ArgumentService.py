@@ -24,7 +24,7 @@ class ArgumentService(BaseService):
             if count == 2:
                 return arr[0]
             elif count == 1:
-                return 'main'
+                return 'core'
         return None
 
     def getArgsFileName(self) -> str:

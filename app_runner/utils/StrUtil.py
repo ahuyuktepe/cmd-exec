@@ -89,7 +89,7 @@ class StrUtil:
         return props
 
     @staticmethod
-    def getConfigPropertiesFromStr(sid: str) -> dict:
+    def getFilePropertiesFromStr(sid: str) -> dict:
         arr: list = sid.split('.')
         props: dict = {'module': None, 'file': None}
         if len(arr) > 1:
@@ -117,25 +117,3 @@ class StrUtil:
     @staticmethod
     def splitStrIntoChunks(srcStr: str, chrCountPerChunk: int):
         return [srcStr[i:i + chrCountPerChunk] for i in range(0, len(srcStr), chrCountPerChunk)]
-
-    @staticmethod
-    def parseColoredText(text: str, defaultCode: int) -> dict:
-        if text.startswith('#red#'):
-            return {
-                'text': text.replace('#red#', ''),
-                'colorCode': UIColor.RED_COLOR
-            }
-        elif text.startswith('#yellow#'):
-            return {
-                'text': text.replace('#yellow#', ''),
-                'colorCode': UIColor.YELLOW_COLOR
-            }
-        elif text.startswith('#green#'):
-            return {
-                'text': text.replace('#green#', ''),
-                'colorCode': UIColor.GREEN_COLOR
-            }
-        return {
-                'text': text,
-                'colorCode': defaultCode
-        }

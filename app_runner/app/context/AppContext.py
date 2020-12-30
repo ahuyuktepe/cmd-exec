@@ -78,7 +78,7 @@ class AppContext:
 
     def initializeConfig(self, name: str):
         if name is not None:
-            props = StrUtil.getConfigPropertiesFromStr(name)
+            props = StrUtil.getFilePropertiesFromStr(name)
             config = self.__initializeConfig(
                 props.get('module'),
                 props.get('file')
@@ -98,12 +98,7 @@ class AppContext:
         return cls()
 
     def __initializeConfig(self, mid: str, fileName: str):
-        filePath: str
-        fileName = fileName + '.yaml'
-        if mid is None:
-            filePath = FileUtil.getAbsolutePath(['resources', 'conf', fileName])
-        else:
-            filePath = FileUtil.getAbsolutePath(['modules', mid, 'conf', fileName])
+        filePath = FileUtil.getAbsolutePath(['modules', mid, 'conf', fileName]) + '.yaml'
         props = FileUtil.generateObjFromYamlFile(filePath)
         ValidationUtil.failIfObjNone(props, "No properties available in configuration file '" + filePath + "'.")
         return AppConfig(props)

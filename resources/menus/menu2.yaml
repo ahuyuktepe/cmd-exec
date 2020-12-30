@@ -1,6 +1,0 @@
-name: Top Menu 2
-commands:
-  - id: item-2-1
-    description: Item 2.1
-  - id: item-2-2
-    description: Item 2.2

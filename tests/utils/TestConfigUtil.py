@@ -6,6 +6,6 @@ class TestConfigUtil:
 
     @staticmethod
     def getMainCmdLocator(appContext: AppContext, cid: str) -> str:
-        appConfig: AppConfig = appContext.getConfig('main')
+        appConfig: AppConfig = appContext.getConfig('core')
         cmdLocator: dict = appConfig.getObjValue('command_locators.' + cid)
         return cmdLocator

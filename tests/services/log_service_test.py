@@ -45,15 +45,15 @@ class TestLogService:
         # given
         self.setup()
         tempDirPath = FileUtil.getAbsolutePath(['temp'])
-        FileUtil.deleteFilesInDir(tempDirPath, ['main.log', 'main_1.log'])
+        FileUtil.deleteFilesInDir(tempDirPath, ['core.log', 'main_1.log'])
         # when
         self.logService.warn('Initial log message. Please ignore.')
         # then
-        logFilePath = FileUtil.convertToPath([tempDirPath, 'main.log'])
+        logFilePath = FileUtil.convertToPath([tempDirPath, 'core.log'])
         mainFileExist: bool = FileUtil.doesFileExist(logFilePath)
         # when
         self.logService.warn('Second log message. Please ignore.')
         # then
         logFilePath = FileUtil.convertToPath([tempDirPath, 'main_1.log'])
         assert mainFileExist and FileUtil.doesFileExist(logFilePath)
-        FileUtil.deleteFilesInDir(tempDirPath, ['main.log', 'main_1.log'])
+        FileUtil.deleteFilesInDir(tempDirPath, ['core.log', 'main_1.log'])

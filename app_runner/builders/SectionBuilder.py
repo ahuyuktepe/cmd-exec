@@ -45,10 +45,6 @@ class SectionBuilder:
         uiElements: list = self.__elementBuilder.buildElements(element, section)
         for uiElement in uiElements:
             section.addElement(uiElement)
-            # ========= To Be Enabled =============
-            # if uiElement.isSelectable():
-            #     view.addUIElement(uiElement)
-            # =====================================
 
     def __buildSectionsAndInsertIntoView(self, element: Element, view: UIView):
         # Set Dimensions

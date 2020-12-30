@@ -1,9 +1,8 @@
-<view border="True" template="main">
+<view border="True" template="core.main">
     <section id="header" ref="header">
 
     </section>
     <section id="body">
-        <label id="test1">#yellow#Text in red</label>
         <!--        <label id="test1">1234567890</label>                            -->
         <!--        <label id="test2" x="-7">1234567890</label>                     -->
         <!--        <label id="test2" x="/2">1234567890</label>                     -->

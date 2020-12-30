@@ -1,5 +1,5 @@
 name: Main Menu
-module: main
+module: core
 commands:
   - id: print-text
     description: Print Text

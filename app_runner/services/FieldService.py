@@ -38,7 +38,7 @@ class FieldService(BaseService):
         fields: dict = cmd.getFields()
         values: dict = {}
         if not DataUtil.isNullOrEmpty(fields):
-            mainConfig: AppConfig = self._appContext.getConfig('main')
+            mainConfig: AppConfig = self._appContext.getConfig('core')
             defaultValuesFromConfig: dict = mainConfig.getObjValue('command_locators.' + cid + '.arguments')
             if not DataUtil.isNullOrEmpty(defaultValuesFromConfig):
                 values.update(defaultValuesFromConfig)

@@ -33,7 +33,7 @@ class AppContextBuilder:
     @staticmethod
     def buildBaseAppContext() -> AppContext:
         appContext = AppContext()
-        appContext.initializeConfig('main')
+        appContext.initializeConfig('core.main')
         AppContextBuilder.__setArgumentService(appContext)
         AppContextBuilder.__setLogService(appContext)
         AppContextBuilder.__setFieldService(appContext)
@@ -47,7 +47,7 @@ class AppContextBuilder:
 
     @staticmethod
     def __setLogService(appContext: AppContext):
-        config: AppConfig = appContext.getConfig('main')
+        config: AppConfig = appContext.getConfig('core.main')
         obj: dict = config.getObjValue('log_settings')
         appContext.addService('logService', LogService(obj))
 

@@ -1,9 +1,0 @@
-name: Top Menu 2.1
-commands:
-  - id: item-2-1-1
-    description: Item 2.1.1
-  - id: item-2-1-2
-    description: Item 2.1.2
-  - id: item-2-1-3
-    description: Item 2.1.3
-    menus: ['menu1_1_1']

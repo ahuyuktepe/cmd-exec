@@ -12,7 +12,7 @@ class TestFileUtil:
     @staticmethod
     def createMainConfig(configData: object):
         FileUtil.makeDirsInSrcDir(os.environ['APP_RUNNER_ROOT_PATH'], ['resources', 'conf'])
-        mainConfFilePath = FileUtil.getAbsolutePath(['resources', 'conf', 'main.yaml'])
+        mainConfFilePath = FileUtil.getAbsolutePath(['resources', 'conf', 'core.yaml'])
         FileUtil.saveObjIntoFileAsYaml(mainConfFilePath, configData)
 
     @staticmethod

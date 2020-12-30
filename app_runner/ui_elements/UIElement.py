@@ -77,8 +77,7 @@ class UIElement:
                     maxY=str(self.getHeight())
             ).capitalize()
             raise AppRunnerError(msg)
-        arr = StrUtil.parseColoredText(text, colorCode)
-        self._printArea.printText(x, y, arr['text'], arr['colorCode'])
+        self._printArea.printText(x, y, text, colorCode)
 
     # ============= Code To Be Enabled ==============
 

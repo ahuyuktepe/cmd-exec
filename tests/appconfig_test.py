@@ -3,7 +3,7 @@ import os
 import pytest
 
 class TestAppConfig:
-    path = '../resources/args/test.config.json'
+    path = '../temp/args/test.config.json'
     jsonStr = '''
         {
             "a": "value_a",

@@ -48,7 +48,7 @@ class TestBaseService:
         self.__createConfigFiles()
         self._appContext = AppContext()
         # LogService
-        obj: dict = self._appContext.getConfig('main').getObjValue('log_settings')
+        obj: dict = self._appContext.getConfig('core').getObjValue('log_settings')
         self._appContext.addService('logService', LogService(obj))
         # CommandService
         cmdService: CommandService = CommandService()
@@ -63,4 +63,4 @@ class TestBaseService:
 
     def __createConfigFiles(self):
         TestFileUtil.createMainConfig(self._test_config)
-        TestFileUtil.createModuleConfig('main', 'main', self._menu)
+        TestFileUtil.createModuleConfig('core', 'core', self._menu)
