@@ -1,5 +1,5 @@
 application:
-  name: Application Runner
+  name: 'Main Application'
 log_settings:
   level: info
   dir_path: logs

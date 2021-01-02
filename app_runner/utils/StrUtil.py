@@ -1,8 +1,6 @@
 import json
 import os
 import xml.etree.ElementTree as ET
-
-from app_runner.enums.UIColor import UIColor
 from app_runner.errors.AppRunnerError import AppRunnerError
 from _elementtree import Element
 

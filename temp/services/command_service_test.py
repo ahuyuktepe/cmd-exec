@@ -1,7 +1,7 @@
 from app_runner.menu.Command import Command
 from app_runner.services.CommandService import CommandService
-from tests.base_service_test import TestBaseService
-from tests.utils.TestFileUtil import TestFileUtil
+from temp.base_service_test import TestBaseService
+from temp.utils.TestFileUtil import TestFileUtil
 
 
 class TestCommandService(TestBaseService):

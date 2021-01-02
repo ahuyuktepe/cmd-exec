@@ -1,10 +1,9 @@
 import sys
-
 from app_runner.services.ArgumentService import ArgumentService
-from tests.base_service_test import TestBaseService
+from temp.base_service_test import TestBaseService
 from tests.utils.TestConfigUtil import TestConfigUtil
-from tests.utils.TestFileUtil import TestFileUtil
-from tests.utils.TestUtil import TestUtil
+from temp.utils.TestFileUtil import TestFileUtil
+from temp.utils.TestUtil import TestUtil
 
 
 class TestArgumentService(TestBaseService):

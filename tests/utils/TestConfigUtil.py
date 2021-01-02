@@ -1,11 +1,8 @@
-from app_runner.app.config.AppConfig import AppConfig
-from app_runner.app.context.AppContext import AppContext
+import os
 
 
 class TestConfigUtil:
 
     @staticmethod
-    def getMainCmdLocator(appContext: AppContext, cid: str) -> str:
-        appConfig: AppConfig = appContext.getConfig('core')
-        cmdLocator: dict = appConfig.getObjValue('command_locators.' + cid)
-        return cmdLocator
+    def setTestRootPath():
+        os.environ['APP_RUNNER_ROOT_PATH'] = os.environ['APP_RUNNER_ROOT_PATH'] + os.sep + 'build'

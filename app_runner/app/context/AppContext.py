@@ -92,7 +92,7 @@ class AppContext:
         if mid is None:
             package = 'services.' + clsName
         else:
-            package = 'modules.' + mid + '.src.services'
+            package = 'modules.' + mid + '.src.service'
         FileUtil.failIfClassFileNotDefined(mid, clsName, 'services')
         cls = ObjUtil.getClassFromStr(package, clsName)
         return cls()

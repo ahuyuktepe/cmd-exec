@@ -3,7 +3,7 @@ from app_runner.services.ArgumentService import ArgumentService
 from app_runner.services.CommandService import CommandService
 from app_runner.services.FieldService import FieldService
 from app_runner.services.LogService import LogService
-from tests.utils.TestFileUtil import TestFileUtil
+from temp.utils.TestFileUtil import TestFileUtil
 
 
 class TestBaseService:

@@ -117,7 +117,6 @@ class FileUtil:
     @staticmethod
     def isFile(path: str) -> bool:
         return os.path.isfile(path)
-
     @staticmethod
     def isDirectory(path: str) -> bool:
         return os.path.isdir(path)

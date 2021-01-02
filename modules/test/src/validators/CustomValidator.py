@@ -10,7 +10,7 @@ class CustomValidator(ContextAware):
         print('CustomValidator.validate')
         print('Field Id :' + field.getId())
         print('Value : ' + str(value))
-        # errors.addError(FieldValidationError('Test fail message', field.getId()))
+        # error.addError(FieldValidationError('Test fail message', field.getId()))
 
     def validateMe(self, field: Field, value: object, errors: FieldValidationErrors):
         self._appContext.getService('logService').info('Validate Me')
