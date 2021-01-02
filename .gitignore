@@ -1,7 +1,5 @@
 .idea/*
 venv/*
 *.pyc
-src/*
 .pytest_cache/*
 logs/*
-temp/~$Todo_List.xlsx

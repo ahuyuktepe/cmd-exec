@@ -1,5 +1,5 @@
-from app_runner.app.runner.AppRunnerFactory import AppRunnerFactory
-from app_runner.app.runner.ApplicationRunner import ApplicationRunner
+from src.app.CmdExecApp import CmdExecApp
+from src.builder.AppBuilder import AppBuilder
 
-runner: ApplicationRunner = AppRunnerFactory.buildAppRunner()
-runner.run()
+application: CmdExecApp = AppBuilder.build()
+application.run()
