@@ -29,41 +29,31 @@ class ModuleDependency:
         filledDepModVersion = StrUtil.prefillVersion(self.__version)
         filledTrgModVersion = StrUtil.prefillVersion(trgVersion)
         if self.hasNoVersion() and not doesTrgModVersionExist:
-            msg = "Module '{srcModule}' depends on module '{depModule}' but not found."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name))
+            raise CmdExecError('ERR07', {'srcModule': dependingModName, 'depModule': self.__name})
         elif self.__operator == '=' and filledDepModVersion != filledTrgModVersion:
-            msg = "Module '{srcModule}' depends on module '{depModule}' with version '{depVersion}' but version '{trgVersion}' found."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name, depVersion=self.__version, trgVersion=trgVersion))
+            raise CmdExecError('ERR08', {'srcModule': dependingModName, 'depModule': self.__name, 'depVersion': self.__version, 'trgVersion': trgVersion})
         elif self.__operator == '>' and filledTrgModVersion <= filledDepModVersion:
-            msg = "Module '{srcModule}' depends on module '{depModule}' with version  greater then '{depVersion}' but found '{trgVersion}'."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name, depVersion=self.__version, trgVersion=trgVersion))
+            raise CmdExecError('ERR09', {'srcModule': dependingModName, 'depModule': self.__name, 'depVersion': self.__version, 'trgVersion': trgVersion})
         elif self.__operator == '<' and filledTrgModVersion >= filledDepModVersion:
-            msg = "Module '{srcModule}' depends on module '{depModule}' with version less then '{depVersion}' but found '{trgVersion}'."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name, depVersion=self.__version, trgVersion=trgVersion))
+            raise CmdExecError('ERR10', {'srcModule': dependingModName, 'depModule': self.__name, 'depVersion': self.__version, 'trgVersion': trgVersion})
         elif self.__operator == '<=' and filledTrgModVersion > filledDepModVersion:
-            msg = "Module '{srcModule}' depends on module '{depModule}' with version less then or equal to '{depVersion}' but found '{trgVersion}'."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name, depVersion=self.__version, trgVersion=trgVersion))
+            raise CmdExecError('ERR11', {'srcModule': dependingModName, 'depModule': self.__name, 'depVersion': self.__version, 'trgVersion': trgVersion})
         elif self.__operator == '>=' and filledTrgModVersion < filledDepModVersion:
-            msg = "Module '{srcModule}' depends on module '{depModule}' with version greater then or equal to '{depVersion}' but found '{trgVersion}'."
-            raise CmdExecError(msg.format(srcModule=dependingModName, depModule=self.__name, depVersion=self.__version, trgVersion=trgVersion))
+            raise CmdExecError('ERR12', {'srcModule': dependingModName, 'depModule': self.__name, 'depVersion': self.__version, 'trgVersion': trgVersion})
 
     # Private Methods
 
     def __validateDependencyStr(self, depStr: str):
         if depStr is None:
-            raise CmdExecError('Given dependency identifier is null.')
+            raise CmdExecError('ERR13')
         values = depStr.split('|')
         if len(values) == 1:
             return
         if len(values) == 2:
-            raise CmdExecError("Given dependency identifier '{id}' contains missing information.".format(id=depStr))
+            raise CmdExecError("ERR14", {'id': depStr})
         elif len(values) > 3:
-            raise CmdExecError("Given dependency identifier '{id}' contains redundant information.".format(id=depStr))
+            raise CmdExecError("ERR15", {'id': depStr})
         elif values[1] not in ['=', '<', '>', '>=', '<=']:
-            raise CmdExecError("Given dependency identifier '{id}' contains invalid operator.".format(id=depStr))
+            raise CmdExecError("ERR16", {'id': depStr})
         elif StrUtil.isVersionSyntaxInvalid(values[2]):
-            raise CmdExecError("Dependency module '{depModule}' version '{version}' is not valid for module '{module}'.".format(
-                depModule=values[0],
-                version=values[2],
-                module=self.__name
-            ))
+            raise CmdExecError('ERR17', {'depModule': values[0], 'version': values[2], 'module': self.__name})

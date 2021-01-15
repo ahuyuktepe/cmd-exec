@@ -1,7 +1,5 @@
 from src.builder.ModuleBuilder import ModuleBuilder
 from src.context.AppContext import AppContext
-from src.error.CmdExecError import CmdExecError
-from src.module.AppModule import AppModule
 from src.util.FileUtil import FileUtil
 from src.util.ValidationUtil import ValidationUtil
 
@@ -14,6 +12,7 @@ class AppContextBuilder:
         # Init Module Configs
         filePaths = FileUtil.getModuleConfigFilePaths()
         AppContextBuilder.__initConfigs(appContext, filePaths)
+
         # Init Module Settings
         filePaths = FileUtil.getModuleSettingFilePaths()
         AppContextBuilder.__initModules(appContext, filePaths)
@@ -31,11 +30,19 @@ class AppContextBuilder:
     @staticmethod
     def __initConfigs(appContext: AppContext, filePaths: list):
         for filePath in filePaths:
-            ValidationUtil.failIfFileIsNotReadable(filePath, "Config file {path} can not be loaded.", {'path': filePath})
+            ValidationUtil.failIfFileIsNotReadable(filePath, 'ERRO5', {'path': filePath})
             configProps = FileUtil.generateObjFromYamlFile(filePath)
+            AppContextBuilder.__validateConfigs(configProps, filePath)
             appContext.addConfig(configProps)
 
     # === Modules ===
+
+    @staticmethod
+    def __validateConfigs(configs: dict, configFilePath: str):
+        for key, value in configs.items():
+            ValidationUtil.failIfStringContainsChars(key, [':'], 'ERR18', {'key': key, 'path': configFilePath})
+            if isinstance(value, dict):
+                AppContextBuilder.__validateConfigs(value, configFilePath)
 
     @staticmethod
     def __initModules(appContext: AppContext, filePaths: list):

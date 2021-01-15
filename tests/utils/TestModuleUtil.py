@@ -1,4 +1,3 @@
-import os
 from src.util.FileUtil import FileUtil
 from tests.utils.TestFileUtil import TestFileUtil
 
@@ -11,10 +10,20 @@ class TestModuleUtil:
         FileUtil.makeDir(dirPath)
 
     @staticmethod
-    def generateModuleFiles(name: str, config: dict, settings: dict):
+    def generateModuleDir(name: str):
         dirPath = FileUtil.getAbsolutePath(['modules', name])
         FileUtil.makeDir(dirPath)
-        # Save Configs
-        TestFileUtil.saveObjIntoFileAsYaml(dirPath, config)
-        # Save Settings
-        TestFileUtil.saveObjIntoFileAsYaml(dirPath, settings)
+
+    @staticmethod
+    def generateSettingsFile(name: str, settings: dict):
+        if settings is not None:
+            settingsFileName = name + '.settings.yaml'
+            filePath = FileUtil.getAbsolutePath(['modules', name, settingsFileName])
+            TestFileUtil.saveObjIntoFileAsYaml(filePath, settings)
+
+    @staticmethod
+    def generateConfigsFile(name: str, settings: dict):
+        if settings is not None:
+            configsFileName = name + '.config.yaml'
+            filePath = FileUtil.getAbsolutePath(['modules', name, configsFileName])
+            TestFileUtil.saveObjIntoFileAsYaml(filePath, settings)

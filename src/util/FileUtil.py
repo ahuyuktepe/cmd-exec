@@ -66,3 +66,19 @@ class FileUtil:
     def makeDir(dirPath: str):
         if not FileUtil.doesFileExist(dirPath):
             os.mkdir(dirPath)
+
+    @staticmethod
+    def deleteFilesInDir(dirPath: str, fileNames: list):
+        for fileName in fileNames:
+            filePath = dirPath + os.path.sep + fileName
+            if FileUtil.isFile(filePath) and FileUtil.doesFileExist(filePath):
+                FileUtil.deleteFile(filePath)
+
+    @staticmethod
+    def deleteFile(path: str):
+        if FileUtil.doesFileExist(path) and FileUtil.isFile(path):
+            os.remove(path)
+
+    @staticmethod
+    def isFile(path: str) -> bool:
+        return os.path.isfile(path)

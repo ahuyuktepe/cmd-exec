@@ -1,4 +1,13 @@
+from src.error.ErrorMessage import ErrorMessage
+
 
 class CmdExecError(Exception):
-    def __init__(self, msg: str):
-        super().__init__(msg)
+    __code: str
+
+    def __init__(self, code: str, params: dict = {}):
+        self.__code = code
+        message = ErrorMessage.getMessage(code).format(**params)
+        super().__init__(message)
+
+    def getCode(self) -> str:
+        return self.__code

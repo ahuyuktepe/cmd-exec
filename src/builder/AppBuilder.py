@@ -14,4 +14,4 @@ class AppBuilder:
             return CmdExecApp(appContext)
         except Exception as exp:
             ErrorUtil.handleException(exp)
-        return CmdExecApp(None)
+            exit(1)

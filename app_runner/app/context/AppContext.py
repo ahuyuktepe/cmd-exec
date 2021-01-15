@@ -100,5 +100,5 @@ class AppContext:
     def __initializeConfig(self, mid: str, fileName: str):
         filePath = FileUtil.getAbsolutePath(['modules', mid, 'conf', fileName]) + '.yaml'
         props = FileUtil.generateObjFromYamlFile(filePath)
-        ValidationUtil.failIfObjNone(props, "No properties available in configuration file '" + filePath + "'.")
+        ValidationUtil.failIfObjNone(props, "ERR01", {'path': filePath})
         return AppConfig(props)

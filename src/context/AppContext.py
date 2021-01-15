@@ -60,3 +60,6 @@ class AppContext:
             else:
                 retArgs.append(arg)
         return retArgs
+
+    def printConfigs(self):
+        self.__configs.print()

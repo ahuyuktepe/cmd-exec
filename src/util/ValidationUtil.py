@@ -1,34 +1,27 @@
 import os
 from src.error.CmdExecError import CmdExecError
 from src.util.FileUtil import FileUtil
-from src.util.StrUtil import StrUtil
 
 
 class ValidationUtil:
-    @staticmethod
-    def failIfObjNone(obj: object, msg: str, params: dict = {}):
-        if obj is None:
-            raise CmdExecError(msg.format(**params))
 
     @staticmethod
-    def failIfStrNoneOrEmpty(val: str, msg: str, params: dict = {}):
+    def failIfStrNoneOrEmpty(val: str, code: str, params: dict = {}):
         if val is None or val == '':
-            raise CmdExecError(msg.format(**params))
+            raise CmdExecError(code, params)
+
+    @staticmethod
+    def failIfFileIsNotReadable(path: str, code: str, params: dict = {}):
+        if not FileUtil.isFileReadable(path):
+            raise CmdExecError(code, params)
 
     @staticmethod
     def failIfEnvironmentVarIsNotSet(name: str):
         if name not in os.environ:
-            raise CmdExecError("Environment variable '" + name + "' is not set.")
+            raise CmdExecError('ERR04', {'name': name})
 
     @staticmethod
-    def failIfFileIsNotReadable(path: str, msg: str, params: dict = {}):
-        if not FileUtil.isFileReadable(path):
-            raise CmdExecError(msg.format(**params))
-
-    @staticmethod
-    def failIfVersionSyntaxInvalid(moduleName: str, version: str):
-        if StrUtil.isVersionSyntaxInvalid(version):
-            raise CmdExecError("Invalid version '{version}' provided for module '{module}'.".format(
-                version=version,
-                module=moduleName
-            ))
+    def failIfStringContainsChars(srcStr: str, chars: list, code: str, params: dict={}):
+        for char in chars:
+            if char in srcStr:
+                raise CmdExecError(code, params)

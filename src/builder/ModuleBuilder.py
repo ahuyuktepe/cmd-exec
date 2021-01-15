@@ -1,6 +1,7 @@
 from src.error.CmdExecError import CmdExecError
 from src.module.AppModule import AppModule
 from src.util.FileUtil import FileUtil
+from src.util.StrUtil import StrUtil
 from src.util.ValidationUtil import ValidationUtil
 
 
@@ -9,7 +10,7 @@ class ModuleBuilder:
     @staticmethod
     def buildModule(filePath: str) -> AppModule:
         # Parse settings file
-        ValidationUtil.failIfFileIsNotReadable(filePath, "Module settings file {path} can not be loaded.", {'path': filePath})
+        ValidationUtil.failIfFileIsNotReadable(filePath, 'ERR06', {'path': filePath})
         props = FileUtil.generateObjFromYamlFile(filePath)
         ModuleBuilder.__validateModuleProperties(props, filePath)
         module = AppModule(props['name'], props['version'])
@@ -24,11 +25,12 @@ class ModuleBuilder:
     def __validateModuleProperties(props: dict, filePath: str):
         # Validate name
         name = props.get('name')
-        ValidationUtil.failIfStrNoneOrEmpty(name, "Module name is not defined or empty in modules settings file'{path}'.", {'path': filePath})
+        ValidationUtil.failIfStrNoneOrEmpty(name, 'ERR01', {'path': filePath})
         # Validate version
         version = props.get('version')
-        ValidationUtil.failIfVersionSyntaxInvalid(name, version)
+        if StrUtil.isVersionSyntaxInvalid(version):
+            raise CmdExecError('ERR02', {'version': version, 'module': name})
         # Validate dependencies
         dependencies = props.get('dependencies')
         if dependencies is not None and not isinstance(dependencies, list):
-            raise CmdExecError("Dependencies are not defined correctly for module '{module}' in file '{path}'.".format(module=name, path=filePath))
+            raise CmdExecError('ERR03', {'module': name, 'path': filePath})

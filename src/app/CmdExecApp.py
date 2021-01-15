@@ -8,4 +8,5 @@ class CmdExecApp:
         self._appContext = context
 
     def run(self):
+        self._appContext.printConfigs()
         print('Running')

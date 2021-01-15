@@ -1,7 +1,6 @@
 import sys
 from app_runner.services.ArgumentService import ArgumentService
 from temp.base_service_test import TestBaseService
-from tests.utils.TestConfigUtil import TestConfigUtil
 from temp.utils.TestFileUtil import TestFileUtil
 from temp.utils.TestUtil import TestUtil
 
@@ -46,11 +45,6 @@ class TestArgumentService(TestBaseService):
         self._initAppContext()
         # when
         cid: str = argumentService.getCmd()
-        cmdLocator = TestConfigUtil.getMainCmdLocator(self._appContext, cid)
-        # then
-        assert cmdLocator['cmd'] == 'test-cmd'
-        assert cmdLocator['menu'] == 'test-menu'
-        assert cmdLocator['module'] == 'test-module'
 
     def test_getArgsAsDict(self):
         # given

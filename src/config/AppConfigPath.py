@@ -9,7 +9,7 @@ class AppConfigPath:
     def __init__(self, path: str):
         if not isinstance(path, str) or StrUtil.isNoneOrEmpty(path):
             self.__names = []
-        self.__names = path.split('.')
+        self.__names = path.split(':')
         self.__index = 0
 
     def nextName(self):
