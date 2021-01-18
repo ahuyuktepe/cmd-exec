@@ -9,7 +9,7 @@ class AppBuilder:
     @staticmethod
     def build() -> CmdExecApp:
         try:
-            ValidationUtil.failIfEnvironmentVarIsNotSet('APP_RUNNER_ROOT_PATH')
+            ValidationUtil.failIfEnvironmentVarIsNotValid('APP_RUNNER_ROOT_PATH')
             appContext = AppContextBuilder.buildBaseAppContext()
             return CmdExecApp(appContext)
         except Exception as exp:

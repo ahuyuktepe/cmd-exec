@@ -1,29 +1,28 @@
+import yaml
 from src.util.FileUtil import FileUtil
-from tests.utils.TestFileUtil import TestFileUtil
 
 
 class TestModuleUtil:
-
     @staticmethod
     def generateModulesDir():
-        dirPath = FileUtil.getAbsolutePath(['modules'])
-        FileUtil.makeDir(dirPath)
+        FileUtil.makeDir(['modules'])
+
+    @staticmethod
+    def clearModulesDir():
+        pass
 
     @staticmethod
     def generateModuleDir(name: str):
-        dirPath = FileUtil.getAbsolutePath(['modules', name])
-        FileUtil.makeDir(dirPath)
+        FileUtil.makeDir(['modules', name])
 
     @staticmethod
-    def generateSettingsFile(name: str, settings: dict):
-        if settings is not None:
-            settingsFileName = name + '.settings.yaml'
-            filePath = FileUtil.getAbsolutePath(['modules', name, settingsFileName])
-            TestFileUtil.saveObjIntoFileAsYaml(filePath, settings)
+    def saveSettingsFile(name: str, settings: dict):
+        fileName = name + '.settings.yaml'
+        TestModuleUtil.saveDictinaryAsYamlFile(name, fileName, settings)
 
     @staticmethod
-    def generateConfigsFile(name: str, settings: dict):
-        if settings is not None:
-            configsFileName = name + '.config.yaml'
-            filePath = FileUtil.getAbsolutePath(['modules', name, configsFileName])
-            TestFileUtil.saveObjIntoFileAsYaml(filePath, settings)
+    def saveDictinaryAsYamlFile(name: str, fileName: str, values: dict):
+        if values is not None:
+            relativePath = ['modules', name, fileName]
+            content: str = yaml.safe_dump(values)
+            FileUtil.writeToFile(relativePath, content)

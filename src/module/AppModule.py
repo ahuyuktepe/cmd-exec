@@ -3,11 +3,13 @@ from src.module.ModuleDependency import ModuleDependency
 
 class AppModule:
     __name: str
+    __description: str
     __version: str
     __dependencies: list
 
-    def __init__(self, name: str, version: str):
+    def __init__(self, name: str, version: str, description: str = None):
         self.__name = name
+        self.__description = description
         self.__version = version
         self.__dependencies = []
 
@@ -15,6 +17,9 @@ class AppModule:
 
     def getName(self) -> str:
         return self.__name
+
+    def getDescription(self) -> str:
+        return self.__description
 
     def getVersion(self) -> str:
         return self.__version

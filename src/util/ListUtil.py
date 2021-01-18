@@ -7,3 +7,9 @@ class ListUtil:
         if maxIndex < index:
             return defVal
         return arr[index]
+
+    @staticmethod
+    def deleteElements(arr: list, elementsToDelete: list = []):
+        for element in arr:
+            if element in elementsToDelete:
+                arr.remove(element)

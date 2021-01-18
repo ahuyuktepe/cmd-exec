@@ -1,18 +1,19 @@
-import math
 import os
 import shutil
 import yaml
-import glob
 from src.error.CmdExecError import CmdExecError
 
 
 class FileUtil:
-    @staticmethod
-    def getAbsolutePath(path: list) -> str:
-        return os.environ['APP_RUNNER_ROOT_PATH'] + os.path.sep + os.path.sep.join(path)
+    __rootPath: str = os.environ['APP_RUNNER_ROOT_PATH']
 
     @staticmethod
-    def generateObjFromYamlFile(path: str) -> dict:
+    def getAbsolutePath(relativePath: list) -> str:
+        return FileUtil.__rootPath + os.path.sep + os.path.sep.join(relativePath)
+
+    @staticmethod
+    def generateObjFromYamlFile(relativePath: list) -> dict:
+        path = FileUtil.getAbsolutePath(relativePath)
         try:
             stream = open(path, 'r')
             retObj = yaml.load(stream, Loader=yaml.SafeLoader)
@@ -21,64 +22,76 @@ class FileUtil:
             msg = "Error occurred while parsing xml file '{path}'.".format(path=path)
             raise CmdExecError(msg)
 
-    @staticmethod
-    def getModuleConfigFilePaths() -> list:
-        modulesDirPath = FileUtil.getAbsolutePath(['modules'])
-        filePattern = "{modulesDirPath}/*/*.config.yaml".format(modulesDirPath=modulesDirPath)
-        return glob.glob(filePattern)
+    # Query Methods
 
     @staticmethod
-    def getModuleSettingFilePaths() -> list:
-        modulesDirPath = FileUtil.getAbsolutePath(['modules'])
-        filePattern = "{modulesDirPath}/*/*.settings.yaml".format(modulesDirPath=modulesDirPath)
-        return glob.glob(filePattern)
+    def isDirectoryReadable(relativePath: list):
+        return FileUtil.isDirectory(relativePath) and FileUtil.doesFileExist(relativePath) and FileUtil.doesUserHaveAccessOnFile(relativePath)
 
     @staticmethod
-    def isFileReadable(filePath: str):
-        return not FileUtil.isDirectory(filePath) and FileUtil.doesFileExist(filePath) and FileUtil.doesUserHaveAccessOnFile(filePath)
+    def isFileReadable(relativePath: list):
+        return not FileUtil.isDirectory(relativePath) and FileUtil.doesFileExist(relativePath) and FileUtil.doesUserHaveAccessOnFile(relativePath)
 
     @staticmethod
-    def isDirectory(path: str) -> bool:
+    def isDirectory(relativePath: list) -> bool:
+        path = FileUtil.getAbsolutePath(relativePath)
         return os.path.isdir(path)
 
     @staticmethod
-    def doesFileExist(path: str) -> bool:
+    def doesFileExist(relativePath: list) -> bool:
+        path = FileUtil.getAbsolutePath(relativePath)
         return os.path.exists(path)
 
     @staticmethod
-    def doesUserHaveAccessOnFile(filePath: str) -> bool:
-        return os.access(filePath, os.R_OK)
+    def doesUserHaveAccessOnFile(relativePath: list) -> bool:
+        path = FileUtil.getAbsolutePath(relativePath)
+        return os.access(path, os.R_OK)
+
+    # Directory or File Updating Commands
 
     @staticmethod
-    def fileSize(path: str, blockSize: str) -> int:
-        fileStats = os.stat(path)
-        if blockSize == 'MB':
-            return math.floor(fileStats.st_size / (1024 * 1024))
-        elif blockSize == 'KB':
-            return math.floor(fileStats.st_size/1024)
-        return fileStats.st_size
+    def makeDir(relativePath: list):
+        if not FileUtil.doesFileExist(relativePath):
+            path = FileUtil.getAbsolutePath(relativePath)
+            os.mkdir(path)
 
     @staticmethod
-    def copyFile(sourceFilePath: str, destFilePath: str):
-        shutil.copy(sourceFilePath, destFilePath)
+    def deleteDir(relativePath: list):
+        ignoredDirs = ['src', 'logs', 'temp', 'modules', 'app_runner']
+        dirName = relativePath[-1]
+        if dirName in ignoredDirs:
+            raise CmdExecError('ERR21', {'dirs': str(ignoredDirs), 'home': FileUtil.__rootPath})
+        if relativePath != [] and FileUtil.isDirectory(relativePath) and FileUtil.doesFileExist(relativePath) and dirName not in ignoredDirs:
+            srcPath = FileUtil.getAbsolutePath(relativePath)
+            shutil.rmtree(srcPath)
 
     @staticmethod
-    def makeDir(dirPath: str):
-        if not FileUtil.doesFileExist(dirPath):
-            os.mkdir(dirPath)
+    def writeToFile(relativePath: list, content: str):
+        path = FileUtil.getAbsolutePath(relativePath)
+        file = open(path, 'w')
+        file.write(content)
+        file.close()
 
-    @staticmethod
-    def deleteFilesInDir(dirPath: str, fileNames: list):
-        for fileName in fileNames:
-            filePath = dirPath + os.path.sep + fileName
-            if FileUtil.isFile(filePath) and FileUtil.doesFileExist(filePath):
-                FileUtil.deleteFile(filePath)
+    # ==================================================================================================================
 
-    @staticmethod
-    def deleteFile(path: str):
-        if FileUtil.doesFileExist(path) and FileUtil.isFile(path):
-            os.remove(path)
-
-    @staticmethod
-    def isFile(path: str) -> bool:
-        return os.path.isfile(path)
+    # @staticmethod
+    # def fileSize(path: str, blockSize: str) -> int:
+    #     fileStats = os.stat(path)
+    #     if blockSize == 'MB':
+    #         return math.floor(fileStats.st_size / (1024 * 1024))
+    #     elif blockSize == 'KB':
+    #         return math.floor(fileStats.st_size/1024)
+    #     return fileStats.st_size
+    #
+    # @staticmethod
+    # def copyFile(sourceFilePath: str, destFilePath: str):
+    #     shutil.copy(sourceFilePath, destFilePath)
+    #
+    # @staticmethod
+    # def makeDir(dirPath: str):
+    #     if not FileUtil.doesFileExist(dirPath):
+    #         os.mkdir(dirPath)
+    #
+    # @staticmethod
+    # def isFile(path: str) -> bool:
+    #     return os.path.isfile(path)
