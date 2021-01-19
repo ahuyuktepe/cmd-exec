@@ -1,0 +1,4 @@
+application:
+  name: Test Application
+log_settings:
+  level: error

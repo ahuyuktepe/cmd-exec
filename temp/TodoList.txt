@@ -1,54 +1,43 @@
-Phase 5
-------------------------------------------------------------------------------------------------------------------
-- Support daemon mode.
-- Support web socket mode.
-- Add module dependency management feature.
-- Ability to install and uninstall module.
-- Complete documentation.
-
-Phase 4
-------------------------------------------------------------------------------------------------------------------
-- Add following support for UIHtml element.                                                                  [Done]
-    * Table
-    * Ordered List
-- Add following field types to UIForm element.
-    * FileSelectorField
-- Save view into application context.                                                                        [Done]
-- Start writing documentation.
-- Add configuration that limits the minimal window dimensions.
-- Add plain text printer element which autoscrolls each line.
-
-Phase 3
----------------------------------------------------------------------------------------------------------------------
-1)  Add following support for UIForm element.                                                                  [Done]
-        * Single Select
-        * Multi Select elements.
-2)  Add pagination to TextArea element.                                                                        [Done]
-3)  Ability to exit from text area and return back to main view.                                               [Done]
-4)  Update text and textarea elements' content via event.                                                      [Done]
-5)  Add support for theme which would display view within theme.                                               [Done]
-6)  Refactor and organize code.
-7)  Make sure both command and interactive mode is working properly.
-8)  Fix UIText element.
-9)  Complete menu displaying and command selection with threading.
-10) Complete command execution with threading
-
 Phase 2
 ------------------------------------------------------------------------------------------------------------------
-- Collect field values from user.                                                                           [Done]
-- Validate fields and display validation message in associated field area.                                  [Done]
-- Submit user entries if values are valid then return to the caller.                                        [Done]
-- Execute command and display response                                                                      [Done]
-
+=== Command Execution Process ===
+1)  Add following services to execute command.
+    - CommandService
+    - FieldService
+2)  Add validation to command execution process.
+3)  Write unit tests for command execution process.
 
 Phase 1
 ------------------------------------------------------------------------------------------------------------------
-- Add title to form which is the selected command description.                                              [Done]
-- Moving below last item should move to next page if there is next page.                                    [Done]
-- Moving before first item should move to previous page if there is previous page.                          [Done]
-- Add left and right arrow icon to around page in info in header.                                           [Done]
-- Display icon to the left side of active field and remove border.                                          [Done]
-- Add help section to form view.                                                                            [Done]
-- Organize files and directories.                                                                           [Done]
-- Set height and width in xml.                                                                              [Done]
+=== Dependency Management ===
+1)  Add dependencies feature to module settings.                                                          [ DONE ]
+2)  Add validation to module dependencies feature.                                                        [ DONE ]
+3)  Add dependency management instructions to the User Manual.                                            [ DONE ]
+4)  Write unit tests for dependency management.
 
+=== Configuration Management ===
+1)  Add configuration management process.
+2)  Add validation to configuration management process.
+3)  Add instructions to the User Manual.
+4)  Write unit tests.
+5)  Merge configurations which would override existing even though other siblings does not exist.
+
+=== Service Management ===
+1)  Add service initialization feature.
+2)  Add validation to service initialization process.
+3)  Add service setting instructions to the User Manual.
+4)  Write unit tests for service initialization process.
+5)  Eliminate class attribute in module settings.
+
+=== Command Executor Application Generation ===
+1)  Add command executor application generation process which allows modules to add their
+    own application instance.
+2)  Add validation to command executor application generation process.
+3)  Add instructions to the User Manual.
+4)  Write unit tests.
+
+=== Command Menu Management ===
+1)  Add command menu management process.
+2)  Add validation to command menu management process.
+3)  Add instructions to the User Manual.
+4)  Write unit tests.

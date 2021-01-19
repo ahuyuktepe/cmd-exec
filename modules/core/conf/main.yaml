@@ -1,8 +1,0 @@
-application:
-  name: Application Runner
-log_settings:
-  level: info
-  dir_path: logs
-  max_size: 10 KB
-  msg_format: '{level} | {date} | {msg}'
-  date_format: '%Y-%m-%d %H:%M:%S'
