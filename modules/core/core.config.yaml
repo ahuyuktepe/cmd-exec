@@ -1,7 +1,14 @@
 application:
   name: 'Main Application'
+  modes:
+    - id: cmd
+      module: core
+      runner: CoreCmdExecApp
+    - id: init
+      module: core
+      runner: CoreInitExecApp
 log_settings:
-  level: info
+  level: error
   dir_path: logs
   max_size: 10 KB
   msg_format: '{level} | {date} | {msg}'

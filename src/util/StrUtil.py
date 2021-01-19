@@ -1,3 +1,4 @@
+from src.error.CmdExecError import CmdExecError
 
 
 class StrUtil:
@@ -30,6 +31,17 @@ class StrUtil:
             }
         else:
             raise Exception('Given class path is invalid.')
+
+    @staticmethod
+    def getModuleServiceMapFromStr(servicePath: str) -> dict:
+        arr: list = servicePath.split('.')
+        count = len(arr)
+        if count == 1:
+            return {'mid': None, 'sid': servicePath}
+        elif count == 2:
+            return {'mid': arr[0], 'sid': arr[1]}
+        else:
+            CmdExecError('ERR25', {'path': servicePath})
 
     @staticmethod
     def isNoneOrEmpty(value: str):

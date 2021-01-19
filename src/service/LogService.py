@@ -1,7 +1,7 @@
-from src.service.BaseService import BaseService
+from src.service.AppService import AppService
 
 
-class LogService(BaseService):
+class LogService(AppService):
     def info(self, msg: str):
         pass
 

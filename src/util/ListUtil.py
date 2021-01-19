@@ -13,3 +13,8 @@ class ListUtil:
         for element in arr:
             if element in elementsToDelete:
                 arr.remove(element)
+
+    @staticmethod
+    def deleteStr(arr: list, value: str):
+        if value in arr:
+            arr.remove(value)

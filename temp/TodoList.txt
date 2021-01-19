@@ -13,21 +13,20 @@ Phase 1
 1)  Add dependencies feature to module settings.                                                          [ DONE ]
 2)  Add validation to module dependencies feature.                                                        [ DONE ]
 3)  Add dependency management instructions to the User Manual.                                            [ DONE ]
-4)  Write unit tests for dependency management.
+4)  Write unit tests for dependency management.                                                           [ DONE ]
 
 === Configuration Management ===
-1)  Add configuration management process.
-2)  Add validation to configuration management process.
-3)  Add instructions to the User Manual.
-4)  Write unit tests.
-5)  Merge configurations which would override existing even though other siblings does not exist.
+1)  Add configuration management process.                                                                 [ DONE ]
+2)  Add validation to configuration management process.                                                   [ DONE ]
+3)  Add instructions to the User Manual.                                                                  [ DONE ]
+4)  Write unit tests.                                                                                     [ DONE ]
+5)  Merge configurations which would override existing even though other siblings does not exist.         [ DONE ]
 
 === Service Management ===
-1)  Add service initialization feature.
-2)  Add validation to service initialization process.
-3)  Add service setting instructions to the User Manual.
-4)  Write unit tests for service initialization process.
-5)  Eliminate class attribute in module settings.
+1)  Add service initialization feature.                                                                   [ DONE ]
+2)  Add validation to service initialization process.                                                     [ DONE ]
+3)  Add service setting instructions to the User Manual.                                                  [ DONE ]
+4)  Write unit tests for service initialization process.                                                  [ DONE ]
 
 === Command Executor Application Generation ===
 1)  Add command executor application generation process which allows modules to add their

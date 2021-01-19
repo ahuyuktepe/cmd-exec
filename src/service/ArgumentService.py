@@ -1,7 +1,10 @@
-from src.service.BaseService import BaseService
+from src.service.AppService import AppService
 
 
-class ArgumentService(BaseService):
+class ArgumentService(AppService):
 
     def getCmd(self) -> str:
+        pass
+
+    def getMode(self) -> str:
         pass

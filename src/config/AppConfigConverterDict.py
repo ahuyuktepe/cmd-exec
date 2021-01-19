@@ -30,7 +30,7 @@ class AppConfigConverterDict:
         self.__currentKey = key
 
     def savePathAndValue(self):
-        path = ":".join(self.__keys)
+        path = ".".join(self.__keys)
         self.__pathValueDict[path] = self.__currentValue
 
     def reset(self):

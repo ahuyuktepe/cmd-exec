@@ -1,11 +1,11 @@
-from src.context.AppContext import AppContext
+from src.context.AppContextManager import AppContextManager
 
 
 class CmdExecApp:
-    _appContext: AppContext
+    _contextManager: AppContextManager
 
-    def __init__(self, context: AppContext):
-        self._appContext = context
+    def __init__(self, contextManager: AppContextManager):
+        self._contextManager = contextManager
 
     def run(self):
-        print('Running application')
+        pass

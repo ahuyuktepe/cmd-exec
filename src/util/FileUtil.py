@@ -1,3 +1,4 @@
+import math
 import os
 import shutil
 import yaml
@@ -17,12 +18,28 @@ class FileUtil:
         try:
             stream = open(path, 'r')
             retObj = yaml.load(stream, Loader=yaml.SafeLoader)
+            if not isinstance(retObj, dict):
+                raise CmdExecError('ERR22', {'path': path})
             return retObj
         except Exception as exp:
-            msg = "Error occurred while parsing xml file '{path}'.".format(path=path)
+            msg = "Error occurred while parsing yaml file '{path}'.".format(path=path)
             raise CmdExecError(msg)
 
+    @staticmethod
+    def listFiles(relativePath: list) -> list:
+        path = FileUtil.getAbsolutePath(relativePath)
+        return os.listdir(path)
+
     # Query Methods
+
+    @staticmethod
+    def fileSize(path: str, blockSize: str) -> int:
+        fileStats = os.stat(path)
+        if blockSize == 'MB':
+            return math.floor(fileStats.st_size / (1024 * 1024))
+        elif blockSize == 'KB':
+            return math.floor(fileStats.st_size/1024)
+        return fileStats.st_size
 
     @staticmethod
     def isDirectoryReadable(relativePath: list):
@@ -50,6 +67,12 @@ class FileUtil:
     # Directory or File Updating Commands
 
     @staticmethod
+    def copyFile(srcPath: list, destPath: list):
+        srcDirPath = FileUtil.getAbsolutePath(srcPath)
+        destDirPath = FileUtil.getAbsolutePath(destPath)
+        shutil.copy(srcDirPath, destDirPath)
+
+    @staticmethod
     def makeDir(relativePath: list):
         if not FileUtil.doesFileExist(relativePath):
             path = FileUtil.getAbsolutePath(relativePath)
@@ -71,27 +94,3 @@ class FileUtil:
         file = open(path, 'w')
         file.write(content)
         file.close()
-
-    # ==================================================================================================================
-
-    # @staticmethod
-    # def fileSize(path: str, blockSize: str) -> int:
-    #     fileStats = os.stat(path)
-    #     if blockSize == 'MB':
-    #         return math.floor(fileStats.st_size / (1024 * 1024))
-    #     elif blockSize == 'KB':
-    #         return math.floor(fileStats.st_size/1024)
-    #     return fileStats.st_size
-    #
-    # @staticmethod
-    # def copyFile(sourceFilePath: str, destFilePath: str):
-    #     shutil.copy(sourceFilePath, destFilePath)
-    #
-    # @staticmethod
-    # def makeDir(dirPath: str):
-    #     if not FileUtil.doesFileExist(dirPath):
-    #         os.mkdir(dirPath)
-    #
-    # @staticmethod
-    # def isFile(path: str) -> bool:
-    #     return os.path.isfile(path)

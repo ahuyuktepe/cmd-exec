@@ -2,10 +2,12 @@ name: core
 version: 1.0.5
 description: This is a core module
 services:
-  - id: argumentService
-    class: CoreArgumentService
-    path: modules.core.src.service.CoreArgumentService
+  - id: configService
+    class: CoreConfigService
+    args: ['appConfigs']
   - id: logService
     class: CoreLogService
-    path: modules.core.src.service.CoreLogService
     args: ['appConfigs']
+  - id: argService
+    class: CoreArgService
+    args: ['@configService']

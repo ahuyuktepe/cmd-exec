@@ -1,0 +1,5 @@
+application:
+  (+)modes:
+    - id: ui
+      module: ui
+      runner: CoreUIExecApp

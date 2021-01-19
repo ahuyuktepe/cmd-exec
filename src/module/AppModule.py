@@ -1,4 +1,7 @@
+from src.error.CmdExecError import CmdExecError
 from src.module.ModuleDependency import ModuleDependency
+from src.module.ServiceProperties import  ServiceProperties
+from src.util.ModuleUtil import ModuleUtil
 
 
 class AppModule:
@@ -6,12 +9,14 @@ class AppModule:
     __description: str
     __version: str
     __dependencies: list
+    __services: dict
 
     def __init__(self, name: str, version: str, description: str = None):
         self.__name = name
         self.__description = description
         self.__version = version
         self.__dependencies = []
+        self.__services = {}
 
     # Getter Methods
 
@@ -27,8 +32,29 @@ class AppModule:
     def getDependencies(self) -> list:
         return self.__dependencies
 
+    def findAllServicePropertiesByInit(self, init: bool = False) -> dict:
+        services = {}
+        for id, serviceProps in self.__services.items():
+            if serviceProps.getInit() == init:
+                services[id] = serviceProps
+        return services
+
+    def getServicePropertiesById(self, sid: str) -> ServiceProperties:
+        return self.__services.get(sid)
+
     # Setter Methods
 
-    def addDependency(self, depStr: str):
-        dependency = ModuleDependency(depStr)
-        self.__dependencies.append(dependency)
+    def setServiceProperties(self, services: list):
+        for props in services:
+            ModuleUtil.validateServiceProperties(self.__name, props)
+            id = props.get('id')
+            service = ServiceProperties(id, props.get('class'), props.get('args'))
+            service.setInit(props.get('init'))
+            service.setPath(props.get('path'))
+            service.setModuleName(self.__name)
+            self.__services[id] = service
+
+    def setDependencies(self, dependencies: list):
+        for depStr in dependencies:
+            dependency = ModuleDependency(depStr)
+            self.__dependencies.append(dependency)

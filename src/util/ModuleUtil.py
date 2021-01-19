@@ -42,22 +42,52 @@ class ModuleUtil:
         dependencies = props.get('dependencies')
         if dependencies is not None and not isinstance(dependencies, list):
             raise CmdExecError('ERR03', {'module': moduleName})
+        # Validate Services
+        services = props.get('services')
+        if services is not None and not isinstance(services, list):
+            raise CmdExecError('ERR24', {'name': moduleName})
+
+    @staticmethod
+    def validateServiceProperties(name: str, props: dict):
+        # Validate id
+        value = props.get('id')
+        ValidationUtil.failIfNotType(value, str, 'ERR23', {'type': 'id', 'name': name})
+        ValidationUtil.failIfStrNoneOrEmpty(value, 'ERR23', {'type': 'id', 'name': name})
+        # Validate class
+        cls = props.get('class')
+        if cls is not None:
+            ValidationUtil.failIfNotType(cls, str, 'ERR23', {'type': 'class', 'name': name})
+        # Validate path
+        path = props.get('path')
+        if path is not None:
+            ValidationUtil.failIfNotType(path, str, 'ERR23', {'type': 'path', 'name': name})
+        ValidationUtil.failIfBothStrNoneOrEmpty([cls, path], 'ERR23', {'type': 'class or path', 'name': name})
+        # Validate init
+        init = props.get('init')
+        if init is not None:
+            ValidationUtil.failIfNotType(init, bool, 'ERR29', {'val': str(init), 'name': name})
+
+    @staticmethod
+    def validateModuleConfigs(name: str, configs: dict):
+        for key, value in configs.items():
+            ValidationUtil.failIfStringContainsChars(key, ['.'], 'ERR18', {'key': key, 'name': name})
+            if isinstance(value, dict):
+                ModuleUtil.validateModuleConfigs(name, value)
 
     @staticmethod
     def getModuleSettings(name: str) -> dict:
         settingsFileName = name + '.settings.yaml'
         return FileUtil.generateObjFromYamlFile(['modules', name, settingsFileName])
 
-    # ==================================================================================================================
+    @staticmethod
+    def getModuleConfigs(name: str) -> dict:
+        configFileName = name + '.config.yaml'
+        path = ['modules', name, configFileName]
+        ValidationUtil.failIfFileCanNotBeAccessed(path, 'ERR05', {'file': configFileName, 'name': name})
+        return FileUtil.generateObjFromYamlFile(['modules', name, configFileName])
 
-    # @staticmethod
-    # def getConfigFilePaths() -> list:
-    #     modulesDirPath = FileUtil.getAbsolutePath(['modules'])
-    #     filePattern = "{modulesDirPath}/*/*.config.yaml".format(modulesDirPath=modulesDirPath)
-    #     return glob.glob(filePattern)
-
-    # @staticmethod
-    # def getSettingFilePaths() -> list:
-    #     modulesDirPath = FileUtil.getAbsolutePath(['modules'])
-    #     filePattern = "{modulesDirPath}/*/*.settings.yaml".format(modulesDirPath=modulesDirPath)
-    #     return glob.glob(filePattern)
+    @staticmethod
+    def doesConfigFileExistForModule(name: str) -> bool:
+        configFileName = name + '.config.yaml'
+        path = ['modules', name, configFileName]
+        return FileUtil.doesFileExist(path)
