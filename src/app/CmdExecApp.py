@@ -8,8 +8,4 @@ class CmdExecApp:
         self._appContext = context
 
     def run(self):
-<<<<<<< HEAD
         print('Running application')
-=======
-        print('Running')
->>>>>>> refactoring

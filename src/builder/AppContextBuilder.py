@@ -1,9 +1,6 @@
 from src.context.AppContext import AppContext
-<<<<<<< HEAD
-=======
 from src.module.AppModule import AppModule
 from src.util.ModuleUtil import ModuleUtil
->>>>>>> refactoring
 
 
 class AppContextBuilder:
@@ -11,10 +8,6 @@ class AppContextBuilder:
     @staticmethod
     def buildBaseAppContext() -> AppContext:
         appContext = AppContext()
-<<<<<<< HEAD
-        appContext.initializeConfig('main')
-        return appContext
-=======
         # Init Modules
         AppContextBuilder.__initModules(appContext)
         AppContextBuilder.__validateModuleDependencies(appContext)
@@ -84,4 +77,3 @@ class AppContextBuilder:
     # def __initServices(appContext: AppContext, serviceProps: list):
     #     for props in serviceProps:
     #         appContext.addService(props)
->>>>>>> refactoring

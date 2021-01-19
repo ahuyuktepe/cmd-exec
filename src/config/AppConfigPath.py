@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-from src.utils.StrUtil import StrUtil
-=======
 from src.util.StrUtil import StrUtil
->>>>>>> refactoring
 
 
 class AppConfigPath:
@@ -13,11 +9,7 @@ class AppConfigPath:
     def __init__(self, path: str):
         if not isinstance(path, str) or StrUtil.isNoneOrEmpty(path):
             self.__names = []
-<<<<<<< HEAD
-        self.__names = path.split('.')
-=======
         self.__names = path.split(':')
->>>>>>> refactoring
         self.__index = 0
 
     def nextName(self):
