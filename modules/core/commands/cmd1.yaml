@@ -1,0 +1,6 @@
+id: cmd1
+title: Command 1
+module: core
+executor:
+  class: WebToolExecutor
+  method: run

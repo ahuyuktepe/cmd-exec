@@ -8,7 +8,7 @@ application:
       module: core
       runner: CoreInitExecApp
 log_settings:
-  level: error
+  level: info
   dir_path: logs
   max_size: 10 KB
   msg_format: '{level} | {date} | {msg}'

@@ -9,15 +9,17 @@ class TestModuleUtil:
 
     @staticmethod
     def clearModulesDir():
-        dirs = FileUtil.listFiles(['modules'])
-        for dir in dirs:
-            FileUtil.deleteDir(['modules', dir])
+        if FileUtil.doesFileExist(['modules']):
+            dirs = FileUtil.listFiles(['modules'])
+            for dir in dirs:
+                FileUtil.deleteDir(['modules', dir])
 
     @staticmethod
     def generateModuleDir(name: str):
         FileUtil.makeDir(['modules', name])
         FileUtil.makeDir(['modules', name, 'src'])
         FileUtil.makeDir(['modules', name, 'src', 'service'])
+        FileUtil.makeDir(['modules', name, 'src', 'app'])
 
     @staticmethod
     def generateModuleFiles(name: str, settings: dict = None, config: dict = None):
@@ -46,3 +48,9 @@ class TestModuleUtil:
             relativePath = ['modules', name, fileName]
             content: str = yaml.safe_dump(values)
             FileUtil.writeToFile(relativePath, content)
+
+    @staticmethod
+    def copyModuleFiles(path: list, fileNames: list):
+        for fileName in fileNames:
+            filePath = ['..'] + path + [fileName]
+            FileUtil.copyFile(filePath, path)

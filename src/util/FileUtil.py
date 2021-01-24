@@ -55,8 +55,8 @@ class FileUtil:
         return os.path.isdir(path)
 
     @staticmethod
-    def doesFileExist(relativePath: list) -> bool:
-        path = FileUtil.getAbsolutePath(relativePath)
+    def doesFileExist(relativePath: list, extension: str = '') -> bool:
+        path = FileUtil.getAbsolutePath(relativePath) + '.' + extension
         return os.path.exists(path)
 
     @staticmethod

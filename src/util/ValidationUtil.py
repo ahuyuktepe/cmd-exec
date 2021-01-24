@@ -49,3 +49,9 @@ class ValidationUtil:
     def failIfNotType(obj: object, type, code: str, params: dict = {}):
         if not isinstance(obj, type):
             raise CmdExecError(code, params)
+
+    @staticmethod
+    def failIfClassFileDoesNotExist(clsPath: str, code: str, params: dict = {}):
+        path = StrUtil.convertClassPathToFilePath(clsPath)
+        if len(path) == 0 or not FileUtil.doesFileExist(path, 'py'):
+            raise CmdExecError(code, params)

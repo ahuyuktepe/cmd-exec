@@ -1,7 +1,21 @@
+import importlib
+import os
+
 from src.error.CmdExecError import CmdExecError
 
 
 class StrUtil:
+    @staticmethod
+    def getCommandPropertiesFromStr(cid: str) -> dict:
+        arr: list = cid.split('.')
+        props: dict = {'module': 'core', 'cid': None}
+        if len(arr) > 1:
+            props['module'] = arr[0]
+            props['cid'] = arr[1]
+        elif len(arr) == 1:
+            props['cid'] = arr[0]
+        return props
+
     @staticmethod
     def getFilePropertiesFromStr(sid: str) -> dict:
         arr: list = sid.split('.')
@@ -65,3 +79,14 @@ class StrUtil:
             for value in values:
                 arr.append(value.zfill(fillCount))
         return '.'.join(arr)
+
+    @staticmethod
+    def convertClassPathToFilePath(clsPath: str) -> list:
+        if isinstance(clsPath, str) and not StrUtil.isNoneOrEmpty(clsPath):
+            return clsPath.split('.')
+
+    @staticmethod
+    def convertClassNameStrToClass(clsPath: str, clsName: str):
+        module = importlib.import_module(clsPath)
+        cls = getattr(module, clsName)
+        return cls

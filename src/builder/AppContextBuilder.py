@@ -39,7 +39,8 @@ class AppContextBuilder:
             for sid, modService in services.items():
                 if not appContext.hasService(sid):
                     service = appContext.initService(modService)
-                    service.setContextManager(AppContextBuilder.__appContext)
+                    context = AppContextManager(appContext)
+                    service.setContextManager(context)
                     appContext.addService(sid, service)
 
     # === Configs ===

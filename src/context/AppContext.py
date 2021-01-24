@@ -4,6 +4,7 @@ from src.module.AppModule import AppModule
 from src.module.ServiceProperties import ServiceProperties
 from src.util.ObjUtil import ObjUtil
 from src.util.StrUtil import StrUtil
+from src.util.ValidationUtil import ValidationUtil
 
 
 class AppContext:
@@ -96,6 +97,7 @@ class AppContext:
     # Utility Methods
 
     def initService(self, serviceProps: ServiceProperties) -> object:
+        from src.service.AppService import AppService
         if serviceProps is None:
             raise CmdExecError('ERR27')
         # Init service and return
@@ -118,4 +120,8 @@ class AppContext:
                 passedArgs.append(arg['value'])
         clsPath = serviceProps.getClassPath()
         clsName = serviceProps.getClassName()
+        ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR30', {'cls': clsName, 'path': clsPath})
+        cls = StrUtil.convertClassNameStrToClass(clsPath, clsName)
+        if not issubclass(cls, AppService):
+            raise CmdExecError('ERR33', {'src': clsName, 'parent': 'AppService', 'name': serviceProps.getModuleName()})
         return ObjUtil.initClassFromStr(clsPath, clsName, passedArgs)

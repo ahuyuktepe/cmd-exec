@@ -87,6 +87,15 @@ class ModuleUtil:
         return FileUtil.generateObjFromYamlFile(['modules', name, configFileName])
 
     @staticmethod
+    def getModuleCommandProps(cid: str) -> dict:
+        props = StrUtil.getCommandPropertiesFromStr(cid)
+        fileName = props.get('cid') + '.yaml'
+        path = ['modules', props.get('module'), 'commands', fileName]
+        filePath = FileUtil.getAbsolutePath(path)
+        ValidationUtil.failIfFileCanNotBeAccessed(path, 'ERR34', {'path': filePath})
+        return FileUtil.generateObjFromYamlFile(path)
+
+    @staticmethod
     def doesConfigFileExistForModule(name: str) -> bool:
         configFileName = name + '.config.yaml'
         path = ['modules', name, configFileName]

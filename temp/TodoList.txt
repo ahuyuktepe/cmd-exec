@@ -29,7 +29,7 @@ Phase 1
 4)  Write unit tests for service initialization process.                                                  [ DONE ]
 
 === Command Executor Application Generation ===
-1)  Add command executor application generation process which allows modules to add their
+1)  Add command executor application generation process which allows modules to add their                 [ DONE ]
     own application instance.
 2)  Add validation to command executor application generation process.
 3)  Add instructions to the User Manual.

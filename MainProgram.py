@@ -1,5 +1,3 @@
-from src.app.CmdExecApp import CmdExecApp
-from src.builder.AppBuilder import AppBuilder
+from src.app.CmdExecAppRunner import CmdExecAppRunner
 
-application: CmdExecApp = AppBuilder.build()
-application.run()
+CmdExecAppRunner.run()

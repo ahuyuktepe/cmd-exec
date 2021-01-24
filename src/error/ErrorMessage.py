@@ -28,7 +28,19 @@ class ErrorMessage:
         'ERR26': "Null value is provided to save service for id '{sid}'.",
         'ERR27': "While initializing service null service properties object provided.",
         'ERR28': "Given service object class '{cls}' is not sub class of 'AppService'",
-        'ERR29': "Invalid value '{val}' is provided for init property in settings file for module '{name}'.Boolean value True|False is expected."
+        'ERR29': "Invalid value '{val}' is provided for init property in settings file for module '{name}'.Boolean value True|False is expected.",
+        'ERR30': "Service class '{cls}' file does not exist at '{path}'.",
+        'ERR31': "Command executor application class '{cls}' file does not exist at '{path}'.",
+        'ERR32': "Given class '{src}' is not sub class of '{parent}' in module '{name}' configs.",
+        'ERR33': "Given class '{src}' is not sub class of '{parent}' in module '{name}' settings.",
+        'ERR34': "Command file '{path}' does not exist.",
+        'ERR35': "Invalid id provided in command file '{cid}.yaml'.",
+        'ERR36': "Invalid title provided in command file '{cid}.yaml'.",
+        'ERR37': "Invalid executor provided in command file '{cid}.yaml'.",
+        'ERR38': "Invalid class provided for executor in command file '{cid}.yaml'.",
+        'ERR39': "Invalid method provided for executor in command file '{cid}.yaml'.",
+        'ERR40': "Given executor class in command file '{cid}.yaml' does not extend from CmdExecutor.",
+        'ERR41': "Invalid module provided in command file '{cid}.yaml'.",
     }
 
     @staticmethod
