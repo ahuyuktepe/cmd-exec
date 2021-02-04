@@ -54,3 +54,8 @@ class TestModuleUtil:
         for fileName in fileNames:
             filePath = ['..'] + path + [fileName]
             FileUtil.copyFile(filePath, path)
+
+    @staticmethod
+    def copyFilesFromDummyClasses(path: list, fileNames: list):
+        for fileName in fileNames:
+            FileUtil.copyFile(['dummy_classes', fileName], path)

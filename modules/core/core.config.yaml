@@ -2,11 +2,15 @@ application:
   name: 'Main Application'
   modes:
     - id: cmd
-      module: core
       runner: CoreCmdExecApp
     - id: init
       module: core
       runner: CoreInitExecApp
+  fields:
+    - type: text
+      class: TextField
+    - type: single_select
+      class: SingleSelectField
 log_settings:
   level: info
   dir_path: logs

@@ -1,2 +1,6 @@
-id: core_cmd1
+id: cmd2
 title: Core Module Command
+module: core
+executor:
+  class: WebToolExecutor1
+  method: run

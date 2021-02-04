@@ -11,5 +11,9 @@ services:
   - id: argService
     class: CoreArgService
     args: ['@configService']
+  - id: fieldService
+    class: CoreFieldService
+    args: ['@configService']
   - id: cmdService
     class: CoreCmdService
+    args: ['@fieldService']

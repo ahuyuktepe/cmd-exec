@@ -41,6 +41,16 @@ class ErrorMessage:
         'ERR39': "Invalid method provided for executor in command file '{cid}.yaml'.",
         'ERR40': "Given executor class in command file '{cid}.yaml' does not extend from CmdExecutor.",
         'ERR41': "Invalid module provided in command file '{cid}.yaml'.",
+        'ERR42': "Invalid value provided for application.default_mode property in configurations.",
+        'ERR43': "At least one application running mode should be provided in configurations.",
+        'ERR44': "Invalid value provided for application.modes property in configurations.",
+        'ERR45': "Invalid value provided for fields property in configurations.",
+        'ERR46': "Invalid values provided for field properties in configurations.",
+        'ERR47': "Invalid value provided for class property of field type '{type}' in configurations.",
+        'ERR48': "Invalid value provided for module property of field type '{type}' in configurations.",
+        'ERR49': "Field class does not exist in path '{path}'.",
+        'ERR50': "No class properties are provided for field type '{type}'.",
+        'ERR51': "Executor class does not exist in path '{path}'."
     }
 
     @staticmethod

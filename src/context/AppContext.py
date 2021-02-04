@@ -23,9 +23,12 @@ class AppContext:
         return self.__configs.getValue(key)
 
     def getService(self, sid: str):
+        from src.context.AppContextManager import AppContextManager
         if not self.hasService(sid):
             serviceProperties = self.getServiceProperties(sid)
             service = self.initService(serviceProperties)
+            contextManager = AppContextManager(self)
+            service.setContextManager(contextManager)
             self.addService(sid, service)
         return self.__services.get(sid)
 
@@ -84,7 +87,6 @@ class AppContext:
     def addService(self, sid: str, service: object):
         # Import class locally
         from src.service.AppService import AppService
-        from src.context.AppContextManager import AppContextManager
         if service is None:
             raise CmdExecError('ERR26', {'sid': sid})
         elif not isinstance(service, AppService):

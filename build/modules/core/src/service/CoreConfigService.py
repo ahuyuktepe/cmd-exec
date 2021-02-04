@@ -2,7 +2,6 @@ from src.config.AppConfigs import AppConfigs
 from src.error.CmdExecError import CmdExecError
 from src.log.LogSettings import LogSettings
 from src.service.ConfigService import ConfigService
-from src.util.ValidationUtil import ValidationUtil
 
 
 class CoreConfigService(ConfigService):
@@ -32,24 +31,12 @@ class CoreConfigService(ConfigService):
 
     def getModePropsById(self, mid: str) -> dict:
         modes = self.__configs.getValue('application.modes')
-        retProps = None
         for props in modes:
             modId = props.get('id')
             if modId == mid:
-                retProps = props
-                break
-        if retProps is not None and retProps.get('module') is None:
-            retProps['module'] = 'core'
-        return retProps
+                return props
+        return None
 
     def getLogSettings(self) -> LogSettings:
         settings = self.__configs.getValue('log_settings')
         return LogSettings(settings)
-
-    def getFieldClassProps(self, type: str) -> dict:
-        fields = self.__configs.getValue('application.fields')
-        for fieldProps in fields:
-            ftype = fieldProps.get('type')
-            if ftype == type:
-                return fieldProps
-        return None

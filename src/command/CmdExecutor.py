@@ -1,22 +1,30 @@
 from src.context.AppContextManager import AppContextManager
+from src.field.FieldValues import FieldValues
 
 
 class CmdExecutor:
     _contextManager: AppContextManager
-    _cls: str
     _method: str
 
-    def __init__(self, cls: str):
-        self._cls = cls
-        self._method = None
-
-    def setMethod(self, method: str):
+    def __init__(self, method: str):
         self._method = method
+
+    # Setter Methods
 
     def setContextManager(self, contextManager: AppContextManager):
         self._contextManager = contextManager
 
-    def execute(self):
+    # Getter Methods
+
+    def getMethod(self) -> str:
+        return self._method
+
+    def hasCustomMethod(self) -> bool:
+        return self._method is not None
+
+    # Utility Method
+
+    def execute(self, values: FieldValues):
         pass
 
     def print(self):

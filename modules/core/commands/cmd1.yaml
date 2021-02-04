@@ -4,3 +4,19 @@ module: core
 executor:
   class: WebToolExecutor
   method: run
+fields:
+  - id: first_name
+    type: text
+    label: First Name
+    description: This is the first name
+  - id: city
+    type: single_select
+    label: Select City
+    options:
+      - id: ny
+        label: New York
+      - id: boston
+        label: Boston
+  - id: attachment
+    type: file
+    label: Attachment

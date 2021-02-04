@@ -1,23 +1,11 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.field.FieldValues import FieldValues
 from src.menu.Command import Command
 from src.service.CommandService import CommandService
-from src.service.FieldService import FieldService
 from src.util.ModuleUtil import ModuleUtil
-from src.util.ObjUtil import ObjUtil
 from src.util.ValidationUtil import ValidationUtil
 
 
 class CoreCmdService(CommandService):
-    __fieldService: FieldService
-
-    def __init__(self, fieldService: FieldService):
-        self.__fieldService = fieldService
-
-    def execute(self, cmd: Command):
-        values = FieldValues()
-        values.addValue('id', 'Test id')
-        cmd.execute(values)
 
     def buildCmdFromId(self, cid: str) -> Command:
         props = ModuleUtil.getModuleCommandProps(cid)
@@ -26,33 +14,19 @@ class CoreCmdService(CommandService):
         # Init Executor Object
         executor: CmdExecutor = self.__getExecutor(cid, props)
         cmd.setExecutor(executor)
-        # Get Fields
-        fieldProps = props.get('fields')
-        if fieldProps is not None:
-            fields = self.__getFields(fieldProps)
-            cmd.setFields(fields)
         return cmd
-
-    def __getFields(self, fields: list) -> list:
-        ValidationUtil.failIfNotType(fields, list, 'ERR45')
-        retList = []
-        for fieldProps in fields:
-            field = self.__fieldService.buildField(fieldProps)
-            retList.append(field)
-        return retList
 
     def __getExecutor(self, cid: str, props: dict) -> CmdExecutor:
         # Set Executor
         execProps: dict = props.get('executor')
         ValidationUtil.failIfNotType(execProps, dict, 'ERR37', {'cid': cid})
         cls = execProps.get('class')
+        executor = CmdExecutor(cls)
         ValidationUtil.failIfStrNoneOrEmpty(cls, 'ERR38', {'cid': cid})
-        path = 'modules.{module}.src.executor.{cls}'.format(module=props.get('module'), cls=cls)
-        ValidationUtil.failIfClassFileDoesNotExist(path, 'ERR51', {'path': path})
         method = execProps.get('method')
         if method is not None:
-            ValidationUtil.failIfNotType(method, str, 'ERR39', {'cid': cid})
-        executor = ObjUtil.initClassFromStr(path, cls, [method])
+            ValidationUtil.failIfStrNoneOrEmpty(cls, 'ERR39', {'cid': cid})
+            executor.setMethod(method)
         ValidationUtil.failIfNotType(executor, CmdExecutor, 'ERR40', {'cid': cid})
         executor.setContextManager(self._contextManager)
         return executor

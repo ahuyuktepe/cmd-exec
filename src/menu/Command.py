@@ -1,37 +1,43 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.command.Field import Field
+from src.field.Field import Field
+from src.field.FieldValues import FieldValues
 
 
 class Command:
-    __id: str
-    __title: str
-    __executor: CmdExecutor
-    __method: str
-    __fields: list
+    _id: str
+    _title: str
+    _executor: CmdExecutor
+    _fields: list
 
     def __init__(self, cid: str, title: str):
-        self.__id = cid
-        self.__title = title
-        self.__fields = []
-        self.__method = None
-        self.__executor = None
+        self._id = cid
+        self._title = title
+        self._fields = []
+        self._method = None
+        self._executor = None
 
     # Setter Methods
 
     def setExecutor(self, executor: CmdExecutor):
-        self.__executor = executor
+        self._executor = executor
 
     def setMethod(self, method: str):
-        self.__method = method
+        self._method = method
+
+    def setFields(self, fields: list):
+        self._fields = fields
 
     def addField(self, field: Field):
-        self.__fields.append(field)
+        self._fields.append(field)
 
     # Utility Methods
 
-    def execute(self):
-        pass
+    def execute(self, values: FieldValues):
+        if self._executor.hasCustomMethod():
+            method = getattr(self._executor, self._executor.getMethod())
+            method(values)
+        else:
+            self._executor.execute(values)
 
     def print(self):
-        print('id: ' + self.__id + ' | title: ' + self.__title)
-        self.__executor.print()
+        print('id: ' + self._id + ' | title: ' + self._title)

@@ -1,2 +1,6 @@
 id: ui_cmd1
+module: core
 title: UI Module Command
+executor:
+  class: WebToolExecutor
+  method: run

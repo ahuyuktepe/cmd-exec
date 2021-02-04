@@ -1,0 +1,19 @@
+description: Core Module
+name: core
+services:
+- args:
+  - appConfigs
+  id: configService
+  path: modules.core.src.service.CoreConfigService
+- args:
+  - '@configService'
+  id: argService
+  path: modules.core.src.service.CoreArgService
+- args:
+  - '@configService'
+  id: logService
+  path: modules.core.src.service.CoreLogService
+- args: []
+  id: cmdService
+  path: modules.core.src.service.CoreCmdService
+version: 0.0.1

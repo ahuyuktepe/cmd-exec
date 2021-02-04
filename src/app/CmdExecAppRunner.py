@@ -39,5 +39,5 @@ class CmdExecAppRunner:
         if not issubclass(cls, CmdExecApp):
             raise CmdExecError('ERR32', {'src': clsName, 'parent': 'CmdExecApp', 'name': props.get('module')})
         contextManager: AppContextManager = AppContextManager(appContext)
-        runner = ObjUtil.initClassFromStr(clsPath, clsName, [contextManager])
-        return runner
+        app = ObjUtil.initClassFromStr(clsPath, clsName, [contextManager])
+        return app
