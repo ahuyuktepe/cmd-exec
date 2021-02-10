@@ -1,4 +1,3 @@
-from src.field.FieldValues import FieldValues
 from src.menu.Command import Command
 from src.service.AppService import AppService
 
@@ -9,6 +8,4 @@ class CommandService(AppService):
         pass
 
     def execute(self, cmd: Command):
-        values = FieldValues()
-        values.addValue('id', 'This is the id of element')
-
+        pass

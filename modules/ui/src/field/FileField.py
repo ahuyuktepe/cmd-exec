@@ -7,4 +7,6 @@ class FileField(Field):
         super().__init__(id, 'file')
 
     def print(self):
+        print("=======================================================================================================")
         print('FileField => id: ' + self._id + ' | type: ' + self._type + ' | label: ' + self._label)
+        print('Value: ' + str(self._value))

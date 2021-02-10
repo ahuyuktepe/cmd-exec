@@ -50,7 +50,11 @@ class ErrorMessage:
         'ERR48': "Invalid value provided for module property of field type '{type}' in configurations.",
         'ERR49': "Field class does not exist in path '{path}'.",
         'ERR50': "No class properties are provided for field type '{type}'.",
-        'ERR51': "Executor class does not exist in path '{path}'."
+        'ERR51': "Executor class does not exist in path '{path}'.",
+        'ERR52': "Field validation failed.",
+        'ERR53': "Invalid field type '{type}' is given for command '{cid}'.",
+        'ERR54': "Field property {property} for command '{cid}' is either null or empty.",
+        'ERR55': "Invalid value is provided for field '{fid}' property '{prop}'."
     }
 
     @staticmethod

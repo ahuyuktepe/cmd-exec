@@ -1,5 +1,4 @@
 import argparse
-
 from src.error.CmdExecError import CmdExecError
 from src.service.ArgumentService import ArgumentService
 from src.service.ConfigService import ConfigService
@@ -27,6 +26,15 @@ class CoreArgService(ArgumentService):
     def getMode(self) -> str:
         return self.__arguments.get('mode')
 
+    def getArgs(self) -> dict:
+        retArgs: dict = {}
+        argStr: str = self.__arguments.get('args')
+        args = argStr.split(',')
+        for arg in args:
+            keyValPair = arg.split(':')
+            retArgs[keyValPair[0]] = keyValPair[1]
+        return retArgs
+
     # Private Methods
 
     def __setModes(self):
@@ -49,3 +57,4 @@ class CoreArgService(ArgumentService):
     def __setDefaultArguments(self):
         self.__argumentParser.add_argument('--mode', help='Sets program execution mode.', choices=self.__modes, default=self.__defaultMode)
         self.__argumentParser.add_argument('--cmd', help='Sets command to execute.')
+        self.__argumentParser.add_argument('--args', help='Arguments for command in json format.')

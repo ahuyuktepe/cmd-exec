@@ -5,18 +5,15 @@ executor:
   class: WebToolExecutor
   method: run
 fields:
-  - id: first_name
-    type: text
-    label: First Name
-    description: This is the first name
-  - id: city
-    type: single_select
-    label: Select City
-    options:
-      - id: ny
-        label: New York
-      - id: boston
-        label: Boston
-  - id: attachment
-    type: file
-    label: Attachment
+  - id: publish_date
+    type: date
+    label: Publish Date
+    format: mm/dd/yyyy
+    required: True
+    default: 10/12/2020
+  - id: modified_date_time
+    type: date
+    label: Modified Date Time
+    format: mm/dd/yyyy hh:mm:ss
+    required: True
+    default: 10/12/2020 10:00:00

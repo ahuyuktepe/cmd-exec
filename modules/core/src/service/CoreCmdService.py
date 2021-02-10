@@ -1,6 +1,6 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.field.FieldValues import FieldValues
 from src.menu.Command import Command
+from src.service.ArgumentService import ArgumentService
 from src.service.CommandService import CommandService
 from src.service.FieldService import FieldService
 from src.util.ModuleUtil import ModuleUtil
@@ -10,14 +10,19 @@ from src.util.ValidationUtil import ValidationUtil
 
 class CoreCmdService(CommandService):
     __fieldService: FieldService
+    __argService: ArgumentService
 
-    def __init__(self, fieldService: FieldService):
+    def __init__(self, fieldService: FieldService, argService: ArgumentService):
         self.__fieldService = fieldService
+        self.__argService = argService
 
     def execute(self, cmd: Command):
-        values = FieldValues()
-        values.addValue('id', 'Test id')
-        cmd.execute(values)
+        self.__validateFields(cmd)
+        cmd.execute()
+        pass
+
+    def __validateFields(self, cmd: Command):
+        pass
 
     def buildCmdFromId(self, cid: str) -> Command:
         props = ModuleUtil.getModuleCommandProps(cid)
@@ -29,15 +34,15 @@ class CoreCmdService(CommandService):
         # Get Fields
         fieldProps = props.get('fields')
         if fieldProps is not None:
-            fields = self.__getFields(fieldProps)
+            fields = self.__getFields(cid, fieldProps)
             cmd.setFields(fields)
         return cmd
 
-    def __getFields(self, fields: list) -> list:
+    def __getFields(self, cid: str, fields: list) -> list:
         ValidationUtil.failIfNotType(fields, list, 'ERR45')
         retList = []
         for fieldProps in fields:
-            field = self.__fieldService.buildField(fieldProps)
+            field = self.__fieldService.buildField(cid, fieldProps)
             retList.append(field)
         return retList
 

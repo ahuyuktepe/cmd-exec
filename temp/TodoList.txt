@@ -1,42 +1,32 @@
-Phase 2
-------------------------------------------------------------------------------------------------------------------
-=== Command Execution Process ===
-1)  Add following services to execute command.
-    - CommandService
-    - FieldService
-2)  Add validation to command execution process.
-3)  Write unit tests for command execution process.
+02/13/2021, 02/14/2021 Saturday Todo List
+    - Resources directory structure should be as following.
+        - commands
+        - arguments
+    - Search command yaml file in commands directory either module directory or resources
+      directory.
+    - Get arguments from yaml file for following field types.
+        - TextField
+        - SingleSelectField
+        - MultiSelectField
+        - DateField
+        - DateTimeField
+        - FileField
+    - Get arguments from command arguments.
+    - Add following properties while collecting values.
+        - default: Sets default value if not provided.
+    - Write unit tests
+    - Update user manual.
 
-Phase 1
-------------------------------------------------------------------------------------------------------------------
-=== Dependency Management ===
-1)  Add dependencies feature to module settings.                                                          [ DONE ]
-2)  Add validation to module dependencies feature.                                                        [ DONE ]
-3)  Add dependency management instructions to the User Manual.                                            [ DONE ]
-4)  Write unit tests for dependency management.                                                           [ DONE ]
-
-=== Configuration Management ===
-1)  Add configuration management process.                                                                 [ DONE ]
-2)  Add validation to configuration management process.                                                   [ DONE ]
-3)  Add instructions to the User Manual.                                                                  [ DONE ]
-4)  Write unit tests.                                                                                     [ DONE ]
-5)  Merge configurations which would override existing even though other siblings does not exist.         [ DONE ]
-
-=== Service Management ===
-1)  Add service initialization feature.                                                                   [ DONE ]
-2)  Add validation to service initialization process.                                                     [ DONE ]
-3)  Add service setting instructions to the User Manual.                                                  [ DONE ]
-4)  Write unit tests for service initialization process.                                                  [ DONE ]
-
-=== Command Executor Application Generation ===
-1)  Add command executor application generation process which allows modules to add their                 [ DONE ]
-    own application instance.
-2)  Add validation to command executor application generation process.
-3)  Add instructions to the User Manual.
-4)  Write unit tests.
-
-=== Command Menu Management ===
-1)  Add command menu management process.
-2)  Add validation to command menu management process.
-3)  Add instructions to the User Manual.
-4)  Write unit tests.
+02/15/2021 Sunday Todo List
+    - Implement TerminalService which does following.
+        - Render given html code and display on terminal.
+        - Display confirmation message.
+        - Collect user input for given field.
+        - Collect field values from user.
+    - Validate for following rules against field values and display errors on terminal.
+        - required
+        - format
+        - min
+        - max
+    - Write unit tests
+    - Update user manual.

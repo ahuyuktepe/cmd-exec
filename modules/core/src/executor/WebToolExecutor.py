@@ -1,9 +1,9 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.field.FieldValues import FieldValues
 
 
 class WebToolExecutor(CmdExecutor):
 
-    def run(self, values: FieldValues):
+    def run(self, fields: dict):
         print('run method in WebToolExecutor')
-        values.print()
+        for fid, field in fields.items():
+            field.print()

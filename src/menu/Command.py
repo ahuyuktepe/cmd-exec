@@ -1,18 +1,16 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.field.Field import Field
-from src.field.FieldValues import FieldValues
 
 
 class Command:
     _id: str
     _title: str
     _executor: CmdExecutor
-    _fields: list
+    _fields: dict
 
     def __init__(self, cid: str, title: str):
         self._id = cid
         self._title = title
-        self._fields = []
+        self._fields = {}
         self._method = None
         self._executor = None
 
@@ -25,19 +23,40 @@ class Command:
         self._method = method
 
     def setFields(self, fields: list):
-        self._fields = fields
+        if fields is not None and isinstance(fields, list):
+            for field in fields:
+                self._fields[field.getId()] = field
 
-    def addField(self, field: Field):
-        self._fields.append(field)
+    def setValues(self, values: dict):
+        if values is not None and isinstance(values, dict):
+            for fid, field in self._fields.items():
+                value = values.get(fid)
+                if value is not None:
+                    field.setValue(value)
+
+    def hasRequiredFieldWithoutValue(self) -> bool:
+        for fid, field in self._fields.items():
+            if field.isRequiredAndHaveNoValue():
+                return True
+        return False
+
+    # Getter Methods
+
+    def getRequiredFieldIdsWithoutValue(self) -> list:
+        ids: list = []
+        for fid, field in self._fields.items():
+            if field.isRequiredAndHaveNoValue():
+                ids.append(field.getId())
+        return ids
+
+    def getId(self) -> str:
+        return self._id
 
     # Utility Methods
 
-    def execute(self, values: FieldValues):
-        if self._executor.hasCustomMethod():
-            method = getattr(self._executor, self._executor.getMethod())
-            method(values)
-        else:
-            self._executor.execute(values)
+    def execute(self):
+        method = getattr(self._executor, self._executor.getMethod())
+        method(self._fields)
 
     def print(self):
         print('id: ' + self._id + ' | title: ' + self._title)

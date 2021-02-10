@@ -1,5 +1,5 @@
 from src.context.AppContextManager import AppContextManager
-from src.field.FieldValues import FieldValues
+from src.util.StrUtil import StrUtil
 
 
 class CmdExecutor:
@@ -7,7 +7,10 @@ class CmdExecutor:
     _method: str
 
     def __init__(self, method: str):
-        self._method = method
+        if StrUtil.isNoneOrEmpty(method):
+            self._method = "execute"
+        else:
+            self._method = method
 
     # Setter Methods
 
@@ -19,13 +22,10 @@ class CmdExecutor:
     def getMethod(self) -> str:
         return self._method
 
-    def hasCustomMethod(self) -> bool:
-        return self._method is not None
-
     # Utility Method
 
-    def execute(self, values: FieldValues):
+    def execute(self, fields: dict):
         pass
 
     def print(self):
-        print('cls: ' + self._cls + ' | method: ' + str(self._method))
+        print('method: ' + str(self._method))

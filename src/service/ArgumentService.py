@@ -8,3 +8,6 @@ class ArgumentService(AppService):
 
     def getMode(self) -> str:
         pass
+
+    def getArgs(self) -> dict:
+        pass
