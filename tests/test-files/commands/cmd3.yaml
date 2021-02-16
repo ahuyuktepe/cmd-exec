@@ -1,0 +1,13 @@
+id: cmd3
+title: Command 3
+module: core
+executor:
+  class: WebToolExecutor
+  method: run
+fields:
+  - id: publish_date
+    type: date
+    label: Publish Date
+    required: True
+    format: '%m-%d-%Y'
+    default: '05-01-2021'

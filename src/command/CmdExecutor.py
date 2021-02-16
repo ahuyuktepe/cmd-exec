@@ -12,17 +12,11 @@ class CmdExecutor:
         else:
             self._method = method
 
-    # Setter Methods
-
     def setContextManager(self, contextManager: AppContextManager):
         self._contextManager = contextManager
 
-    # Getter Methods
-
     def getMethod(self) -> str:
         return self._method
-
-    # Utility Method
 
     def execute(self, fields: dict):
         pass

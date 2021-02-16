@@ -3,7 +3,7 @@ class ErrorMessage:
         'ERR01': "Module name is not defined or empty for module '{module}'.",
         'ERR02': "Invalid version '{version}' provided for module '{module}'.",
         'ERR03': "Dependencies are not defined correctly for module '{module}'.",
-        'ERRO4': "Environment variable '{name}' is not set.",
+        'ERRO4': "FileUtil root path is not initialized.",
         'ERR05': "Configuration file '{file}' for module '{name}' can not be loaded.",
         'ERR06': "Settings file does not exist or can not be read for module '{name}' located in '{path}'.",
         'ERR07': "Module '{srcModule}' depends on module '{depModule}' but not found.",
@@ -33,7 +33,7 @@ class ErrorMessage:
         'ERR31': "Command executor application class '{cls}' file does not exist at '{path}'.",
         'ERR32': "Given class '{src}' is not sub class of '{parent}' in module '{name}' configs.",
         'ERR33': "Given class '{src}' is not sub class of '{parent}' in module '{name}' settings.",
-        'ERR34': "Command file '{path}' does not exist.",
+        'ERR34': "Command file '{file}' does not exist in commands directory located in either module or resources directory.",
         'ERR35': "Invalid id provided in command file '{cid}.yaml'.",
         'ERR36': "Invalid title provided in command file '{cid}.yaml'.",
         'ERR37': "Invalid executor provided in command file '{cid}.yaml'.",
@@ -54,7 +54,11 @@ class ErrorMessage:
         'ERR52': "Field validation failed.",
         'ERR53': "Invalid field type '{type}' is given for command '{cid}'.",
         'ERR54': "Field property {property} for command '{cid}' is either null or empty.",
-        'ERR55': "Invalid value is provided for field '{fid}' property '{prop}'."
+        'ERR55': "Invalid value is provided for field '{fid}' property '{prop}'.",
+        'ERR56': "Given value '{value}' for date field '{fid}' is not in allowable date range '{from}' - '{to}'.",
+        'ERR57': "Field '{fid}' is required but no value provided.",
+        'ERR58': "File '{path}' for field '{fid}' does not exist.",
+        'ERR59': "Given executor class does not extend from CmdExecuter lass."
     }
 
     @staticmethod

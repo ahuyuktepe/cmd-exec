@@ -17,12 +17,9 @@ class ValidationUtil:
             raise CmdExecError(code, params)
 
     @staticmethod
-    def failIfEnvironmentVarIsNotValid(name: str):
-        if name not in os.environ:
-            raise CmdExecError('ERR04', {'name': name})
-        value = os.environ[name]
-        if value in [None, '', '/']:
-            raise CmdExecError('ERR04', {'name': name})
+    def failIfFileUtilIsNotInitialized():
+        if not FileUtil.isInitialized():
+            raise CmdExecError('ERR04')
 
     @staticmethod
     def failIfStrNoneOrEmpty(val: str, code: str, params: dict = {}):
@@ -55,3 +52,8 @@ class ValidationUtil:
         path = StrUtil.convertClassPathToFilePath(clsPath)
         if len(path) == 0 or not FileUtil.doesFileExist(path, 'py'):
             raise CmdExecError(code, params)
+
+    @staticmethod
+    def failIfNotSubClass(srcCls, type):
+        if not issubclass(srcCls, type):
+            raise CmdExecError('ERR59')

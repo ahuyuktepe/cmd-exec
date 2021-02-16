@@ -6,7 +6,28 @@ from src.error.CmdExecError import CmdExecError
 
 
 class FileUtil:
-    __rootPath: str = os.environ['APP_RUNNER_ROOT_PATH']
+    __rootPath: str = None
+    __isInitialized: bool = False
+
+    @staticmethod
+    def initialize(path: str = None):
+        if not FileUtil.__isInitialized:
+            pathEnv = os.environ['APP_RUNNER_ROOT_PATH']
+            if path is not None:
+                FileUtil.__rootPath = path
+            elif pathEnv is None:
+                FileUtil.__rootPath = os.path.abspath('.')
+            else:
+                FileUtil.__rootPath = pathEnv
+            FileUtil.__isInitialized = True
+
+    @staticmethod
+    def getRootPath() -> str:
+        return FileUtil.__rootPath
+
+    @staticmethod
+    def isInitialized() -> bool:
+        return FileUtil.__isInitialized and FileUtil.__rootPath is not None
 
     @staticmethod
     def getAbsolutePath(relativePath: list) -> str:
@@ -60,6 +81,11 @@ class FileUtil:
         return os.path.exists(path)
 
     @staticmethod
+    def doesDirectoryExist(relativePath: list) -> bool:
+        path = FileUtil.getAbsolutePath(relativePath)
+        return os.path.exists(path)
+
+    @staticmethod
     def doesUserHaveAccessOnFile(relativePath: list) -> bool:
         path = FileUtil.getAbsolutePath(relativePath)
         return os.access(path, os.R_OK)
@@ -73,14 +99,20 @@ class FileUtil:
         shutil.copy(srcDirPath, destDirPath)
 
     @staticmethod
+    def copyDirectory(srcPath: list, destPath: list):
+        srcDirPath = FileUtil.getAbsolutePath(srcPath)
+        destDirPath = FileUtil.getAbsolutePath(destPath)
+        shutil.copytree(srcDirPath, destDirPath)
+
+    @staticmethod
     def makeDir(relativePath: list):
         if not FileUtil.doesFileExist(relativePath):
             path = FileUtil.getAbsolutePath(relativePath)
             os.mkdir(path)
 
     @staticmethod
-    def deleteDir(relativePath: list):
-        ignoredDirs = ['src', 'logs', 'temp', 'modules', 'app_runner']
+    def deleteDir(relativePath: list, extraIgnoredDirs: list = ['modules']):
+        ignoredDirs = ['src', 'logs', 'temp', 'app_runner'] + extraIgnoredDirs
         dirName = relativePath[-1]
         if dirName in ignoredDirs:
             raise CmdExecError('ERR21', {'dirs': str(ignoredDirs), 'home': FileUtil.__rootPath})
@@ -94,3 +126,7 @@ class FileUtil:
         file = open(path, 'w')
         file.write(content)
         file.close()
+
+    @staticmethod
+    def fromStrPathToArr(path: str) -> list:
+        return path.split(os.path.sep)

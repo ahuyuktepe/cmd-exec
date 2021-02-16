@@ -5,13 +5,14 @@ from src.service.ConfigService import ConfigService
 
 
 class CoreArgService(ArgumentService):
-    __argumentParser: argparse.ArgumentParser = argparse.ArgumentParser("Provide arguments")
-    __arguments: dict = None
+    __argumentParser: argparse.ArgumentParser
+    __arguments: dict
     __configService: ConfigService
     __modes: list
     __defaultMode: str
 
     def __init__(self, configService: ConfigService):
+        self.__argumentParser = argparse.ArgumentParser("Provide arguments")
         self.__configService = configService
         self.__setModes()
         self.__setDefaultMode()
@@ -29,10 +30,11 @@ class CoreArgService(ArgumentService):
     def getArgs(self) -> dict:
         retArgs: dict = {}
         argStr: str = self.__arguments.get('args')
-        args = argStr.split(',')
-        for arg in args:
-            keyValPair = arg.split(':')
-            retArgs[keyValPair[0]] = keyValPair[1]
+        if argStr is not None:
+            args = argStr.split(',')
+            for arg in args:
+                keyValPair = arg.split(':')
+                retArgs[keyValPair[0]] = keyValPair[1]
         return retArgs
 
     # Private Methods

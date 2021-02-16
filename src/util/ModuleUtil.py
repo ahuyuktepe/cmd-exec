@@ -91,9 +91,12 @@ class ModuleUtil:
         props = StrUtil.getCommandPropertiesFromStr(cid)
         fileName = props.get('cid') + '.yaml'
         path = ['modules', props.get('module'), 'commands', fileName]
-        filePath = FileUtil.getAbsolutePath(path)
-        ValidationUtil.failIfFileCanNotBeAccessed(path, 'ERR34', {'path': filePath})
-        return FileUtil.generateObjFromYamlFile(path)
+        if FileUtil.isFileReadable(path):
+            return FileUtil.generateObjFromYamlFile(path)
+        path = ['resources', 'commands', fileName]
+        if FileUtil.isFileReadable(path):
+            return FileUtil.generateObjFromYamlFile(path)
+        raise CmdExecError('ERR34', {'file': fileName})
 
     @staticmethod
     def doesConfigFileExistForModule(name: str) -> bool:

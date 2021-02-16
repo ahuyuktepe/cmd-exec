@@ -7,10 +7,8 @@ application:
       module: core
       runner: CoreInitExecApp
   fields:
-    - type: text
-      class: TextField
-    - type: single_select
-      class: SingleSelectField
+    - { type: date, class: CoreDateField }
+    - { type: file, class: CoreFileField }
 log_settings:
   level: info
   dir_path: logs

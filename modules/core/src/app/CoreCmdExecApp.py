@@ -16,20 +16,15 @@ class CoreCmdExecApp(CmdExecApp):
     def run(self):
         # 1) Get command id
         cid = self._args.getCmd()
-        print('Passed command id: ' + str(cid))
         # 2) Build command object
         cmd = self.__cmdService.buildCmdFromId(cid)
-        cmd.print()
         # 3) Get field values from command params and merge
         values: dict = self.__fieldService.getFieldValuesFromArgumentFile(cmd)
-        cmd.setValues(values)
         # 4) Get arguments from command params and merge
-        if cmd.hasRequiredFieldWithoutValue():
-            values = self.__fieldService.getFieldValuesFromCmdArgs(cmd)
-            cmd.setValues(values)
-        # 5) Get arguments
-        if cmd.hasRequiredFieldWithoutValue():
-            values = self.__fieldService.getFieldValuesFromUser(cmd)
-            cmd.setValues(values)
-        # 4) Execute command
+        valuesFromCmd: dict = self.__fieldService.getFieldValuesFromCmdArgs(cmd)
+        for key, value in valuesFromCmd.items():
+            if value is not None:
+                values[key] = value
+        cmd.setValues(values)
+        # 5) Execute command
         self.__cmdService.execute(cmd)

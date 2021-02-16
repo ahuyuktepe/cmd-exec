@@ -18,11 +18,15 @@ class CoreCmdService(CommandService):
 
     def execute(self, cmd: Command):
         self.__validateFields(cmd)
-        cmd.execute()
-        pass
+        executor: CmdExecutor = cmd.getExecutor()
+        fields: dict = cmd.getFields()
+        method = getattr(executor, executor.getMethod())
+        method(fields)
 
     def __validateFields(self, cmd: Command):
-        pass
+        fields: dict = cmd.getFields()
+        for fid, field in fields.items():
+            field.validate()
 
     def buildCmdFromId(self, cid: str) -> Command:
         props = ModuleUtil.getModuleCommandProps(cid)
@@ -50,17 +54,25 @@ class CoreCmdService(CommandService):
         # Set Executor
         execProps: dict = props.get('executor')
         ValidationUtil.failIfNotType(execProps, dict, 'ERR37', {'cid': cid})
-        cls = execProps.get('class')
-        ValidationUtil.failIfStrNoneOrEmpty(cls, 'ERR38', {'cid': cid})
-        path = 'modules.{module}.src.executor.{cls}'.format(module=props.get('module'), cls=cls)
-        ValidationUtil.failIfClassFileDoesNotExist(path, 'ERR51', {'path': path})
+        clsName = execProps.get('class')
+        ValidationUtil.failIfStrNoneOrEmpty(clsName, 'ERR38', {'cid': cid})
+        module = props.get('module')
+        clsPath = 'modules.{module}.src.executor.{cls}'.format(module=module, cls=clsName)
+        ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR51', {'path': clsPath})
         method = execProps.get('method')
         if method is not None:
             ValidationUtil.failIfNotType(method, str, 'ERR39', {'cid': cid})
-        executor = ObjUtil.initClassFromStr(path, cls, [method])
+        cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
+        ValidationUtil.failIfNotSubClass(cls, CmdExecutor)
+        executor = ObjUtil.initClassFromStr(clsPath, clsName, [method])
         ValidationUtil.failIfNotType(executor, CmdExecutor, 'ERR40', {'cid': cid})
         executor.setContextManager(self._contextManager)
         return executor
+
+    def __validateExecutorSubClass(self, clsPath: str, clsName: str):
+        # Child Class
+        childCls = ObjUtil.getClassFromClsPath(clsPath, clsName)
+        ValidationUtil.failIfNotSubClass(childCls, CmdExecutor)
 
     def __getCommand(self, cid: str, props: dict) -> Command:
         cmdId = props.get('id')

@@ -7,7 +7,10 @@ class NumberField(Field):
     def __init__(self, fid: str):
         super().__init__(fid, FieldType.NUMBER)
 
+    def validate(self):
+        print('validating NumberField')
+
     def print(self):
-        print("=======================================================================================================")
-        print('NumberField => id: ' + self._id + ' | type: ' + self._type + ' | label: ' + self._label)
-        print('Value: ' + str(self._value))
+        print("====================================== Number Field =========================================")
+        print("--- Common Properties ---")
+        super().print()

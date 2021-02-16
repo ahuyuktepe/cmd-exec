@@ -6,6 +6,7 @@ from src.error.CmdExecError import CmdExecError
 from src.service.ArgumentService import ArgumentService
 from src.service.ConfigService import ConfigService
 from src.util.ErrorUtil import ErrorUtil
+from src.util.FileUtil import FileUtil
 from src.util.ObjUtil import ObjUtil
 from src.util.StrUtil import StrUtil
 from src.util.ValidationUtil import ValidationUtil
@@ -16,7 +17,9 @@ class CmdExecAppRunner:
     @staticmethod
     def run():
         try:
-            ValidationUtil.failIfEnvironmentVarIsNotValid('APP_RUNNER_ROOT_PATH')
+            ObjUtil.initialize()
+            FileUtil.initialize()
+            ValidationUtil.failIfFileUtilIsNotInitialized()
             appContext = AppContextBuilder.buildBaseAppContext()
             app: CmdExecApp = CmdExecAppRunner.__buildCmdExecApp(appContext)
             app.run()

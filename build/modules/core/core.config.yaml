@@ -1,5 +1,0 @@
-application:
-  modes:
-  - id: cmd
-    module: core
-    runner: TestCmdExecApp
