@@ -50,17 +50,17 @@ class TestUtil:
         TestFileUtil.makeDir(path)
 
     @staticmethod
-    def useCmdFilesInModule(cmdFileNames: list, moduleName: str):
+    def useCmdFilesInModule(cmdFileNames: list, moduleName: str = 'core'):
         for fileName in cmdFileNames:
-            srcFilePath = ['tests', 'test-files', 'commands', fileName]
-            dstDirPath = ['tests', 'target', 'modules', moduleName, 'commands', fileName]
+            srcFilePath = ['tests', 'test-files', 'commands', fileName + '.yaml']
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'commands', fileName + '.yaml']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useCmdFiles(cmdFileNames: list):
+    def useCmdFilesInCommandsDir(cmdFileNames: list):
         for fileName in cmdFileNames:
-            srcFilePath = ['tests', 'test-files', 'commands', fileName]
-            dstDirPath = ['tests', 'target', 'resources', 'commands', fileName]
+            srcFilePath = ['tests', 'test-files', 'commands', fileName + '.yaml']
+            dstDirPath = ['tests', 'target', 'resources', 'commands', fileName + '.yaml']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
@@ -78,11 +78,17 @@ class TestUtil:
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useExecutorsInModule(execClsNames: list, moduleName: str):
+    def useExecutorsInModule(execClsNames: list, moduleName: str = 'core'):
         for fileName in execClsNames:
-            srcFilePath = ['tests', 'test-files', 'executors', fileName]
-            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'executor', fileName]
+            srcFilePath = ['tests', 'test-files', 'executors', fileName + '.py']
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'executor', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
+    def useExecutorInModuleAsInGivenName(srcClsName: str, destClsName: str, moduleName: str = 'core'):
+        srcFilePath = ['tests', 'test-files', 'executors', srcClsName + '.py']
+        dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'executor', destClsName + '.py']
+        TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
     def useFieldsInModule(fieldClsNames: list, moduleName: str):

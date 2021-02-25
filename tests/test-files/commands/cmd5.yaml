@@ -1,0 +1,10 @@
+id: cmd5
+title: Command 5
+module: core
+executor:
+  class: TestExecutor5
+  method: testMethod
+fields:
+  - id: publish_date
+    type: date
+    label: Publish Date

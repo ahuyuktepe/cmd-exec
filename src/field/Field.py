@@ -14,8 +14,6 @@ class Field:
         self._value = None
         self._required = False
         self._default = None
-        self._min = None
-        self._max = None
 
     def setProperties(self, props: dict):
         # Set label field
@@ -24,6 +22,7 @@ class Field:
         # Set required field
         required = props.get('required')
         self._setRequired(required)
+        self._setDefault(props)
 
     def setLabel(self, label: object):
         ValidationUtil.failIfNotType(label, str, 'ERR55', {'fid': self._id, 'prop': 'label'})
@@ -33,6 +32,9 @@ class Field:
         if value is not None:
             ValidationUtil.failIfNotType(value, bool, 'ERR55', {'fid': self._id, 'prop': 'required'})
             self._required = str(value) == 'True'
+
+    def _setDefault(self, props: dict):
+        pass
 
     def isRequired(self) -> bool:
         return self._required

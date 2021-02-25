@@ -1,0 +1,10 @@
+id: cmd4
+title: Command 4
+module: core
+executor:
+  class: TestExecutor4
+  method: run
+fields:
+  - id: publish_date
+    type: date
+    label: Publish Date

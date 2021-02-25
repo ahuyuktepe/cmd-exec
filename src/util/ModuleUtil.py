@@ -88,6 +88,8 @@ class ModuleUtil:
 
     @staticmethod
     def getModuleCommandProps(cid: str) -> dict:
+        if StrUtil.isNoneOrEmpty(cid):
+            raise CmdExecError('ERR60')
         props = StrUtil.getCommandPropertiesFromStr(cid)
         fileName = props.get('cid') + '.yaml'
         path = ['modules', props.get('module'), 'commands', fileName]

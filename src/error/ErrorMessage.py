@@ -58,7 +58,10 @@ class ErrorMessage:
         'ERR56': "Given value '{value}' for date field '{fid}' is not in allowable date range '{from}' - '{to}'.",
         'ERR57': "Field '{fid}' is required but no value provided.",
         'ERR58': "File '{path}' for field '{fid}' does not exist.",
-        'ERR59': "Given executor class does not extend from CmdExecuter lass."
+        'ERR59': "Given executor class does not extend from CmdExecuter lass.",
+        'ERR60': "None or empty value is given for cmd.",
+        'ERR61': "Given value '{value}' size for field '{fid}' is less then min_size value '{min_size}'",
+        'ERR62': "Given value '{value}' size for field '{fid}' is greater then max_size value '{max_size}'"
     }
 
     @staticmethod

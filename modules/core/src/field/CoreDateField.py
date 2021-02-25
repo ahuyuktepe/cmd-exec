@@ -1,7 +1,7 @@
 from src.date.Date import Date
 from src.error.CmdExecError import CmdExecError
 from src.field.DateField import DateField
-from src.field.FieldType import FieldType
+from src.enum.FieldType import FieldType
 from src.util.DateUtil import DateUtil
 from src.util.ValidationUtil import ValidationUtil
 
@@ -15,6 +15,8 @@ class CoreDateField(DateField):
 
     def __init__(self, fid: str):
         super().__init__(fid, FieldType.DATE)
+        self._min = None
+        self._max = None
 
     def setValue(self, dateStr: str):
         try:
@@ -30,7 +32,6 @@ class CoreDateField(DateField):
     def setProperties(self, props: dict):
         super().setProperties(props)
         self._setFormat(props)
-        self._setDefault(props)
         self._setMin(props)
         self._setMax(props)
 

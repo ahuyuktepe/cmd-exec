@@ -1,13 +1,13 @@
-from src.field.Field import Field
-from src.field.FieldType import FieldType
+from src.enum.FieldType import FieldType
+from src.field.SelectionField import SelectionField
 from src.util.ValidationUtil import ValidationUtil
 
 
-class SingleSelectField(Field):
+class SingleSelectField(SelectionField):
     _options: list
 
     def __init__(self, fid: str):
-        super().__init__(fid, FieldType.SINGLE_SELECT)
+        super().__init__(fid, FieldType.SELECTION)
 
     def setOptions(self, options: list):
         ValidationUtil.failIfNotType(options, list, 'ERR55', {'fid': self._id, 'prop': 'options'})
@@ -17,8 +17,8 @@ class SingleSelectField(Field):
         print('validating SingleSelectField')
 
     def print(self):
-        print("====================================== Single Select Field =========================================")
+        print("====================================== Selection Field =========================================")
         print("--- Common Properties ---")
         super().print()
-        print("--- Date Field Properties ---")
+        print("--- Selection Field Properties ---")
         print('options: ' + str(self._options))

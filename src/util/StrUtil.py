@@ -7,8 +7,10 @@ from src.error.CmdExecError import CmdExecError
 class StrUtil:
     @staticmethod
     def getCommandPropertiesFromStr(cid: str) -> dict:
-        arr: list = cid.split('.')
         props: dict = {'module': 'core', 'cid': None}
+        if cid is None:
+            return props
+        arr: list = cid.split('.')
         if len(arr) > 1:
             props['module'] = arr[0]
             props['cid'] = arr[1]
