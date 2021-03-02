@@ -19,13 +19,9 @@ class TestDateField:
             },
             'fields': [self.__fieldSettings]
         }
-
-    @classmethod
-    def setup_class(cls):
         TestUtil.setupTestingEnvironment()
 
-    @classmethod
-    def teardown_class(cls):
+    def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
 
     def test_valid_date_field_from_cmd_file_module(self, monkeypatch, capsys):

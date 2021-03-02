@@ -73,8 +73,8 @@ class TestUtil:
     @staticmethod
     def useServicesInModule(srvClsNames: list, moduleName: str):
         for fileName in srvClsNames:
-            srcFilePath = ['tests', 'test-files', 'services', fileName]
-            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'service', fileName]
+            srcFilePath = ['tests', 'test-files', 'services', fileName + '.py']
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'service', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
@@ -91,8 +91,29 @@ class TestUtil:
         TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
+    def useCmdAppInModuleAsInGivenName(srcClsName: str, destClsName: str, moduleName: str = 'core'):
+        srcFilePath = ['tests', 'test-files', 'app', srcClsName + '.py']
+        dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'app', destClsName + '.py']
+        TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
     def useFieldsInModule(fieldClsNames: list, moduleName: str):
         for fileName in fieldClsNames:
             srcFilePath = ['tests', 'test-files', 'fields', fileName]
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'field', fileName]
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
+    def buildModuleFiles(name: str, settings: dict = {}, config: dict = {}):
+        # Generating Module Directories
+        path = ['tests', 'target', 'modules', name]
+        TestFileUtil.makeDir(path)
+        srcPath = path + ['src']
+        TestFileUtil.makeDir(srcPath)
+        TestFileUtil.makeDirs(srcPath, ['app', 'executor', 'field', 'service'])
+        # Saving Settings File
+        settingsFilePath = ['tests', 'target', 'modules', name, (name + '.settings.yaml')]
+        TestFileUtil.saveDictAsYamlFile(settings, settingsFilePath)
+        # Saving Config File
+        configFilePath = ['tests', 'target', 'modules', name, (name + '.config.yaml')]
+        TestFileUtil.saveDictAsYamlFile(config, configFilePath)

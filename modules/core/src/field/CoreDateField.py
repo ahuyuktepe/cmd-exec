@@ -17,6 +17,7 @@ class CoreDateField(DateField):
         super().__init__(fid, FieldType.DATE)
         self._min = None
         self._max = None
+        self._format = '%m-%d-%Y'
 
     def setValue(self, dateStr: str):
         try:

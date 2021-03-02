@@ -1,4 +1,5 @@
 from src.config.AppConfigs import AppConfigs
+from src.config.ConfigManager import ConfigManager
 from src.error.CmdExecError import CmdExecError
 from src.module.AppModule import AppModule
 from src.module.ServiceProperties import ServiceProperties
@@ -123,7 +124,7 @@ class AppContext:
         clsPath = serviceProps.getClassPath()
         clsName = serviceProps.getClassName()
         ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR30', {'cls': clsName, 'path': clsPath})
-        cls = StrUtil.convertClassNameStrToClass(clsPath, clsName)
+        cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
         if not issubclass(cls, AppService):
-            raise CmdExecError('ERR33', {'src': clsName, 'parent': 'AppService', 'name': serviceProps.getModuleName()})
+            raise CmdExecError('ERR28', {'src': clsName})
         return ObjUtil.initClassFromStr(clsPath, clsName, passedArgs)

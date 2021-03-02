@@ -10,7 +10,7 @@ fields:
     label: Publish Date
     required: True
     format: '%m-%d-%Y'
-    default: '05-01-2021'
+    default: '02-02-2022'
 #    min: 12-03-2020
 #    max: 02-01-2021
 #  - id: attachment

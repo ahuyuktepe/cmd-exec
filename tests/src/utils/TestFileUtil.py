@@ -57,6 +57,12 @@ class TestFileUtil:
             os.mkdir(path)
 
     @staticmethod
+    def makeDirs(srcDirPath: list, dirs: list):
+        for dirName in dirs:
+            path = srcDirPath + [dirName]
+            TestFileUtil.makeDir(path)
+
+    @staticmethod
     def deleteDir(relativePath: list):
         if isinstance(relativePath, list) and relativePath:
             dirName = relativePath[-1]

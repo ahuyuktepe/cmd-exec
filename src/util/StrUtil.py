@@ -86,9 +86,3 @@ class StrUtil:
     def convertClassPathToFilePath(clsPath: str) -> list:
         if isinstance(clsPath, str) and not StrUtil.isNoneOrEmpty(clsPath):
             return clsPath.split('.')
-
-    @staticmethod
-    def convertClassNameStrToClass(clsPath: str, clsName: str):
-        module = importlib.import_module(clsPath)
-        cls = getattr(module, clsName)
-        return cls

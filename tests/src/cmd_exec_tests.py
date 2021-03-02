@@ -3,12 +3,11 @@ from tests.src.utils.TestUtil import TestUtil
 
 
 class TestCmdExecutor:
-    @classmethod
-    def setup_class(cls):
+
+    def setup_method(method):
         TestUtil.setupTestingEnvironment()
 
-    @classmethod
-    def teardown_class(cls):
+    def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
 
     def test_non_existing_cmd_execution(self, monkeypatch, capsys):

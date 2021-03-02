@@ -19,13 +19,9 @@ class TestTextField:
             },
             'fields': [self.__fieldSettings]
         }
-
-    @classmethod
-    def setup_class(cls):
         TestUtil.setupTestingEnvironment()
 
-    @classmethod
-    def teardown_class(cls):
+    def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
 
     def test_default_value(self, monkeypatch, capsys):

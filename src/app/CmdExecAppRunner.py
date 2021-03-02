@@ -38,7 +38,7 @@ class CmdExecAppRunner:
         clsName = props.get('runner')
         # Validate
         ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR31', {'cls': clsName, 'path': clsPath})
-        cls = StrUtil.convertClassNameStrToClass(clsPath, clsName)
+        cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
         if not issubclass(cls, CmdExecApp):
             raise CmdExecError('ERR32', {'src': clsName, 'parent': 'CmdExecApp', 'name': props.get('module')})
         contextManager: AppContextManager = AppContextManager(appContext)

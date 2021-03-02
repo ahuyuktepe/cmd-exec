@@ -4,12 +4,11 @@ from tests.src.utils.TestUtil import TestUtil
 
 
 class TestCmdArgs:
-    @classmethod
-    def setup_class(cls):
+
+    def setup_method(method):
         TestUtil.setupTestingEnvironment()
 
-    @classmethod
-    def teardown_class(cls):
+    def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
 
     def testing_cmd_arg(self, monkeypatch, capsys):
