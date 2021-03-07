@@ -97,10 +97,17 @@ class TestUtil:
         TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useFieldsInModule(fieldClsNames: list, moduleName: str):
+    def useFieldsInModule(fieldClsNames: list, moduleName: str = 'core'):
         for fileName in fieldClsNames:
             srcFilePath = ['tests', 'test-files', 'fields', fileName]
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'field', fileName]
+            TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
+    def useProvidersInModule(providers: list, moduleName: str = 'core'):
+        for fileName in providers:
+            srcFilePath = ['tests', 'test-files', 'providers', fileName + '.py']
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'provider', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod

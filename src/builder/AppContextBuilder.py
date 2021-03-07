@@ -1,6 +1,9 @@
 from src.context.AppContext import AppContext
 from src.context.AppContextManager import AppContextManager
 from src.module.AppModule import AppModule
+from src.service.ArgumentService import ArgumentService
+from src.service.CoreServiceType import CoreServiceType
+from src.service.ServiceBuilder import ServiceBuilder
 from src.util.ListUtil import ListUtil
 from src.util.ModuleUtil import ModuleUtil
 
@@ -18,7 +21,8 @@ class AppContextBuilder:
         # Init Module Configs
         AppContextBuilder.__initConfigs(appContext, names)
         # Init Services
-        AppContextBuilder.__initServices(appContext, names)
+        AppContextBuilder.__initCoreServices(appContext)
+        AppContextBuilder.__initCustomServices(appContext, names)
         return appContext
 
     # Private Methods
@@ -26,37 +30,48 @@ class AppContextBuilder:
     # === Service ===
 
     @staticmethod
-    def __initServices(appContext: AppContext, names: list):
-        AppContextBuilder.__addService(appContext, 'core')
-        for name in names:
-            AppContextBuilder.__addService(appContext, name)
+    def __initCoreServices(appContext: AppContext):
+        # Initialize Core Services
+        # ConfigurationService
+        service = ServiceBuilder.buildConfigService(appContext)
+        appContext.addService(CoreServiceType.CONF_SERVICE, service)
+        # ArgumentService
+        service = ServiceBuilder.buildArgService(appContext)
+        appContext.addService(CoreServiceType.ARG_SERVICE, service)
+        # FieldService
+        service = ServiceBuilder.buildFieldService(appContext)
+        appContext.addService(CoreServiceType.FIELD_SERVICE, service)
+        # CommandService
+        service = ServiceBuilder.buildCommandService(appContext)
+        appContext.addService(CoreServiceType.CMD_SERVICE, service)
+        # LogService
+        service = ServiceBuilder.buildLogService(appContext)
+        appContext.addService(CoreServiceType.LOG_SERVICE, service)
 
     @staticmethod
-    def __addService(appContext: AppContext, name: str):
-        module: AppModule = appContext.getModule(name)
-        if module is not None:
-            services: dict = module.findAllServicePropertiesByInit(True)
-            for sid, modService in services.items():
-                if not appContext.hasService(sid):
-                    service = appContext.initService(modService)
-                    context = AppContextManager(appContext)
-                    service.setContextManager(context)
-                    appContext.addService(sid, service)
+    def __initCustomServices(appContext: AppContext, names: list):
+        for name in names:
+            module: AppModule = appContext.getModule(name)
+            if module is not None:
+                services: dict = module.findAllServicePropertiesByInit(True)
+                for sid, serviceProps in services.items():
+                    if not appContext.hasService(sid):
+                        service = ServiceBuilder.buildService(serviceProps, appContext)
+                        appContext.addService(sid, service)
 
     # === Configs ===
 
     @staticmethod
     def __initConfigs(appContext: AppContext, names: list):
-        AppContextBuilder.__addConfigToAppContext('core', appContext)
+        # Insert Main Config
+        props: dict = ModuleUtil.getMainConfig()
+        appContext.addConfig(props)
+        # Insert Module Configs
         for name in names:
-            AppContextBuilder.__addConfigToAppContext(name, appContext)
-
-    @staticmethod
-    def __addConfigToAppContext(name: str, appContext: AppContext):
-        if ModuleUtil.doesConfigFileExistForModule(name):
-            props = ModuleUtil.getModuleConfigs(name)
-            ModuleUtil.validateModuleConfigs(name, props)
-            appContext.addConfig(props)
+            if ModuleUtil.doesConfigFileExistForModule(name):
+                props = ModuleUtil.getModuleConfigs(name)
+                ModuleUtil.validateModuleConfigs(name, props)
+                appContext.addConfig(props)
 
     # === Modules ===
 

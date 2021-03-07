@@ -1,3 +1,4 @@
+from src.enum.FieldType import FieldType
 from src.error.CmdExecError import CmdExecError
 from src.util.ValidationUtil import ValidationUtil
 
@@ -7,13 +8,20 @@ class Field:
     _type: str
     _label: str
     _required: bool
+    _value: object
+    _default: object
+    _min: object
+    _max: object
 
     def __init__(self, id: str, ftype: str):
         self._id = id
         self._type = ftype
-        self._value = None
+        self._label = None
         self._required = False
+        self._value = None
         self._default = None
+        self._min = None
+        self._max = None
 
     def setProperties(self, props: dict):
         # Set label field
@@ -27,6 +35,9 @@ class Field:
     def setLabel(self, label: object):
         ValidationUtil.failIfNotType(label, str, 'ERR55', {'fid': self._id, 'prop': 'label'})
         self._label = str(label)
+
+    def setValue(self, value: object):
+        self._value = value
 
     def _setRequired(self, value: object):
         if value is not None:
@@ -44,6 +55,21 @@ class Field:
 
     def getId(self) -> str:
         return self._id
+
+    def getValue(self) -> object:
+        return self._value
+
+    def getType(self) -> str:
+        return self._type
+
+    def isDate(self) -> bool:
+        return self._type == FieldType.DATE
+
+    def isSelection(self) -> bool:
+        return self._type == FieldType.SELECTION
+
+    def isText(self) -> bool:
+        return self._type == FieldType.TEXT
 
     def validate(self):
         if self.isRequired() and self._value is None:

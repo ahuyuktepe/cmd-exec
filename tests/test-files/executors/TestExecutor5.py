@@ -1,5 +1,4 @@
 from src.command.CmdExecutor import CmdExecutor
-from src.date.Date import Date
 
 
 class TestExecutor5(CmdExecutor):
@@ -8,6 +7,13 @@ class TestExecutor5(CmdExecutor):
         print('Running TestExecutor5')
         if fields is not None:
             for fid, field in fields.items():
-                value = field.getValue()
-                if isinstance(value, Date):
+                if field.isDate():
+                    value = field.getValue()
                     print(fid + '=' + value.toString())
+                elif field.isSelection():
+                    options: list = field.getOptions()
+                    for option in options:
+                       print('foid > ' + option.getId() + ': ' + option.getValue())
+                    options = field.getSelectedOptions()
+                    for option in options:
+                        print('soid > ' + option.getId() + ': ' + option.getValue())

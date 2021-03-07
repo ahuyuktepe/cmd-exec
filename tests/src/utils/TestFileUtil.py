@@ -1,9 +1,6 @@
 import os
 import shutil
-
 import yaml
-
-from src.error.CmdExecError import CmdExecError
 
 
 class TestFileUtil:

@@ -1,10 +1,9 @@
-from src.context.AppContext import AppContext
 
 
 class AppContextManager:
-    __appContext: AppContext
+    __appContext: object
 
-    def __init__(self, appContext: AppContext):
+    def __init__(self, appContext: object):
         self.__appContext = appContext
 
     # Getter Methods

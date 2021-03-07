@@ -1,0 +1,34 @@
+id: cmd7
+title: Command 7
+module: core
+executor:
+  class: TestExecutor5
+  method: testMethod
+fields:
+  - id: city
+    type: selection
+    label: Select a city
+    options:
+      - id: ny
+        label: New York
+      - id: london
+        label: London
+  - id: country
+    type: selection
+    label: Select a country
+    default: ['usa']
+    options:
+      - id: tr
+        label: Turkey
+      - id: usa
+        label: United States of America
+  - id: name
+    type: selection
+    label: Select a name
+    options:
+      - id: test
+        label: Test User
+      - id: test1
+        label: Test User 1
+      - id: test2
+        label: Test User 2

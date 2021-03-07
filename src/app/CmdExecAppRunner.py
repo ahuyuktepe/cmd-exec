@@ -4,11 +4,10 @@ from src.context.AppContext import AppContext
 from src.context.AppContextManager import AppContextManager
 from src.error.CmdExecError import CmdExecError
 from src.service.ArgumentService import ArgumentService
-from src.service.ConfigService import ConfigService
+from src.service.ConfigurationService import ConfigurationService
 from src.util.ErrorUtil import ErrorUtil
 from src.util.FileUtil import FileUtil
 from src.util.ObjUtil import ObjUtil
-from src.util.StrUtil import StrUtil
 from src.util.ValidationUtil import ValidationUtil
 
 
@@ -30,11 +29,15 @@ class CmdExecAppRunner:
     def __buildCmdExecApp(appContext: AppContext) -> CmdExecApp:
         # Get Services
         argService: ArgumentService = appContext.getService('argService')
-        configService: ConfigService = appContext.getService('configService')
+        configService: ConfigurationService = appContext.getService('configService')
         # Init CmdExeApp object
         mid = argService.getMode()
         props = configService.getModePropsById(mid)
-        clsPath = 'modules.{module}.src.app.{runner}'.format(**props)
+        module = props.get('module')
+        if module == 'core':
+            clsPath = 'src.app.{runner}'.format(**props)
+        else:
+            clsPath = 'modules.{module}.src.app.{runner}'.format(**props)
         clsName = props.get('runner')
         # Validate
         ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR31', {'cls': clsName, 'path': clsPath})

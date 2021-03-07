@@ -1,11 +1,10 @@
 from src.config.AppConfigs import AppConfigs
 from src.error.CmdExecError import CmdExecError
 from src.log.LogSettings import LogSettings
-from src.service.ConfigService import ConfigService
-from src.util.ValidationUtil import ValidationUtil
+from src.service.AppService import AppService
 
 
-class CoreConfigService(ConfigService):
+class ConfigurationService(AppService):
     __configs: AppConfigs
 
     def __init__(self, configs: AppConfigs):

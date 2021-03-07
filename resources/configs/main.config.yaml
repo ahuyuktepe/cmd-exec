@@ -7,9 +7,9 @@ application:
       module: core
       runner: CoreInitExecApp
   fields:
-    - { type: date, class: CoreDateField }
-    - { type: text, class: CoreTextField }
-    - { type: selection, class: CoreSelectionField }
+    - { type: date, class: DateField }
+    - { type: text, class: TextField }
+    - { type: selection, class: SelectionField }
 log_settings:
   level: info
   dir_path: logs

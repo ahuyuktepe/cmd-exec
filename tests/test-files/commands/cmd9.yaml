@@ -1,0 +1,20 @@
+id: cmd7
+title: Command 7
+module: core
+executor:
+  class: TestExecutor5
+  method: testMethod
+fields:
+  - id: name
+    type: selection
+    label: Select a name
+    max: 2
+    options:
+      - id: test
+        label: Test User
+      - id: test1
+        label: Test User 1
+      - id: test2
+        label: Test User 2
+      - id: test3
+        label: Test User 3

@@ -1,5 +1,9 @@
 name: ui
 version: 0.0.1
 description: This module provides ui to command execution.
-dependencies:
-  - core
+#dependencies:
+#  - core
+services:
+  - id: testService
+    class: TestService
+    args: ['@configService']

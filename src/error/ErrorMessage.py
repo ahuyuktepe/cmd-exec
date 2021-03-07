@@ -32,6 +32,7 @@ class ErrorMessage:
         'ERR30': "Service class '{cls}' file does not exist at '{path}'.",
         'ERR31': "Command executor application class '{cls}' file does not exist at '{path}'.",
         'ERR32': "Given class '{src}' is not sub class of '{parent}' in module '{name}' configs.",
+        'ERR33': "None value provided for module property of executor '{executor}' in command file {file}.",
         'ERR34': "Command file '{file}' does not exist in commands directory located in either module or resources directory.",
         'ERR35': "Invalid id provided in command file '{cid}.yaml'.",
         'ERR36': "Invalid title provided in command file '{cid}.yaml'.",
@@ -62,7 +63,11 @@ class ErrorMessage:
         'ERR61': "Given value '{value}' size for field '{fid}' is less then min_size value '{min_size}'",
         'ERR62': "Given value '{value}' size for field '{fid}' is greater then max_size value '{max_size}'",
         'ERR63': "Invalid configuration key '{key}' is given.",
-        'ERR64': "Existing config value '{existingVal}' type and new value '{newVal}' type does not match."
+        'ERR64': "Existing config value '{existingVal}' type and new value '{newVal}' type does not match.",
+        'ERR65': "Invalid default options provided for field '{fid}'.",
+        'ERR67': "For field '{fid}' at least {min} option(s) should be selected.",
+        'ERR68': "For field '{fid}' less then {max} option(s) should be selected.",
+        'ERR69': "No option is provided for selection field '{fid}'."
     }
 
     @staticmethod

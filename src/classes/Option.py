@@ -12,6 +12,3 @@ class Option:
 
     def getId(self) -> str:
         return self.__id
-
-    def toString(self) -> str:
-        return "[ id: '" + self.__id + "', value: '" + self.__value + "']"

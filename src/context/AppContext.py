@@ -1,10 +1,15 @@
 from src.config.AppConfigs import AppConfigs
-from src.config.ConfigManager import ConfigManager
 from src.error.CmdExecError import CmdExecError
 from src.module.AppModule import AppModule
 from src.module.ServiceProperties import ServiceProperties
+from src.service.ArgumentService import ArgumentService
+from src.service.CommandService import CommandService
+from src.service.ConfigurationService import ConfigurationService
+from src.service.CoreServiceType import CoreServiceType
+from src.service.FieldService import FieldService
+from src.service.LogService import LogService
+from src.service.ServiceBuilder import ServiceBuilder
 from src.util.ObjUtil import ObjUtil
-from src.util.StrUtil import StrUtil
 from src.util.ValidationUtil import ValidationUtil
 
 
@@ -18,18 +23,20 @@ class AppContext:
         self.__services = {}
         self.__modules = {}
 
+    def __initCoreServices(self):
+        configService = ConfigurationService(self.__configs)
+        self.__services['configService'] = configService
+        self.__services['argService'] = ArgumentService(configService)
+
     # Getter Methods
 
     def getConfig(self, key: str) -> object:
         return self.__configs.getValue(key)
 
     def getService(self, sid: str):
-        from src.context.AppContextManager import AppContextManager
         if not self.hasService(sid):
-            serviceProperties = self.getServiceProperties(sid)
-            service = self.initService(serviceProperties)
-            contextManager = AppContextManager(self)
-            service.setContextManager(contextManager)
+            serviceProperties = ServiceBuilder.getServiceProperties(sid, self)
+            service = ServiceBuilder.buildService(serviceProperties, self)
             self.addService(sid, service)
         return self.__services.get(sid)
 
@@ -39,19 +46,8 @@ class AppContext:
     def getModule(self, name: str) -> AppModule:
         return self.__modules.get(name)
 
-    def getServiceProperties(self, sid: str) -> ServiceProperties:
-        values = StrUtil.getModuleServiceMapFromStr(sid)
-        mid = values.get('mid')
-        if mid is not None:
-            sid = values.get('sid')
-            module = self.getModule(mid)
-            return module.getServicePropertiesById(sid)
-        else:
-            for mid, module in self.__modules.items():
-                props = module.getServicePropertiesById(sid)
-                if props is not None:
-                    return props
-        return None
+    def getConfigs(self) -> AppConfigs:
+        return self.__configs
 
     def hasModule(self, name: str):
         module = self.__modules.get(name)
@@ -99,32 +95,36 @@ class AppContext:
 
     # Utility Methods
 
-    def initService(self, serviceProps: ServiceProperties) -> object:
-        from src.service.AppService import AppService
-        if serviceProps is None:
-            raise CmdExecError('ERR27')
-        # Init service and return
-        args = serviceProps.getArgs()
-        passedArgs = []
-        for arg in args:
-            if arg['type'] == 'service':
-                sid = arg['value']
-                if self.hasService(sid):
-                    service = self.getService(sid)
-                    self.addService(sid, service)
-                else:
-                    props = self.getServiceProperties(sid)
-                    service = self.initService(props)
-                    self.addService(sid, service)
-                passedArgs.append(service)
-            elif arg['type'] == 'configs':
-                passedArgs.append(self.__configs)
-            else:
-                passedArgs.append(arg['value'])
-        clsPath = serviceProps.getClassPath()
-        clsName = serviceProps.getClassName()
-        ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR30', {'cls': clsName, 'path': clsPath})
-        cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
-        if not issubclass(cls, AppService):
-            raise CmdExecError('ERR28', {'src': clsName})
-        return ObjUtil.initClassFromStr(clsPath, clsName, passedArgs)
+    # def initService(self, serviceProps: ServiceProperties) -> object:
+    #     from src.context.AppContextManager import AppContextManager
+    #     from src.service.AppService import AppService
+    #     if serviceProps is None:
+    #         raise CmdExecError('ERR27')
+    #     # Init service and return
+    #     args = serviceProps.getArgs()
+    #     passedArgs = []
+    #     for arg in args:
+    #         if arg['type'] == 'service':
+    #             sid = arg['value']
+    #             if self.hasService(sid):
+    #                 service = self.getService(sid)
+    #                 self.addService(sid, service)
+    #             else:
+    #                 props = self.getServiceProperties(sid)
+    #                 service = self.initService(props)
+    #                 self.addService(sid, service)
+    #             passedArgs.append(service)
+    #         elif arg['type'] == 'configs':
+    #             passedArgs.append(self.__configs)
+    #         else:
+    #             passedArgs.append(arg['value'])
+    #     clsPath = serviceProps.getClassPath()
+    #     clsName = serviceProps.getClassName()
+    #     ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR30', {'cls': clsName, 'path': clsPath})
+    #     cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
+    #     if not issubclass(cls, AppService):
+    #         raise CmdExecError('ERR28', {'src': clsName})
+    #     service = ObjUtil.initClassFromStr(clsPath, clsName, passedArgs)
+    #     contextManager = AppContextManager(self)
+    #     service.setContextManager(contextManager)
+    #     return service

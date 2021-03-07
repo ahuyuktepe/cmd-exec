@@ -1,0 +1,15 @@
+id: cmd7
+title: Command 7
+module: core
+executor:
+  class: TestExecutor5
+  method: testMethod
+fields:
+  - id: name
+    type: selection
+    label: Select a name
+    options:
+      - id: opt1
+        label: Test Option
+    option_provider:
+      class: NameOptionProvider

@@ -87,6 +87,13 @@ class ModuleUtil:
         return FileUtil.generateObjFromYamlFile(['modules', name, configFileName])
 
     @staticmethod
+    def getMainConfig() -> dict:
+        path = ['resources', 'configs', 'main.config.yaml']
+        if FileUtil.doesFileExist(path):
+            return FileUtil.generateObjFromYamlFile(path)
+        return {}
+
+    @staticmethod
     def getModuleCommandProps(cid: str) -> dict:
         if StrUtil.isNoneOrEmpty(cid):
             raise CmdExecError('ERR60')
