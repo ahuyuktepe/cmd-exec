@@ -1,6 +1,6 @@
 id: cmd4
 title: Command 4
-module: core
+module: test
 executor:
   class: TestExecutor4
   method: run

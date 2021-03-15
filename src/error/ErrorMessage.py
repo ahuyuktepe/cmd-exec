@@ -67,7 +67,13 @@ class ErrorMessage:
         'ERR65': "Invalid default options provided for field '{fid}'.",
         'ERR67': "For field '{fid}' at least {min} option(s) should be selected.",
         'ERR68': "For field '{fid}' less then {max} option(s) should be selected.",
-        'ERR69': "No option is provided for selection field '{fid}'."
+        'ERR69': "No option is provided for selection field '{fid}'.",
+        'ERR70': "Invalid properties provided for application.actions.before_command configuration.",
+        'ERR71': "Given action class does not extend from CmdAction class.",
+        'ERR72': "Given command action response is not type of CmdActionResponse.",
+        'ERR73': "Pre command action failed. Details: {details}",
+        'ERR74': "Invalid properties provided for application.actions.after_command configuration.",
+        'ERR75': "Post command action failed. Details: {details}",
     }
 
     @staticmethod

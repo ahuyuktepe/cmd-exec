@@ -1,9 +1,0 @@
-application:
-  (+)modes:
-    - id: ui
-      module: ui
-      runner: CoreUIExecApp
-  (+)fields:
-    - type: file
-      module: ui
-      class: FileField

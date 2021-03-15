@@ -17,7 +17,6 @@ class AppContextBuilder:
         # Init Modules
         AppContextBuilder.__initModules(appContext, names)
         AppContextBuilder.__validateModuleDependencies(appContext)
-        ListUtil.deleteStr(names, 'core')
         # Init Module Configs
         AppContextBuilder.__initConfigs(appContext, names)
         # Init Services

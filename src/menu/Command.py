@@ -6,12 +6,14 @@ class Command:
     _title: str
     _executor: CmdExecutor
     _fields: dict
+    _module: str
 
-    def __init__(self, cid: str, title: str):
+    def __init__(self, cid: str, title: str, module: str):
         self._id = cid
         self._title = title
         self._fields = {}
         self._executor = None
+        self._module = module
 
     def setExecutor(self, executor: CmdExecutor):
         self._executor = executor
@@ -38,6 +40,9 @@ class Command:
 
     def getFieldIds(self) -> list:
         return list(self._fields.keys())
+
+    def getModule(self) -> str:
+        return self._module
 
     def print(self):
         print('id: ' + self._id + ' | title: ' + self._title)

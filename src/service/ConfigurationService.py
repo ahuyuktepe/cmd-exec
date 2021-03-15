@@ -1,7 +1,9 @@
 from src.config.AppConfigs import AppConfigs
 from src.error.CmdExecError import CmdExecError
 from src.log.LogSettings import LogSettings
+from src.menu.Command import Command
 from src.service.AppService import AppService
+from src.util.ValidationUtil import ValidationUtil
 
 
 class ConfigurationService(AppService):
@@ -37,8 +39,8 @@ class ConfigurationService(AppService):
             if modId == mid:
                 retProps = props
                 break
-        if retProps is not None and retProps.get('module') is None:
-            retProps['module'] = 'core'
+        if retProps is not None:
+            retProps['module'] = retProps.get('module')
         return retProps
 
     def getLogSettings(self) -> LogSettings:
@@ -52,3 +54,6 @@ class ConfigurationService(AppService):
             if ftype == type:
                 return fieldProps
         return None
+
+    def getValue(self, path: str) -> object:
+        return self.__configs.getValue(path)

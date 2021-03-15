@@ -12,7 +12,7 @@ class TestTextField:
         self.__cmdSettings = {
             'id': 'cmd1',
             'title': 'Command 1',
-            'module': 'core',
+            'module': 'test',
             'executor': {
                 'class': 'TestExecutor',
                 'method': 'run'
@@ -20,15 +20,19 @@ class TestTextField:
             'fields': [self.__fieldSettings]
         }
         TestUtil.setupTestingEnvironment()
+        TestUtil.buildModuleFiles('test', {
+            'name': 'test',
+            'version': '0.0.1'
+        })
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
-        TestUtil.destroyTestingEnvironment()
+        # TestUtil.destroyTestingEnvironment()
+        pass
 
     def test_default_value(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['default'] = 'Default Value'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
@@ -41,9 +45,7 @@ class TestTextField:
 
     def test_default_value_greater_then_max_size(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['default'] = 'Default Value'
         self.__fieldSettings['max_size'] = 5
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
@@ -57,10 +59,10 @@ class TestTextField:
 
     def test_valid_date_field_from_cmd_file_module(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.saveCmdFileForModule(self.__cmdSettings, 'cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestFileUtil.saveCmdFileForModule(self.__cmdSettings, 'cmd1', 'test')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1', '-name', 'test'])
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1', '-name', 'test'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -69,9 +71,7 @@ class TestTextField:
 
     def test_required_date_field_wout_value(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['required'] = True
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
@@ -83,9 +83,7 @@ class TestTextField:
 
     def test_invalid_min_size_value(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['min_size'] = 'test'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
@@ -97,9 +95,7 @@ class TestTextField:
 
     def test_invalid_max_size_value(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['max_size'] = 'test'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
@@ -111,9 +107,7 @@ class TestTextField:
 
     def test_value_size_less_than_min_size(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['min_size'] = 10
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
@@ -125,9 +119,7 @@ class TestTextField:
 
     def test_value_size_greater_than_max_size(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.removeArgFile('cmd1')
-        TestFileUtil.removeCmdFileForModule('cmd1', 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         self.__fieldSettings['max_size'] = 5
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When

@@ -1,6 +1,6 @@
 id: cmd3
 title: Command 3
-module: core
+module: test
 executor:
   class: WebToolExecutor
   method: run

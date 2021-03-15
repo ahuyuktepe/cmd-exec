@@ -34,7 +34,7 @@ class CmdExecAppRunner:
         mid = argService.getMode()
         props = configService.getModePropsById(mid)
         module = props.get('module')
-        if module == 'core':
+        if module is None:
             clsPath = 'src.app.{runner}'.format(**props)
         else:
             clsPath = 'modules.{module}.src.app.{runner}'.format(**props)

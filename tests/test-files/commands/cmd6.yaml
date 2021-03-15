@@ -1,6 +1,6 @@
 id: cmd6
 title: Command 6
-module: core
+module: test
 executor:
   class: TestExecutor6
   method: testMethod

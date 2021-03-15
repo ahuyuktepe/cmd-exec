@@ -17,6 +17,7 @@ class TestUtil:
         TestUtil.__clearTargetDirectory()
         TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()
+        TestFileUtil.copyDirectory(['src'], ['tests', 'target', 'src'])
 
     @staticmethod
     def destroyTestingEnvironment():
@@ -48,9 +49,11 @@ class TestUtil:
         TestFileUtil.makeDir(path)
         path = ['tests', 'target', 'resources', 'commands']
         TestFileUtil.makeDir(path)
+        path = ['tests', 'target', 'resources', 'configs']
+        TestFileUtil.makeDir(path)
 
     @staticmethod
-    def useCmdFilesInModule(cmdFileNames: list, moduleName: str = 'core'):
+    def useCmdFilesInModule(cmdFileNames: list, moduleName: str):
         for fileName in cmdFileNames:
             srcFilePath = ['tests', 'test-files', 'commands', fileName + '.yaml']
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'commands', fileName + '.yaml']
@@ -64,10 +67,17 @@ class TestUtil:
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useArgFiles(argFileNames: list):
+    def useArgFilesInArgumentsDir(argFileNames: list):
         for fileName in argFileNames:
             srcFilePath = ['tests', 'test-files', 'arguments', fileName]
             dstDirPath = ['tests', 'target', 'resources', 'arguments', fileName]
+            TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
+    def useConfigFilesInConfigsDir(argFileNames: list):
+        for fileName in argFileNames:
+            srcFilePath = ['tests', 'test-files', 'configs', fileName]
+            dstDirPath = ['tests', 'target', 'resources', 'configs', fileName]
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
@@ -78,46 +88,50 @@ class TestUtil:
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useExecutorsInModule(execClsNames: list, moduleName: str = 'core'):
+    def useExecutorsInModule(execClsNames: list, moduleName: str):
         for fileName in execClsNames:
             srcFilePath = ['tests', 'test-files', 'executors', fileName + '.py']
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'executor', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useExecutorInModuleAsInGivenName(srcClsName: str, destClsName: str, moduleName: str = 'core'):
+    def useExecutorInModuleAsInGivenName(srcClsName: str, destClsName: str, moduleName: str):
         srcFilePath = ['tests', 'test-files', 'executors', srcClsName + '.py']
         dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'executor', destClsName + '.py']
         TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useCmdAppInModuleAsInGivenName(srcClsName: str, destClsName: str, moduleName: str = 'core'):
-        srcFilePath = ['tests', 'test-files', 'app', srcClsName + '.py']
-        dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'app', destClsName + '.py']
-        TestFileUtil.copyFile(srcFilePath, dstDirPath)
-
-    @staticmethod
-    def useFieldsInModule(fieldClsNames: list, moduleName: str = 'core'):
+    def useFieldsInModule(fieldClsNames: list, moduleName: str):
         for fileName in fieldClsNames:
             srcFilePath = ['tests', 'test-files', 'fields', fileName]
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'field', fileName]
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
-    def useProvidersInModule(providers: list, moduleName: str = 'core'):
+    def useProvidersInModule(providers: list, moduleName: str):
         for fileName in providers:
             srcFilePath = ['tests', 'test-files', 'providers', fileName + '.py']
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'provider', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
+    def useAppRunnerInModule(runners: list, moduleName: str):
+        for fileName in runners:
+            srcFilePath = ['tests', 'test-files', 'app', fileName + '.py']
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'app', fileName + '.py']
+            TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+
+
+    @staticmethod
     def buildModuleFiles(name: str, settings: dict = {}, config: dict = {}):
         # Generating Module Directories
         path = ['tests', 'target', 'modules', name]
         TestFileUtil.makeDir(path)
+        TestFileUtil.makeDirs(path, ['commands'])
         srcPath = path + ['src']
         TestFileUtil.makeDir(srcPath)
-        TestFileUtil.makeDirs(srcPath, ['app', 'executor', 'field', 'service'])
+        TestFileUtil.makeDirs(srcPath, ['app', 'executor', 'field', 'service', 'provider'])
         # Saving Settings File
         settingsFilePath = ['tests', 'target', 'modules', name, (name + '.settings.yaml')]
         TestFileUtil.saveDictAsYamlFile(settings, settingsFilePath)

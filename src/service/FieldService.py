@@ -23,7 +23,8 @@ class FieldService(AppService):
     def setContextManager(self, contextManager: AppContextManager):
         self._contextManager = contextManager
 
-    def buildField(self, cid: str, props: dict) -> Field:
+    def buildField(self, cmd: Command, props: dict) -> Field:
+        cid = cmd.getId()
         self.__validateRequiredProps(cid, props)
         fieldType = props.get('type')
         fid = props.get('id')
@@ -35,10 +36,10 @@ class FieldService(AppService):
         field: Field = ObjUtil.initClassFromStr(clsPath, cls, [fid])
         field.setProperties(props)
         if field.getType() == 'selection':
-            self.__insertOptionsFromOptionProvider(field, props)
+            self.__insertOptionsFromOptionProvider(cmd.getModule(), field, props)
         return field
 
-    def __insertOptionsFromOptionProvider(self, field: SelectionField, props: dict):
+    def __insertOptionsFromOptionProvider(self, module: str, field: SelectionField, props: dict):
         optionProviderProps = props.get('option_provider')
         if optionProviderProps is not None:
             fid = props.get('id')
@@ -46,7 +47,7 @@ class FieldService(AppService):
             # Set Executor
             clsName = optionProviderProps.get('class')
             ValidationUtil.failIfStrNoneOrEmpty(clsName, 'ERR55', {'fid': fid, 'prop': 'option_provider > class'})
-            clsPath = 'modules.core.src.provider.{cls}'.format(cls=clsName)
+            clsPath = 'modules.{module}.src.provider.{cls}'.format(cls=clsName, module=module)
             ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR51', {'path': clsPath})
             cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
             ValidationUtil.failIfNotSubClass(cls, OptionProvider)

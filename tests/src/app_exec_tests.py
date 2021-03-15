@@ -16,10 +16,11 @@ class TestExecApp:
         TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {
             'application': {
                'modes': [
-                   {'id': 'cmd', 'module': 'core', 'runner': 'TestCmdExecApp'}
+                   {'id': 'cmd', 'module': 'test1', 'runner': 'TestCmdExecApp'}
                ]
             }
         })
+        TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -30,7 +31,7 @@ class TestExecApp:
     def test_non_existing_command_file(self, monkeypatch, capsys):
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test'])
-        TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {})
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         # When
         CmdExecAppRunner.run()
         # Then
@@ -43,11 +44,11 @@ class TestExecApp:
         TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {
             'application': {
                 'modes': [
-                    {'id': 'test', 'module': 'core', 'runner': 'TestCmdExecApp'}
+                    {'id': 'test', 'module': 'test', 'runner': 'TestCmdExecApp'}
                 ]
             }
         })
-        TestUtil.useCmdAppInModuleAsInGivenName('TestCmdExecApp', 'TestCmdExecApp', 'core')
+        TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-mode', 'test'])
         CmdExecAppRunner.run()

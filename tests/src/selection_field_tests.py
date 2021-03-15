@@ -5,6 +5,11 @@ from tests.src.utils.TestUtil import TestUtil
 class TestSelectionField:
     def setup_method(method):
         TestUtil.setupTestingEnvironment()
+        TestUtil.buildModuleFiles('test', {
+            'name': 'test',
+            'version': '0.0.1'
+        })
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
@@ -12,10 +17,10 @@ class TestSelectionField:
     def test_options_from_option_provider(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInCommandsDir(['cmd10'])
-        TestUtil.useProvidersInModule(['NameOptionProvider'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
+        TestUtil.useProvidersInModule(['NameOptionProvider'], 'test')
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd10', '-name', 'test_from_provider'])
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd10', '-name', 'test_from_provider'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -30,7 +35,7 @@ class TestSelectionField:
     def test_selected_option(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInCommandsDir(['cmd7'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7', '-city', 'ny'])
         CmdExecAppRunner.run()
@@ -45,7 +50,7 @@ class TestSelectionField:
     def test_default_value(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInCommandsDir(['cmd7'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7'])
         CmdExecAppRunner.run()
@@ -60,7 +65,7 @@ class TestSelectionField:
     def test_min_selected(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInCommandsDir(['cmd8'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd8'])
         CmdExecAppRunner.run()
@@ -72,7 +77,7 @@ class TestSelectionField:
     def test_max_selected(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInCommandsDir(['cmd9'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd9', '-name', 'test,test1,test2'])
         CmdExecAppRunner.run()

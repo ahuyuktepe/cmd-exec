@@ -4,7 +4,7 @@ from src.error.CmdExecError import CmdExecError
 class StrUtil:
     @staticmethod
     def getCommandPropertiesFromStr(cid: str) -> dict:
-        props: dict = {'module': 'core', 'cid': None}
+        props: dict = {'module': None, 'cid': None}
         if cid is None:
             return props
         arr: list = cid.split('.')
@@ -18,7 +18,7 @@ class StrUtil:
     @staticmethod
     def getFilePropertiesFromStr(sid: str) -> dict:
         arr: list = sid.split('.')
-        props: dict = {'module': 'core', 'file': None}
+        props: dict = {'module': None, 'file': None}
         if len(arr) > 1:
             props['module'] = arr[0]
             props['file'] = arr[1]

@@ -6,9 +6,15 @@ class TestCmdExecutor:
 
     def setup_method(method):
         TestUtil.setupTestingEnvironment()
+        TestUtil.buildModuleFiles('test', {
+            'name': 'test',
+            'version': '0.0.1'
+        })
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
-        TestUtil.destroyTestingEnvironment()
+        # TestUtil.destroyTestingEnvironment()
+        pass
 
     def test_non_existing_cmd_execution(self, monkeypatch, capsys):
         # Given
@@ -21,8 +27,8 @@ class TestCmdExecutor:
 
     def test_non_existing_executor_class(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        TestUtil.useCmdFilesInModule(['cmd1'], 'core')
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1'])
+        TestUtil.useCmdFilesInModule(['cmd1'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -31,9 +37,9 @@ class TestCmdExecutor:
 
     def test_executor_class_not_extended(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd2'])
-        TestUtil.useCmdFilesInModule(['cmd2'], 'core')
-        TestUtil.useExecutorsInModule(['TestExecutor2'], 'core')
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd2'])
+        TestUtil.useCmdFilesInModule(['cmd2'], 'test')
+        TestUtil.useExecutorsInModule(['TestExecutor2'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -42,9 +48,9 @@ class TestCmdExecutor:
 
     def test_cmd_execution(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        TestUtil.useCmdFilesInModule(['cmd1'])
-        TestUtil.useExecutorsInModule(['TestExecutor1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1'])
+        TestUtil.useCmdFilesInModule(['cmd1'], 'test')
+        TestUtil.useExecutorsInModule(['TestExecutor1'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -54,9 +60,9 @@ class TestCmdExecutor:
 
     def testing_custom_exec_command_in_executor_cls(self, monkeypatch, capsys):
         # Given
-        TestUtil.useCmdFilesInModule(['cmd5'])
-        TestUtil.useExecutorsInModule(['TestExecutor5'])
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd5', '-publish_date', '01-01-2021'])
+        TestUtil.useCmdFilesInModule(['cmd5'], 'test')
+        TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd5', '-publish_date', '01-01-2021'])
         # When
         CmdExecAppRunner.run()
         # Then

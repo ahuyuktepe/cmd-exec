@@ -38,15 +38,15 @@ class CommandService(AppService):
         # Get Fields
         fieldProps = props.get('fields')
         if fieldProps is not None:
-            fields = self.__getFields(cid, fieldProps)
+            fields = self.__getFields(cmd, fieldProps)
             cmd.setFields(fields)
         return cmd
 
-    def __getFields(self, cid: str, fields: list) -> list:
+    def __getFields(self, cmd: Command, fields: list) -> list:
         ValidationUtil.failIfNotType(fields, list, 'ERR45')
         retList = []
         for fieldProps in fields:
-            field = self.__fieldService.buildField(cid, fieldProps)
+            field = self.__fieldService.buildField(cmd, fieldProps)
             retList.append(field)
         return retList
 
@@ -82,4 +82,4 @@ class CommandService(AppService):
         ValidationUtil.failIfStrNoneOrEmpty(title, 'ERR36', {'cid': cid})
         mid = props.get('module')
         ValidationUtil.failIfStrNoneOrEmpty(mid, 'ERR41', {'cid': cid})
-        return Command(props.get('id'), props.get('title'))
+        return Command(cmdId, title, mid)

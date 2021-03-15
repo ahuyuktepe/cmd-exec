@@ -98,9 +98,10 @@ class ModuleUtil:
         if StrUtil.isNoneOrEmpty(cid):
             raise CmdExecError('ERR60')
         props = StrUtil.getCommandPropertiesFromStr(cid)
+        module = props.get('module')
         fileName = props.get('cid') + '.yaml'
-        path = ['modules', props.get('module'), 'commands', fileName]
-        if FileUtil.isFileReadable(path):
+        path = ['modules', module, 'commands', fileName]
+        if module is not None and FileUtil.isFileReadable(path):
             return FileUtil.generateObjFromYamlFile(path)
         path = ['resources', 'commands', fileName]
         if FileUtil.isFileReadable(path):

@@ -12,7 +12,7 @@ class TestDateField:
         self.__cmdSettings = {
             'id': 'cmd3',
             'title': 'Command 3',
-            'module': 'core',
+            'module': 'test',
             'executor': {
                 'class': 'TestExecutor3',
                 'method': 'run'
@@ -20,15 +20,20 @@ class TestDateField:
             'fields': [self.__fieldSettings]
         }
         TestUtil.setupTestingEnvironment()
+        TestUtil.buildModuleFiles('test', {
+            'name': 'test',
+            'version': '0.0.1'
+        })
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
 
     def test_valid_date_field_from_cmd_file_module(self, monkeypatch, capsys):
         # Given
-        TestFileUtil.saveCmdFileForModule(self.__cmdSettings, 'cmd3', 'core')
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3', '-publish_date', '01-01-2021'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestFileUtil.saveCmdFileForModule(self.__cmdSettings, 'cmd3', 'test')
+        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd3', '-publish_date', '01-01-2021'])
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -40,7 +45,7 @@ class TestDateField:
         # Given
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3', '-publish_date', '01-01-2021'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
@@ -51,7 +56,7 @@ class TestDateField:
     def test_date_field_value_from_arg_file(self, monkeypatch, capsys):
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd3')
         # When
@@ -64,9 +69,9 @@ class TestDateField:
     def test_required_date_field_wout_value(self, monkeypatch, capsys):
         # Given
         TestFileUtil.removeArgFile('cmd3')
-        TestFileUtil.removeCmdFileForModule('cmd3', 'core')
+        TestFileUtil.removeCmdFileForModule('cmd3', 'test')
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         self.__fieldSettings['required'] = True
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         # When
@@ -78,7 +83,7 @@ class TestDateField:
     def test_date_field_with_value_out_of_range_1(self, monkeypatch, capsys):
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         self.__fieldSettings['min'] = '02-01-2021'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd3')
@@ -93,7 +98,7 @@ class TestDateField:
         TestFileUtil.removeArgFile('cmd3')
         TestFileUtil.removeCmdFileFromCommandsDir('cmd3')
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         self.__fieldSettings['min'] = '02-01-2021'
         self.__fieldSettings['max'] = '03-01-2021'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
@@ -109,7 +114,7 @@ class TestDateField:
         TestFileUtil.removeArgFile('cmd3')
         TestFileUtil.removeCmdFileFromCommandsDir('cmd3')
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3'])
-        TestUtil.useExecutorsInModule(['TestExecutor3'], 'core')
+        TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         self.__fieldSettings['format'] = '%Y'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '04-01-2021'}, 'cmd3')

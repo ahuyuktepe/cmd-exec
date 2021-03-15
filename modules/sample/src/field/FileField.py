@@ -1,10 +1,10 @@
-from src.field.Field import Field
+from src.field.TextField import TextField
 
 
-class FileField(Field):
+class FileField(TextField):
 
     def __init__(self, id: str):
-        super().__init__(id, 'file')
+        super().__init__(id)
 
     def print(self):
         print("=======================================================================================================")

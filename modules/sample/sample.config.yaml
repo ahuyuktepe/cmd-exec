@@ -1,0 +1,11 @@
+application:
+  (+)modes:
+    - id: ui
+      module: sample
+      runner: CoreUIExecApp
+  (+)fields:
+    - type: file
+      module: sample
+      class: FileField
+security:
+  allowed_users: ['ahuyuktepe', 'humalp']

@@ -133,6 +133,7 @@ class TestAppService:
             ]
         })
         TestUtil.useServicesInModule(['TestService1'], 'test')
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         # When
         appContext: AppContext = AppContextBuilder.buildBaseAppContext()
         # Then
@@ -149,6 +150,7 @@ class TestAppService:
             ]
         })
         TestUtil.useServicesInModule(['TestService4'], 'test')
+        TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         # When
         appContext: AppContext = AppContextBuilder.buildBaseAppContext()
         # Then
@@ -217,25 +219,3 @@ class TestAppService:
             AppContextBuilder.buildBaseAppContext()
         error: CmdExecError = err.value
         assert error.getCode() == 'ERR29'
-
-    # def test_invalid_service_props_12(self):
-    #     TestModuleUtil.clearModulesDir()
-    #     TestModuleUtil.generateModuleDir('test')
-    #     TestModuleUtil.saveSettingsFile('test', {
-    #         'name': 'test',
-    #         'description': 'Test Module',
-    #         'version': '0.0.1',
-    #         'services': [
-    #             {
-    #                 'id': 'testService',
-    #                 'path': 'build.modules.test.src.service.TestService3',
-    #                 'init': True
-    #             }
-    #         ]
-    #     })
-    #     FileUtil.copyFile(['test-classes', 'service', 'TestService3.py'], ['modules', 'test', 'src', 'service'])
-    #     with pytest.raises(CmdExecError) as errInfo:
-    #         AppContextBuilder.buildBaseAppContext()
-    #     error: CmdExecError = errInfo.value
-    #     assert error.getCode() == 'ERR28'
-
