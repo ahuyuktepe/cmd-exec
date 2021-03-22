@@ -76,17 +76,21 @@ class CoreCmdExecApp(CmdExecApp):
 
     def __getBeforeCmdActionPropsByCmd(self, cmd: Command) -> dict:
         actions = self.__configService.getValue('application.actions.before_command')
-        ValidationUtil.failIfNotType(actions, list, 'ERR70')
-        mid = cmd.getModule()
-        cid = cmd.getId()
-        return self.__getAction(actions, cid, mid)
+        if actions is not None:
+            ValidationUtil.failIfNotType(actions, list, 'ERR70')
+            mid = cmd.getModule()
+            cid = cmd.getId()
+            return self.__getAction(actions, cid, mid)
+        return None
 
     def __getAfterCmdActionPropsByCmd(self, cmd: Command) -> dict:
         actions = self.__configService.getValue('application.actions.after_command')
-        ValidationUtil.failIfNotType(actions, list, 'ERR74')
-        mid = cmd.getModule()
-        cid = cmd.getId()
-        return self.__getAction(actions, cid, mid)
+        if actions is not None:
+            ValidationUtil.failIfNotType(actions, list, 'ERR74')
+            mid = cmd.getModule()
+            cid = cmd.getId()
+            return self.__getAction(actions, cid, mid)
+        return None
 
     def __getAction(self, actions: list, cid: str, mid: str) -> dict:
         for action in actions:

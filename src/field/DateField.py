@@ -73,6 +73,9 @@ class DateField(Field):
         except Exception as exception:
             raise CmdExecError('ERR55',  {'fid': self._id, 'prop': 'max'})
 
+    def getFormat(self) -> str:
+        return self._format
+
     def validate(self):
         super().validate()
         if self._value is None:

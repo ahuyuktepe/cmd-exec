@@ -2,7 +2,7 @@ from src.context.AppContext import AppContext
 from src.context.AppContextManager import AppContextManager
 from src.module.AppModule import AppModule
 from src.service.ArgumentService import ArgumentService
-from src.service.CoreServiceType import CoreServiceType
+from src.service.ServiceType import ServiceType
 from src.service.ServiceBuilder import ServiceBuilder
 from src.util.ListUtil import ListUtil
 from src.util.ModuleUtil import ModuleUtil
@@ -33,19 +33,22 @@ class AppContextBuilder:
         # Initialize Core Services
         # ConfigurationService
         service = ServiceBuilder.buildConfigService(appContext)
-        appContext.addService(CoreServiceType.CONF_SERVICE, service)
+        appContext.addService(ServiceType.CONF_SERVICE, service)
         # ArgumentService
         service = ServiceBuilder.buildArgService(appContext)
-        appContext.addService(CoreServiceType.ARG_SERVICE, service)
+        appContext.addService(ServiceType.ARG_SERVICE, service)
         # FieldService
         service = ServiceBuilder.buildFieldService(appContext)
-        appContext.addService(CoreServiceType.FIELD_SERVICE, service)
+        appContext.addService(ServiceType.FIELD_SERVICE, service)
         # CommandService
         service = ServiceBuilder.buildCommandService(appContext)
-        appContext.addService(CoreServiceType.CMD_SERVICE, service)
+        appContext.addService(ServiceType.CMD_SERVICE, service)
         # LogService
         service = ServiceBuilder.buildLogService(appContext)
-        appContext.addService(CoreServiceType.LOG_SERVICE, service)
+        appContext.addService(ServiceType.LOG_SERVICE, service)
+        # TerminalService
+        service = ServiceBuilder.buildTerminalService(appContext)
+        appContext.addService(ServiceType.TERMINAL_SERVICE, service)
 
     @staticmethod
     def __initCustomServices(appContext: AppContext, names: list):

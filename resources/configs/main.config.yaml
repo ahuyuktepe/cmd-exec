@@ -7,15 +7,6 @@ application:
     - { type: date, class: DateField }
     - { type: text, class: TextField }
     - { type: selection, class: SelectionField }
-  actions:
-    before_command:
-      - selector: '*'
-        class: TestPreCommandAction
-        module: sample
-    after_command:
-      - selector: '*'
-        class: TestPostCommandAction
-        module: sample
 log_settings:
   level: info
   dir_path: logs

@@ -5,7 +5,7 @@ from src.module.ServiceProperties import ServiceProperties
 from src.service.ArgumentService import ArgumentService
 from src.service.CommandService import CommandService
 from src.service.ConfigurationService import ConfigurationService
-from src.service.CoreServiceType import CoreServiceType
+from src.service.ServiceType import ServiceType
 from src.service.FieldService import FieldService
 from src.service.LogService import LogService
 from src.service.ServiceBuilder import ServiceBuilder

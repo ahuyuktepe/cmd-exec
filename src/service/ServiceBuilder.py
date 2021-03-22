@@ -5,9 +5,10 @@ from src.service.AppService import AppService
 from src.service.ArgumentService import ArgumentService
 from src.service.CommandService import CommandService
 from src.service.ConfigurationService import ConfigurationService
-from src.service.CoreServiceType import CoreServiceType
+from src.service.ServiceType import ServiceType
 from src.service.FieldService import FieldService
 from src.service.LogService import LogService
+from src.service.TerminalService import TerminalService
 from src.util.ObjUtil import ObjUtil
 from src.util.StrUtil import StrUtil
 from src.util.ValidationUtil import ValidationUtil
@@ -74,7 +75,7 @@ class ServiceBuilder:
     @staticmethod
     def buildArgService(appContext) -> ArgumentService:
         context = AppContextManager(appContext)
-        confService = appContext.getService(CoreServiceType.CONF_SERVICE)
+        confService = appContext.getService(ServiceType.CONF_SERVICE)
         service = ArgumentService(confService)
         service.setContextManager(context)
         return service
@@ -82,8 +83,8 @@ class ServiceBuilder:
     @staticmethod
     def buildCommandService(appContext) -> CommandService:
         context = AppContextManager(appContext)
-        fieldService = appContext.getService(CoreServiceType.FIELD_SERVICE)
-        argService = appContext.getService(CoreServiceType.ARG_SERVICE)
+        fieldService = appContext.getService(ServiceType.FIELD_SERVICE)
+        argService = appContext.getService(ServiceType.ARG_SERVICE)
         service = CommandService(fieldService, argService)
         service.setContextManager(context)
         return service
@@ -91,8 +92,8 @@ class ServiceBuilder:
     @staticmethod
     def buildFieldService(appContext) -> FieldService:
         context = AppContextManager(appContext)
-        configService = appContext.getService(CoreServiceType.CONF_SERVICE)
-        argService = appContext.getService(CoreServiceType.ARG_SERVICE)
+        configService = appContext.getService(ServiceType.CONF_SERVICE)
+        argService = appContext.getService(ServiceType.ARG_SERVICE)
         service = FieldService(configService, argService)
         service.setContextManager(context)
         return service
@@ -100,7 +101,14 @@ class ServiceBuilder:
     @staticmethod
     def buildLogService(appContext) -> LogService:
         context = AppContextManager(appContext)
-        confService = appContext.getService(CoreServiceType.CONF_SERVICE)
+        confService = appContext.getService(ServiceType.CONF_SERVICE)
         service = LogService(confService)
+        service.setContextManager(context)
+        return service
+
+    @staticmethod
+    def buildTerminalService(appContext) -> LogService:
+        context = AppContextManager(appContext)
+        service = TerminalService()
         service.setContextManager(context)
         return service

@@ -7,5 +7,14 @@ application:
     - type: file
       module: sample
       class: FileField
+  actions:
+    before_command:
+      - selector: '*'
+        class: TestPreCommandAction
+        module: sample
+    after_command:
+      - selector: '*'
+        class: TestPostCommandAction
+        module: sample
 security:
   allowed_users: ['ahuyuktepe', 'humalp']

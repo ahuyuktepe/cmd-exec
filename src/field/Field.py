@@ -62,6 +62,9 @@ class Field:
     def getType(self) -> str:
         return self._type
 
+    def getLabel(self) -> str:
+        return self._label
+
     def isDate(self) -> bool:
         return self._type == FieldType.DATE
 

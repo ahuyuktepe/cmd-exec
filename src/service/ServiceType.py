@@ -1,10 +1,11 @@
 
-class CoreServiceType:
+class ServiceType:
     ARG_SERVICE: str = 'argService'
     CMD_SERVICE: str = 'cmdService'
     CONF_SERVICE: str = 'configService'
     FIELD_SERVICE: str = 'fieldService'
     LOG_SERVICE: str = 'logService'
+    TERMINAL_SERVICE: str = 'terminalService'
 
     __SERVICES: list = [
         ARG_SERVICE,
@@ -16,24 +17,24 @@ class CoreServiceType:
 
     @staticmethod
     def isCoreService( sid: str) -> bool:
-        return sid in CoreServiceType.__SERVICES
+        return sid in ServiceType.__SERVICES
 
     @staticmethod
     def isArgService(sid: str) -> bool:
-        return sid == CoreServiceType.ARG_SERVICE
+        return sid == ServiceType.ARG_SERVICE
 
     @staticmethod
     def isCmdService(sid: str) -> bool:
-        return sid == CoreServiceType.CMD_SERVICE
+        return sid == ServiceType.CMD_SERVICE
 
     @staticmethod
     def isConfService(sid: str) -> bool:
-        return sid == CoreServiceType.CONF_SERVICE
+        return sid == ServiceType.CONF_SERVICE
 
     @staticmethod
     def isFieldService(sid: str) -> bool:
-        return sid == CoreServiceType.FIELD_SERVICE
+        return sid == ServiceType.FIELD_SERVICE
 
     @staticmethod
     def isLogService(sid: str) -> bool:
-        return sid == CoreServiceType.LOG_SERVICE
+        return sid == ServiceType.LOG_SERVICE
