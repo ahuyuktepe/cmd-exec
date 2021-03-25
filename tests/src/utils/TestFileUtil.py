@@ -4,20 +4,7 @@ import yaml
 
 
 class TestFileUtil:
-    __rootPath: str = None
-    __isInitialized: bool = False
-
-    @staticmethod
-    def initialize(path: str = None):
-        if not TestFileUtil.__isInitialized:
-            pathEnv = os.environ['APP_RUNNER_ROOT_PATH']
-            if path is not None:
-                TestFileUtil.__rootPath = path
-            elif pathEnv is None:
-                TestFileUtil.__rootPath = os.path.abspath('')
-            else:
-                TestFileUtil.__rootPath = pathEnv
-            TestFileUtil.__isInitialized = True
+    __rootPath: str = os.environ['APP_RUNNER_ROOT_PATH']
 
     @staticmethod
     def doesDirectoryExist(relativePath: list) -> bool:

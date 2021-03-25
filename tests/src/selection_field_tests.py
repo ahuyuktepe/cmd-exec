@@ -1,4 +1,4 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestUtil import TestUtil
 
 
@@ -21,7 +21,7 @@ class TestSelectionField:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd10', '-name', 'test_from_provider'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.replace('\n', ' ')
@@ -38,7 +38,7 @@ class TestSelectionField:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7', '-city', 'ny'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.replace('\n', ' ')
@@ -53,7 +53,7 @@ class TestSelectionField:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.replace('\n', ' ')
@@ -68,7 +68,7 @@ class TestSelectionField:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd8'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.replace('\n', ' ')
@@ -80,7 +80,7 @@ class TestSelectionField:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd9', '-name', 'test,test1,test2'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.replace('\n', ' ')

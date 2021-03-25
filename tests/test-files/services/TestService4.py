@@ -1,5 +1,5 @@
-from src.config.AppConfigs import AppConfigs
-from src.service.AppService import AppService
+from config.AppConfigs import AppConfigs
+from service.AppService import AppService
 
 
 class TestService4(AppService):

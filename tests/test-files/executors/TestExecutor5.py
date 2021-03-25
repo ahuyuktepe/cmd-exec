@@ -1,4 +1,4 @@
-from src.command.CmdExecutor import CmdExecutor
+from command.CmdExecutor import CmdExecutor
 
 
 class TestExecutor5(CmdExecutor):

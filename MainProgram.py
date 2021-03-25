@@ -1,3 +1,3 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from cmd_exec.app.CmdExecAppRunner import CmdExecAppRunner
 
 CmdExecAppRunner.run()

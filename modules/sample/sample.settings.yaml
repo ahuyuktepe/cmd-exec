@@ -1,7 +1,3 @@
 name: sample
+description: This is a sample module.
 version: 0.0.1
-description: This module provides ui to command execution.
-services:
-  - id: testService
-    class: TestService
-    args: ['@configService']

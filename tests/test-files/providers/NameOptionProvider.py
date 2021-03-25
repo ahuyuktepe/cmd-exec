@@ -1,5 +1,5 @@
-from src.classes.Option import Option
-from src.field.OptionProvider import OptionProvider
+from classes.Option import Option
+from field.OptionProvider import OptionProvider
 
 
 class NameOptionProvider(OptionProvider):

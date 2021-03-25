@@ -1,5 +1,5 @@
-from src.app.CmdExecApp import CmdExecApp
-from src.context.AppContextManager import AppContextManager
+from app.CmdExecApp import CmdExecApp
+from context.AppContextManager import AppContextManager
 
 
 class TestCmdExecApp(CmdExecApp):

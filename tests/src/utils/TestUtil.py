@@ -1,7 +1,7 @@
 import os
 
-from src.util.FileUtil import FileUtil
-from src.util.ObjUtil import ObjUtil
+from util.FileUtil import FileUtil
+from util.ObjUtil import ObjUtil
 from tests.src.utils.TestFileUtil import TestFileUtil
 
 
@@ -9,11 +9,8 @@ class TestUtil:
 
     @staticmethod
     def setupTestingEnvironment():
-        ObjUtil.setEnvironment('test')
-        path = os.path.abspath('../target')
-        FileUtil.initialize(path)
-        path = os.path.abspath('../..')
-        TestFileUtil.initialize(path)
+        ObjUtil.initialize('test')
+        FileUtil.initialize('test')
         TestUtil.__clearTargetDirectory()
         TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()

@@ -1,4 +1,4 @@
-from src.service.AppService import AppService
+from service.AppService import AppService
 
 
 class TestService(AppService):

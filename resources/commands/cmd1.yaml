@@ -2,48 +2,10 @@ id: cmd1
 title: Command 1
 module: sample
 executor:
-  class: WebToolExecutor
-  method: run
+  class: SampleCmdExecutor
+  method: runCommand
 fields:
-  - id: test_field
-    type: file
-    label: Test File Field
-    default: Default_Test_File.pdf
-#  - id: publish_date
-#    type: date
-#    label: Publish Date
-#    required: True
-#    format: '%m-%d-%Y'
-#    default: '02-02-2022'
-#    min: 12-03-2020
-#    max: 02-01-2021
-#  - id: attachment
-#    type: file
-#    label: Attachment
-#    default: resources\files\test.html
-#  - id: modified_date_time
-#    type: date_time
-#    label: Modified Date Time
-#    format: mm/dd/yyyy hh:mm:ss
-#    required: True
-#    default: 10/12/2020 10:00:00
-
-#  - id: countries
-#    type: multi_select
-#    label: Countries
-#    options:
-#      - { id: turkey, name: Turkey }
-#  - id: age
-#    type: number
-#    label: User Age
-#    min: 18
-#    max: 100
-#  - id: city
-#    type: single_select
-#    label: Available Cities
-#    options:
-#      - { id: ny, name: New York }
-#      - { id: istanbul, name: Istanbul }
-#  - id: first_name
-#    type: text
-#    label: First Name
+  - id: first_name
+    type: my_field_type
+    label: First Name
+    required: True

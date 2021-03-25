@@ -1,4 +1,4 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestUtil import TestUtil
 
 
@@ -20,7 +20,7 @@ class TestCmdExecutor:
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR34' in response.out
@@ -30,7 +30,7 @@ class TestCmdExecutor:
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1'])
         TestUtil.useCmdFilesInModule(['cmd1'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR51' in response.out
@@ -41,7 +41,7 @@ class TestCmdExecutor:
         TestUtil.useCmdFilesInModule(['cmd2'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor2'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR59' in response.out
@@ -52,7 +52,7 @@ class TestCmdExecutor:
         TestUtil.useCmdFilesInModule(['cmd1'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor1'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -64,7 +64,7 @@ class TestCmdExecutor:
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd5', '-publish_date', '01-01-2021'])
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')

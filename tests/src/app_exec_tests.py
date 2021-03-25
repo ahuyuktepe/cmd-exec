@@ -1,4 +1,4 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestUtil import TestUtil
 
 
@@ -22,7 +22,7 @@ class TestExecApp:
         })
         TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -33,7 +33,7 @@ class TestExecApp:
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test'])
         TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -51,7 +51,7 @@ class TestExecApp:
         TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-mode', 'test'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'TestCmdExecApp is running.' in response.out

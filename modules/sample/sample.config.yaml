@@ -1,20 +1,5 @@
 application:
-  (+)modes:
-    - id: ui
-      module: sample
-      runner: CoreUIExecApp
   (+)fields:
-    - type: file
+    - type: my_field_type
+      class: MyFieldType
       module: sample
-      class: FileField
-  actions:
-    before_command:
-      - selector: '*'
-        class: TestPreCommandAction
-        module: sample
-    after_command:
-      - selector: '*'
-        class: TestPostCommandAction
-        module: sample
-security:
-  allowed_users: ['ahuyuktepe', 'humalp']

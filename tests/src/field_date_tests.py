@@ -1,4 +1,4 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestFileUtil import TestFileUtil
 from tests.src.utils.TestUtil import TestUtil
 
@@ -35,7 +35,7 @@ class TestDateField:
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd3', '-publish_date', '01-01-2021'])
         TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -47,7 +47,7 @@ class TestDateField:
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd3', '-publish_date', '01-01-2021'])
         TestUtil.useExecutorsInModule(['TestExecutor3'], 'test')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -60,7 +60,7 @@ class TestDateField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd3')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -75,7 +75,7 @@ class TestDateField:
         self.__fieldSettings['required'] = True
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR57' in response.out
@@ -88,7 +88,7 @@ class TestDateField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd3')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR56' in response.out
@@ -104,7 +104,7 @@ class TestDateField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '04-01-2021'}, 'cmd3')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR56' in response.out
@@ -119,7 +119,7 @@ class TestDateField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd3')
         TestFileUtil.saveArgFile({'publish_date': '04-01-2021'}, 'cmd3')
         # When
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         assert 'ERR55' in response.out

@@ -1,4 +1,4 @@
-from src.app.CmdExecAppRunner import CmdExecAppRunner
+from app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestFileUtil import TestFileUtil
 from tests.src.utils.TestUtil import TestUtil
 
@@ -9,8 +9,7 @@ class TestCmdArgs:
         TestUtil.setupTestingEnvironment()
 
     def teardown_method(method):
-        # TestUtil.destroyTestingEnvironment()
-        pass
+        TestUtil.destroyTestingEnvironment()
 
     def testing_cmd_arg(self, monkeypatch, capsys):
         # Given
@@ -23,7 +22,7 @@ class TestCmdArgs:
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -41,7 +40,7 @@ class TestCmdArgs:
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd4')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -59,7 +58,7 @@ class TestCmdArgs:
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
-        CmdExecAppRunner.run()
+        CmdExecAppRunner.run('test')
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')

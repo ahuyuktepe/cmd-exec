@@ -1,9 +1,9 @@
 import pytest
 
-from src.builder.AppContextBuilder import AppContextBuilder
-from src.context.AppContext import AppContext
-from src.error.CmdExecError import CmdExecError
-from src.util.ObjUtil import ObjUtil
+from builder.AppContextBuilder import AppContextBuilder
+from context.AppContext import AppContext
+from error.CmdExecError import CmdExecError
+from util.ObjUtil import ObjUtil
 from tests.src.utils.TestUtil import TestUtil
 
 
@@ -11,7 +11,6 @@ class TestAppService:
 
     def setup_method(method):
         TestUtil.setupTestingEnvironment()
-        ObjUtil.initialize()
 
     def teardown_method(method):
         TestUtil.destroyTestingEnvironment()
