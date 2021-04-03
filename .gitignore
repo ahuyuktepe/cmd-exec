@@ -7,3 +7,5 @@ tests/target/**
 dist/*
 build/*
 src/command_executor.egg-info
+modules/*
+resources/*
