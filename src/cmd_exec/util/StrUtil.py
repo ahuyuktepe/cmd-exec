@@ -83,3 +83,14 @@ class StrUtil:
     def convertClassPathToFilePath(clsPath: str) -> list:
         if isinstance(clsPath, str) and not StrUtil.isNoneOrEmpty(clsPath):
             return clsPath.split('.')
+
+    @staticmethod
+    def getAlignedAndLimitedStr(text: str, limit: int, align: str) -> str:
+        retStr = text[0:limit]
+        if align == 'center':
+            return ('{:^' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'left':
+            return ('{:<' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        elif align == 'right':
+            return ('{:>' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
+        return retStr

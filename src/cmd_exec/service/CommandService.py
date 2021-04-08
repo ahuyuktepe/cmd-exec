@@ -1,4 +1,7 @@
+from cmd_exec.service.TerminalService import TerminalService
+
 from cmd_exec.command.CmdExecutor import CmdExecutor
+from cmd_exec.command.CmdRequest import CmdRequest
 from cmd_exec.menu.Command import Command
 from cmd_exec.service.AppService import AppService
 from cmd_exec.service.ArgumentService import ArgumentService
@@ -16,12 +19,13 @@ class CommandService(AppService):
         self.__fieldService = fieldService
         self.__argService = argService
 
-    def execute(self, cmd: Command):
+    def execute(self, cmd: Command, service: TerminalService):
         self.__validateFields(cmd)
         executor: CmdExecutor = cmd.getExecutor()
         fields: dict = cmd.getFields()
         method = getattr(executor, executor.getMethod())
-        method(fields)
+        request = CmdRequest(fields, service)
+        method(request)
 
     def __validateFields(self, cmd: Command):
         fields: dict = cmd.getFields()

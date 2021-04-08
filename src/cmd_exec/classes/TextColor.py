@@ -1,8 +1,11 @@
 
 class TextColor:
-    RED: dict = {'id': 'red', 'code': '\033[1;31m'}
-    BLUE: dict = {'id': 'blue', 'code': '\033[1;34m'}
-    CYAN: dict = {'id': 'cyan', 'code': '\033[1;36m'}
-    GREEN: dict = {'id': 'green', 'code': '\033[1;32m'}
-    RESET: dict = {'id': 'reset', 'code': '\033[0;0m'}
-    BOLD: dict = {'id': 'bold', 'code': '\033[;1m'}
+    RED: str = '\033[1;31m'
+    GREEN: str = '\033[1;32m'
+    YELLOW: str = '\033[1;33m'
+    BLUE: str = '\033[1;34m'
+    MAGENTA: str = '\033[1;35m'
+    CYAN: str = '\033[1;36m'
+    WHITE: str = '\033[1;37m'
+    BOLD: str = '\033[;1m'
+    RESET: str = '\033[0;0m'

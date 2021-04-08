@@ -1,3 +1,4 @@
+from cmd_exec.command.CmdRequest import CmdRequest
 from cmd_exec.context.AppContextManager import AppContextManager
 from cmd_exec.util.StrUtil import StrUtil
 
@@ -18,7 +19,7 @@ class CmdExecutor:
     def getMethod(self) -> str:
         return self._method
 
-    def execute(self, fields: dict):
+    def execute(self, request: CmdRequest):
         pass
 
     def print(self):

@@ -74,6 +74,8 @@ class ErrorMessage:
         'ERR73': "Pre command action failed. Details: {details}",
         'ERR74': "Invalid properties provided for application.actions.after_command configuration.",
         'ERR75': "Post command action failed. Details: {details}",
+        'ERR76': "File does not exist in {path}.",
+        'ERR77': "Primary key for domain object is not set."
     }
 
     @staticmethod

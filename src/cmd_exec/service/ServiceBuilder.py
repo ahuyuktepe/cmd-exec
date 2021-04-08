@@ -5,10 +5,10 @@ from cmd_exec.service.AppService import AppService
 from cmd_exec.service.ArgumentService import ArgumentService
 from cmd_exec.service.CommandService import CommandService
 from cmd_exec.service.ConfigurationService import ConfigurationService
+from cmd_exec.service.DatabaseService import DatabaseService
 from cmd_exec.service.ServiceType import ServiceType
 from cmd_exec.service.FieldService import FieldService
 from cmd_exec.service.LogService import LogService
-from cmd_exec.service.TerminalService import TerminalService
 from cmd_exec.util.ObjUtil import ObjUtil
 from cmd_exec.util.StrUtil import StrUtil
 from cmd_exec.util.ValidationUtil import ValidationUtil
@@ -107,8 +107,12 @@ class ServiceBuilder:
         return service
 
     @staticmethod
-    def buildTerminalService(appContext) -> LogService:
+    def buildDatabaseService(appContext) -> DatabaseService:
+        # Fetch Configuration Service
+        configService: ConfigurationService = appContext.getService('configService')
+        # Fetch Database Settings
+        settings = configService.getValue('database')
+        service: DatabaseService = DatabaseService(settings)
         context = AppContextManager(appContext)
-        service = TerminalService()
         service.setContextManager(context)
         return service

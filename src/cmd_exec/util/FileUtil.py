@@ -127,3 +127,12 @@ class FileUtil:
     @staticmethod
     def fromStrPathToArr(path: str) -> list:
         return path.split(os.path.sep)
+
+    @staticmethod
+    def readFile(path: list) -> str:
+        absPath = FileUtil.getAbsolutePath(path)
+        if FileUtil.isFileReadable(path):
+            file = open(absPath, 'r')
+            content: str = file.read()
+            return content
+        raise CmdExecError('ERR76', {'path': absPath})

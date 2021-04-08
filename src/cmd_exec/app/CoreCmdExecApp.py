@@ -1,3 +1,4 @@
+from cmd_exec.service.CoreTerminalService import CoreTerminalService
 from cmd_exec.action.CmdAction import CmdAction
 from cmd_exec.action.CmdActionResponse import CmdActionResponse
 from cmd_exec.app.CmdExecApp import CmdExecApp
@@ -37,9 +38,12 @@ class CoreCmdExecApp(CmdExecApp):
         cmd.setValues(values)
         # 5) Handle Before Command Action
         self.__handlePreCommandAction(cmd)
-        # 6) Execute command
-        self.__cmdService.execute(cmd)
-        # 7) Handle After Command Action
+        # 6) Build TerminalService
+        service = CoreTerminalService()
+        service.setContextManager(self._context)
+        # 7) Execute command
+        self.__cmdService.execute(cmd, service)
+        # 8) Handle After Command Action
         self.__handleAfterCommandAction(cmd)
 
     def __handlePreCommandAction(self, cmd: Command):

@@ -1,5 +1,10 @@
+from cmd_exec.context.AppContextManager import AppContextManager
+
+from cmd_exec.service.ConfigurationService import ConfigurationService
+
 from cmd_exec.context.AppContext import AppContext
 from cmd_exec.module.AppModule import AppModule
+from cmd_exec.service.DatabaseService import DatabaseService
 from cmd_exec.service.ServiceType import ServiceType
 from cmd_exec.service.ServiceBuilder import ServiceBuilder
 from cmd_exec.util.AppUtil import AppUtil
@@ -44,9 +49,9 @@ class AppContextBuilder:
         # LogService
         service = ServiceBuilder.buildLogService(appContext)
         appContext.addService(ServiceType.LOG_SERVICE, service)
-        # TerminalService
-        service = ServiceBuilder.buildTerminalService(appContext)
-        appContext.addService(ServiceType.TERMINAL_SERVICE, service)
+        # DatabaseService
+        service = ServiceBuilder.buildDatabaseService(appContext)
+        appContext.addService('databaseService', service)
 
     @staticmethod
     def __initCustomServices(appContext: AppContext, names: list):
