@@ -1,0 +1,11 @@
+id: cmd1
+title: Command 1
+module: sample
+executor:
+  class: SampleCmdExecutor
+  method: runCommand
+fields:
+  - id: first_name
+    type: my_field_type
+    label: First Name
+    required: True

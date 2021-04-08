@@ -2,10 +2,8 @@
 venv/*
 *.pyc
 .pytest_cache/*
-logs/*
+logs/*.log
 tests/target/**
 dist/*
 build/*
 src/command_executor.egg-info
-modules/*
-resources/*
