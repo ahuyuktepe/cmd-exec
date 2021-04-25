@@ -3,13 +3,11 @@ application:
   modes:
     - id: cmd
       runner: CoreCmdExecApp
-  fields:
-    - { type: date, class: DateField }
-    - { type: text, class: TextField }
-    - { type: selection, class: SelectionField }
 log_settings:
   level: info
   dir_path: logs
   max_size: 10 KB
   msg_format: '{level} | {date} | {msg}'
   date_format: '%Y-%m-%d %H:%M:%S'
+database:
+  name: 'test-database.db'

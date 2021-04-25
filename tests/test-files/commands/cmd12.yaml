@@ -1,0 +1,7 @@
+id: cmd12
+title: Command 12
+module: test
+allowed_users:
+  - USER_NAME
+executor:
+  class: TestExecutor1

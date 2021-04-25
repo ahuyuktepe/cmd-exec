@@ -1,4 +1,4 @@
-from app.CmdExecAppRunner import CmdExecAppRunner
+from cmd_exec.app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestUtil import TestUtil
 
 

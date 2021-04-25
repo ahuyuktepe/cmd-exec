@@ -1,7 +1,7 @@
 from cmd_exec.database.DomainObject import DomainObject
 
 
-class User(DomainObject):
+class TestUser(DomainObject):
 
     def __init__(self):
         super().__init__()

@@ -1,7 +1,5 @@
-import os
-
-from util.FileUtil import FileUtil
-from util.ObjUtil import ObjUtil
+from cmd_exec.util.FileUtil import FileUtil
+from cmd_exec.util.ObjUtil import ObjUtil
 from tests.src.utils.TestFileUtil import TestFileUtil
 
 
@@ -9,8 +7,8 @@ class TestUtil:
 
     @staticmethod
     def setupTestingEnvironment():
-        ObjUtil.initialize('test')
-        FileUtil.initialize('test')
+        # ObjUtil.initialize('test')
+        # FileUtil.initialize('test')
         TestUtil.__clearTargetDirectory()
         TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()
@@ -48,6 +46,8 @@ class TestUtil:
         TestFileUtil.makeDir(path)
         path = ['tests', 'target', 'resources', 'configs']
         TestFileUtil.makeDir(path)
+        path = ['tests', 'target', 'resources', 'databases']
+        TestFileUtil.makeDir(path)
 
     @staticmethod
     def useCmdFilesInModule(cmdFileNames: list, moduleName: str):
@@ -78,6 +78,13 @@ class TestUtil:
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
+    def useDatabaseFilesInConfigsDir(argFileNames: list):
+        for fileName in argFileNames:
+            srcFilePath = ['tests', 'test-files', 'databases', fileName]
+            dstDirPath = ['tests', 'target', 'resources', 'databases', fileName]
+            TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
     def useServicesInModule(srvClsNames: list, moduleName: str):
         for fileName in srvClsNames:
             srcFilePath = ['tests', 'test-files', 'services', fileName + '.py']
@@ -105,6 +112,13 @@ class TestUtil:
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
     @staticmethod
+    def useClassFileInModule(fieldClsNames: list, moduleName: str):
+        for fileName in fieldClsNames:
+            srcFilePath = ['tests', 'test-files', 'classes', fileName]
+            dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'classes', fileName]
+            TestFileUtil.copyFile(srcFilePath, dstDirPath)
+
+    @staticmethod
     def useProvidersInModule(providers: list, moduleName: str):
         for fileName in providers:
             srcFilePath = ['tests', 'test-files', 'providers', fileName + '.py']
@@ -118,8 +132,6 @@ class TestUtil:
             dstDirPath = ['tests', 'target', 'modules', moduleName, 'src', 'app', fileName + '.py']
             TestFileUtil.copyFile(srcFilePath, dstDirPath)
 
-
-
     @staticmethod
     def buildModuleFiles(name: str, settings: dict = {}, config: dict = {}):
         # Generating Module Directories
@@ -128,7 +140,7 @@ class TestUtil:
         TestFileUtil.makeDirs(path, ['commands'])
         srcPath = path + ['src']
         TestFileUtil.makeDir(srcPath)
-        TestFileUtil.makeDirs(srcPath, ['app', 'executor', 'field', 'service', 'provider'])
+        TestFileUtil.makeDirs(srcPath, ['app', 'executor', 'field', 'service', 'provider', 'classes'])
         # Saving Settings File
         settingsFilePath = ['tests', 'target', 'modules', name, (name + '.settings.yaml')]
         TestFileUtil.saveDictAsYamlFile(settings, settingsFilePath)

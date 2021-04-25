@@ -93,3 +93,14 @@ class TestFileUtil:
     def removeCmdFileFromCommandsDir(cmdId: str):
         path = ['tests', 'target', 'resources','commands', cmdId + '.yaml']
         TestFileUtil.removeFile(path)
+
+    @staticmethod
+    def replaceStrInFileFile(replaceStr: str, replaceWith: str, filePath: list):
+        path = TestFileUtil.getAbsolutePath(filePath)
+        file = open(path, 'r')
+        content: str = file.read()
+        file.close()
+        content = content.replace(replaceStr, replaceWith)
+        file = open(path, 'w')
+        file.write(content)
+        file.close()

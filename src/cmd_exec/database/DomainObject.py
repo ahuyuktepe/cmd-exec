@@ -7,10 +7,13 @@ class DomainObject:
     _columns: list
     _values: dict
 
-    def __init__(self, properties: dict = {}):
-        self._properties = properties
+    def __init__(self):
+        self.setProperties()
         self.__setColumns()
         self._values = {}
+
+    def setProperties(self):
+        pass
 
     def __setColumns(self):
         columns = self._properties.get('columns')

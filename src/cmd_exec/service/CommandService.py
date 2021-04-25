@@ -1,5 +1,5 @@
+from cmd_exec.command.CmdResponse import CmdResponse
 from cmd_exec.service.TerminalService import TerminalService
-
 from cmd_exec.command.CmdExecutor import CmdExecutor
 from cmd_exec.command.CmdRequest import CmdRequest
 from cmd_exec.menu.Command import Command
@@ -19,13 +19,14 @@ class CommandService(AppService):
         self.__fieldService = fieldService
         self.__argService = argService
 
-    def execute(self, cmd: Command, service: TerminalService):
+    def execute(self, cmd: Command, service: TerminalService) -> CmdResponse:
         self.__validateFields(cmd)
         executor: CmdExecutor = cmd.getExecutor()
         fields: dict = cmd.getFields()
         method = getattr(executor, executor.getMethod())
         request = CmdRequest(fields, service)
-        method(request)
+        response: CmdResponse = method(request)
+        return response
 
     def __validateFields(self, cmd: Command):
         fields: dict = cmd.getFields()
@@ -86,4 +87,13 @@ class CommandService(AppService):
         ValidationUtil.failIfStrNoneOrEmpty(title, 'ERR36', {'cid': cid})
         mid = props.get('module')
         ValidationUtil.failIfStrNoneOrEmpty(mid, 'ERR41', {'cid': cid})
-        return Command(cmdId, title, mid)
+        cmd: Command = Command(cmdId, title, mid)
+        users = props.get('allowed_users')
+        cmd.setAllowedUsers(users)
+        users = props.get('denied_users')
+        cmd.setDeniedUsers(users)
+        groups = props.get('allowed_groups')
+        cmd.setAllowedGroups(groups)
+        groups = props.get('denied_groups')
+        cmd.setDeniedGroups(groups)
+        return cmd

@@ -115,4 +115,5 @@ class ServiceBuilder:
         service: DatabaseService = DatabaseService(settings)
         context = AppContextManager(appContext)
         service.setContextManager(context)
+        service.initializeDatabase()
         return service

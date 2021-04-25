@@ -1,4 +1,4 @@
-from app.CmdExecAppRunner import CmdExecAppRunner
+from cmd_exec.app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestUtil import TestUtil
 
 
@@ -13,8 +13,7 @@ class TestCmdExecutor:
         TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
-        # TestUtil.destroyTestingEnvironment()
-        pass
+        TestUtil.destroyTestingEnvironment()
 
     def test_non_existing_cmd_execution(self, monkeypatch, capsys):
         # Given

@@ -1,5 +1,4 @@
 application:
-  name: 'Temp Python Project'
   (+)fields:
     - type: my_field_type
       class: MyFieldType

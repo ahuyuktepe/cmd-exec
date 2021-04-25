@@ -1,3 +1,5 @@
 database:
-  name: 'test.db'
-  log_level: info
+  name: 'test2.db'
+  initialization:
+    action: 'create'
+    file: 'database.sql'

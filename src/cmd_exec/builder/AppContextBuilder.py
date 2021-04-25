@@ -35,8 +35,8 @@ class AppContextBuilder:
     def __initCoreServices(appContext: AppContext):
         # Initialize Core Services
         # ConfigurationService
-        service = ServiceBuilder.buildConfigService(appContext)
-        appContext.addService(ServiceType.CONF_SERVICE, service)
+        configService = ServiceBuilder.buildConfigService(appContext)
+        appContext.addService(ServiceType.CONF_SERVICE, configService)
         # ArgumentService
         service = ServiceBuilder.buildArgService(appContext)
         appContext.addService(ServiceType.ARG_SERVICE, service)
@@ -50,8 +50,9 @@ class AppContextBuilder:
         service = ServiceBuilder.buildLogService(appContext)
         appContext.addService(ServiceType.LOG_SERVICE, service)
         # DatabaseService
-        service = ServiceBuilder.buildDatabaseService(appContext)
-        appContext.addService('databaseService', service)
+        if configService.isDatabaseSet():
+            service = ServiceBuilder.buildDatabaseService(appContext)
+            appContext.addService('databaseService', service)
 
     @staticmethod
     def __initCustomServices(appContext: AppContext, names: list):

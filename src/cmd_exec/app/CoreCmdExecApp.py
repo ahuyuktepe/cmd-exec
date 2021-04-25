@@ -1,3 +1,4 @@
+from cmd_exec.command.CmdResponse import CmdResponse
 from cmd_exec.service.CoreTerminalService import CoreTerminalService
 from cmd_exec.action.CmdAction import CmdAction
 from cmd_exec.action.CmdActionResponse import CmdActionResponse
@@ -9,6 +10,7 @@ from cmd_exec.service.CommandService import CommandService
 from cmd_exec.service.ConfigurationService import ConfigurationService
 from cmd_exec.service.FieldService import FieldService
 from cmd_exec.util.ObjUtil import ObjUtil
+from cmd_exec.util.SystemUtil import SystemUtil
 from cmd_exec.util.ValidationUtil import ValidationUtil
 
 
@@ -28,6 +30,13 @@ class CoreCmdExecApp(CmdExecApp):
         cid = self._args.getCmd()
         # 2) Build command object
         cmd = self.__cmdService.buildCmdFromId(cid)
+        # 3) Validate User Permission
+        uname = SystemUtil.getCurrentUserName()
+        cmd.validateUserPermission(uname)
+        # 4) Validate User Group Permission
+        if not SystemUtil.isWindows():
+            groupNames: list = SystemUtil.getCurrentUserGroups()
+            cmd.validateUserGroupPermission(uname, groupNames)
         # 3) Get field values from cmd_exec.command params and merge
         values: dict = self.__fieldService.getFieldValuesFromArgumentFile(cmd)
         # 4) Get arguments from cmd_exec.command params and merge
@@ -42,14 +51,16 @@ class CoreCmdExecApp(CmdExecApp):
         service = CoreTerminalService()
         service.setContextManager(self._context)
         # 7) Execute command
-        self.__cmdService.execute(cmd, service)
+        response: CmdResponse = self.__cmdService.execute(cmd, service)
         # 8) Handle After Command Action
         self.__handleAfterCommandAction(cmd)
+        # 9) Handle Response
+        content: str = response.getContent()
+        service.print(content)
 
     def __handlePreCommandAction(self, cmd: Command):
         beforeCmdProps: dict = self.__getBeforeCmdActionPropsByCmd(cmd)
         if beforeCmdProps is not None:
-            print('Before Command Props: ' + str(beforeCmdProps))
             cls = beforeCmdProps.get('class')
             ValidationUtil.failIfStrNoneOrEmpty(cls, 'ERR60')
             module = beforeCmdProps.get('module')

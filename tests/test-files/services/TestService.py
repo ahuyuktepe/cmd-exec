@@ -1,4 +1,4 @@
-from service.AppService import AppService
+from cmd_exec.service.AppService import AppService
 
 
 class TestService(AppService):

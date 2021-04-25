@@ -1,5 +1,5 @@
-from classes.Option import Option
-from field.OptionProvider import OptionProvider
+from cmd_exec.classes.Option import Option
+from cmd_exec.field.OptionProvider import OptionProvider
 
 
 class NameOptionProvider(OptionProvider):

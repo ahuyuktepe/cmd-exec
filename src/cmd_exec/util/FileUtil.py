@@ -7,24 +7,15 @@ from cmd_exec.error.CmdExecError import CmdExecError
 
 class FileUtil:
     __rootPath: str = None
-    __isInitialized: bool = False
 
     @staticmethod
-    def initialize(env: str):
-        if not FileUtil.__isInitialized:
-            if env == 'production':
-                FileUtil.__rootPath = os.environ['APP_RUNNER_ROOT_PATH']
-            elif env == 'test':
-                FileUtil.__rootPath = os.environ['APP_RUNNER_ROOT_PATH'] + os.path.sep + 'tests' + os.path.sep + 'target'
-            FileUtil.__isInitialized = True
+    def setRootPath(path: str):
+        if not FileUtil.__rootPath:
+            FileUtil.__rootPath = path
 
     @staticmethod
     def getRootPath() -> str:
         return FileUtil.__rootPath
-
-    @staticmethod
-    def isInitialized() -> bool:
-        return FileUtil.__isInitialized and FileUtil.__rootPath is not None
 
     @staticmethod
     def getAbsolutePath(relativePath: list) -> str:

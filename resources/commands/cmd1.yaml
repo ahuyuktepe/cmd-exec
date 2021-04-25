@@ -1,6 +1,14 @@
 id: cmd1
 title: Command 1
 module: sample
+allowed_users:
+  - humalp
+denied_users:
+  - humalp1
+allowed_groups:
+  - test2
+denied_groups:
+  - test1
 executor:
   class: SampleCmdExecutor
   method: runCommand

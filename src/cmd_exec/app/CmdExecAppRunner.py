@@ -1,3 +1,5 @@
+import os
+import sys
 from cmd_exec.app.CmdExecApp import CmdExecApp
 from cmd_exec.builder.AppContextBuilder import AppContextBuilder
 from cmd_exec.context.AppContext import AppContext
@@ -12,18 +14,27 @@ from cmd_exec.util.ValidationUtil import ValidationUtil
 
 
 class CmdExecAppRunner:
+    __rootPath: str = None
 
     @staticmethod
     def run(env: str = 'production'):
         try:
-            ObjUtil.initialize(env)
-            FileUtil.initialize(env)
-            ValidationUtil.failIfFileUtilIsNotInitialized()
+            CmdExecAppRunner.__setRootDir(env)
+            FileUtil.setRootPath(CmdExecAppRunner.__rootPath)
+            sys.path.append(CmdExecAppRunner.__rootPath)
             appContext = AppContextBuilder.buildBaseAppContext()
             app: CmdExecApp = CmdExecAppRunner.__buildCmdExecApp(appContext)
             app.run()
         except Exception as exp:
             ErrorUtil.handleException(exp)
+
+    @staticmethod
+    def __setRootDir(env: str):
+        if CmdExecAppRunner.__rootPath is None:
+            rootPath = os.environ['APP_RUNNER_ROOT_PATH']
+            if env == 'test':
+                rootPath = os.path.sep.join([rootPath, 'tests', 'target'])
+            CmdExecAppRunner.__rootPath = rootPath
 
     @staticmethod
     def __buildCmdExecApp(appContext: AppContext) -> CmdExecApp:

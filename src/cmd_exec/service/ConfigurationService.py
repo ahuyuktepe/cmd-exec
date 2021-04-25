@@ -55,3 +55,7 @@ class ConfigurationService(AppService):
 
     def getValue(self, path: str) -> object:
         return self.__configs.getValue(path)
+
+    def isDatabaseSet(self):
+        value: str = self.__configs.getValue('database.name')
+        return value is not None

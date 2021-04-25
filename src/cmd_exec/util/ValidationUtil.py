@@ -16,11 +16,6 @@ class ValidationUtil:
             raise CmdExecError(code, params)
 
     @staticmethod
-    def failIfFileUtilIsNotInitialized():
-        if not FileUtil.isInitialized():
-            raise CmdExecError('ERR04')
-
-    @staticmethod
     def failIfStrNoneOrEmpty(val: str, code: str, params: dict = {}):
         if not isinstance(val, str) or StrUtil.isNoneOrEmpty(val):
             raise CmdExecError(code, params)

@@ -1,24 +1,46 @@
 import copy
 import sqlite3
-
 from cmd_exec.error.CmdExecError import CmdExecError
-
 from cmd_exec.database.Column import Column
 from cmd_exec.database.DomainObject import DomainObject
+from cmd_exec.service.ConfigurationService import ConfigurationService
 from cmd_exec.util.FileUtil import FileUtil
-
 from cmd_exec.service.AppService import AppService
 
 
 class DatabaseService(AppService):
+    __configService: ConfigurationService
     __settings: dict
     __connection: object
     __dbName: str
 
     def __init__(self, settings: dict = {}):
-        self.__settings = settings
+        if settings is None:
+            self.__settings = {}
+        else:
+            self.__settings = settings
         self.__setDatabaseName()
         self.__connection = None
+
+    def initializeDatabase(self):
+        self.__configService = self._contextManager.getService('configService')
+        if not self.__doesDatabaseExist():
+            self.connect()
+            fileName: str = self.__configService.getValue('database.initialization.file')
+            sql: str = self.__readSqlFile(fileName)
+            cursor = self.__connection.cursor()
+            cursor.execute(sql)
+            self.__connection.commit()
+            self.disconnect()
+
+    def __readSqlFile(self, fileName: str) -> str:
+        sqlFilePath: list = ['resources', 'databases', fileName]
+        content: str = FileUtil.readFile(sqlFilePath)
+        return content
+
+    def __doesDatabaseExist(self) -> bool:
+        path: list = ['resources', 'databases', self.__dbName]
+        return FileUtil.isFileReadable(path)
 
     def __setDatabaseName(self):
         name = self.__settings.get('name')
@@ -97,3 +119,18 @@ class DatabaseService(AppService):
         cursor.execute(sql)
         self.__connection.commit()
         self.disconnect()
+
+    def executeUpdateQuery(self, sql: str):
+        self.connect()
+        cursor = self.__connection.cursor()
+        cursor.execute(sql)
+        self.__connection.commit()
+        self.disconnect()
+
+    def executeSelectQuery(self, sql: str) -> list:
+        self.connect()
+        cursor = self.__connection.cursor()
+        cursor.execute(sql)
+        retList = cursor.fetchall()
+        self.disconnect()
+        return retList

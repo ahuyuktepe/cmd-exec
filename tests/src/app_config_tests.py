@@ -1,8 +1,8 @@
 import pytest
-from builder.AppContextBuilder import AppContextBuilder
-from context.AppContext import AppContext
-from error.CmdExecError import CmdExecError
-from module.AppModule import AppModule
+from cmd_exec.builder.AppContextBuilder import AppContextBuilder
+from cmd_exec.context.AppContext import AppContext
+from cmd_exec.error.CmdExecError import CmdExecError
+from cmd_exec.module.AppModule import AppModule
 from tests.src.utils.TestUtil import TestUtil
 
 

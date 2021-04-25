@@ -1,5 +1,5 @@
-from command.CmdExecutor import CmdExecutor
-from date.Date import Date
+from cmd_exec.command.CmdExecutor import CmdExecutor
+from cmd_exec.date.Date import Date
 
 
 class TestExecutor4(CmdExecutor):

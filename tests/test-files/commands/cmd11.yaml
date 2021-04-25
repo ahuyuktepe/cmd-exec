@@ -1,0 +1,7 @@
+id: cmd11
+title: Command 11
+module: test
+allowed_users:
+  - na_user
+executor:
+  class: TestExecutor1

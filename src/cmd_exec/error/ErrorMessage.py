@@ -3,7 +3,6 @@ class ErrorMessage:
         'ERR01': "Module name is not defined or empty for module '{module}'.",
         'ERR02': "Invalid version '{version}' provided for module '{module}'.",
         'ERR03': "Dependencies are not defined correctly for module '{module}'.",
-        'ERRO4': "FileUtil root path is not initialized.",
         'ERR05': "Configuration file '{file}' for module '{name}' can not be loaded.",
         'ERR06': "Settings file does not exist or can not be read for module '{name}' located in '{path}'.",
         'ERR07': "Module '{srcModule}' depends on module '{depModule}' but not found.",
@@ -75,7 +74,11 @@ class ErrorMessage:
         'ERR74': "Invalid properties provided for application.actions.after_command configuration.",
         'ERR75': "Post command action failed. Details: {details}",
         'ERR76': "File does not exist in {path}.",
-        'ERR77': "Primary key for domain object is not set."
+        'ERR77': "Primary key for domain object is not set.",
+        'ERR78': "User '{user}' is not in allowed users {users} to run command '{cmd}'.",
+        'ERR79': "User '{user}' is in denied users {users} to run command '{cmd}'.",
+        'ERR80': "User '{user}' is not assigned to any allowed group {groups} to run command '{cmd}'.",
+        'ERR81': "User '{user}' is assigned to a group in denied groups {groups} to run command '{cmd}'."
     }
 
     @staticmethod
