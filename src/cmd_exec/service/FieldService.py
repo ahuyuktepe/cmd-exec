@@ -1,15 +1,15 @@
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.field.Field import Field
-from cmd_exec.field.OptionProvider import OptionProvider
-from cmd_exec.field.SelectionField import SelectionField
-from cmd_exec.menu.Command import Command
-from cmd_exec.service.AppService import AppService
-from cmd_exec.service.ArgumentService import ArgumentService
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.util.FileUtil import FileUtil
-from cmd_exec.util.ObjUtil import ObjUtil
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..context.AppContextManager import AppContextManager
+from ..error.CmdExecError import CmdExecError
+from ..field.Field import Field
+from ..field.OptionProvider import OptionProvider
+from ..field.SelectionField import SelectionField
+from ..menu.Command import Command
+from ..service.AppService import AppService
+from ..service.ArgumentService import ArgumentService
+from ..service.ConfigurationService import ConfigurationService
+from ..util.FileUtil import FileUtil
+from ..util.ObjUtil import ObjUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class FieldService(AppService):
@@ -33,7 +33,7 @@ class FieldService(AppService):
         clsProps: dict = self.__getFieldClassProps(fieldType)
         cls = clsProps.get('class')
         clsPath = clsProps.get('path')
-        field: Field = ObjUtil.initClassFromStr(clsPath, cls, [fid])
+        field: Field = ObjUtil.initClassFromStr(clsPath, cls, [fid], 'cmd_exec')
         field.setProperties(props)
         if field.getType() == 'selection':
             self.__insertOptionsFromOptionProvider(cmd.getModule(), field, props)
@@ -63,13 +63,12 @@ class FieldService(AppService):
         ValidationUtil.failIfStrNoneOrEmpty(cls, 'ERR47', {'type': type})
         mid = fieldClsProps.get('module')
         clsPath = fieldClsProps.get('path')
-        if mid is not None:
+        if clsPath is not None:
+            ValidationUtil.failIfNotType(clsPath, str, 'ERR48', {'type': 'string'})
+            path = clsPath
+        elif mid is not None:
             ValidationUtil.failIfNotType(mid, str, 'ERR48', {'type': 'module'})
-            if clsPath is None:
-                path = 'modules.{module}.src.field.{cls}'.format(module=mid, cls=cls)
-            else:
-                ValidationUtil.failIfNotType(clsPath, str, 'ERR48', {'type': 'string'})
-                path = clsPath
+            path = 'modules.{module}.src.field.{cls}'.format(module=mid, cls=cls)
         else:
             path = 'field.{cls}'.format(cls=cls)
         return {'class': cls, 'path': path}

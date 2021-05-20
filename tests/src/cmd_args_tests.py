@@ -22,7 +22,7 @@ class TestCmdArgs:
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -40,7 +40,7 @@ class TestCmdArgs:
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd4')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -58,7 +58,7 @@ class TestCmdArgs:
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')

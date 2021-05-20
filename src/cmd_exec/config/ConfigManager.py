@@ -1,6 +1,6 @@
-from cmd_exec.config.ConfigKey import ConfigKey
-from cmd_exec.config.ConfigValue import ConfigValue
-from cmd_exec.error.CmdExecError import CmdExecError
+from ..config.ConfigKey import ConfigKey
+from ..config.ConfigValue import ConfigValue
+from ..error.CmdExecError import CmdExecError
 
 
 class ConfigManager:

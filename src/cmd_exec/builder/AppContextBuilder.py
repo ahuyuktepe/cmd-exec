@@ -1,14 +1,9 @@
-from cmd_exec.context.AppContextManager import AppContextManager
-
-from cmd_exec.service.ConfigurationService import ConfigurationService
-
-from cmd_exec.context.AppContext import AppContext
-from cmd_exec.module.AppModule import AppModule
-from cmd_exec.service.DatabaseService import DatabaseService
-from cmd_exec.service.ServiceType import ServiceType
-from cmd_exec.service.ServiceBuilder import ServiceBuilder
-from cmd_exec.util.AppUtil import AppUtil
-from cmd_exec.util.ModuleUtil import ModuleUtil
+from ..context.AppContext import AppContext
+from ..module.AppModule import AppModule
+from ..service.ServiceType import ServiceType
+from ..service.ServiceBuilder import ServiceBuilder
+from ..util.AppUtil import AppUtil
+from ..util.ModuleUtil import ModuleUtil
 
 
 class AppContextBuilder:

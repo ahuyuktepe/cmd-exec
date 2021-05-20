@@ -2,7 +2,7 @@ import math
 import os
 import shutil
 import yaml
-from cmd_exec.error.CmdExecError import CmdExecError
+from ..error.CmdExecError import CmdExecError
 
 
 class FileUtil:

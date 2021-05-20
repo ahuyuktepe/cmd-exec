@@ -1,17 +1,17 @@
-from cmd_exec.command.CmdResponse import CmdResponse
-from cmd_exec.service.CoreTerminalService import CoreTerminalService
-from cmd_exec.action.CmdAction import CmdAction
-from cmd_exec.action.CmdActionResponse import CmdActionResponse
-from cmd_exec.app.CmdExecApp import CmdExecApp
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.menu.Command import Command
-from cmd_exec.service.CommandService import CommandService
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.service.FieldService import FieldService
-from cmd_exec.util.ObjUtil import ObjUtil
-from cmd_exec.util.SystemUtil import SystemUtil
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..command.CmdResponse import CmdResponse
+from ..service.CoreTerminalService import CoreTerminalService
+from ..action.CmdAction import CmdAction
+from ..action.CmdActionResponse import CmdActionResponse
+from ..app.CmdExecApp import CmdExecApp
+from ..context.AppContextManager import AppContextManager
+from ..error.CmdExecError import CmdExecError
+from ..menu.Command import Command
+from ..service.CommandService import CommandService
+from ..service.ConfigurationService import ConfigurationService
+from ..service.FieldService import FieldService
+from ..util.ObjUtil import ObjUtil
+from ..util.SystemUtil import SystemUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class CoreCmdExecApp(CmdExecApp):
@@ -37,9 +37,9 @@ class CoreCmdExecApp(CmdExecApp):
         if not SystemUtil.isWindows():
             groupNames: list = SystemUtil.getCurrentUserGroups()
             cmd.validateUserGroupPermission(uname, groupNames)
-        # 3) Get field values from cmd_exec.command params and merge
+        # 3) Get field values from ..command params and merge
         values: dict = self.__fieldService.getFieldValuesFromArgumentFile(cmd)
-        # 4) Get arguments from cmd_exec.command params and merge
+        # 4) Get arguments from ..command params and merge
         valuesFromCmd: dict = self.__fieldService.getFieldValuesFromCmdArgs(cmd)
         for key, value in valuesFromCmd.items():
             if value is not None:
@@ -55,8 +55,9 @@ class CoreCmdExecApp(CmdExecApp):
         # 8) Handle After Command Action
         self.__handleAfterCommandAction(cmd)
         # 9) Handle Response
-        content: str = response.getContent()
-        service.print(content)
+        if response is not None:
+            content: str = response.getContent()
+            service.print(content)
 
     def __handlePreCommandAction(self, cmd: Command):
         beforeCmdProps: dict = self.__getBeforeCmdActionPropsByCmd(cmd)

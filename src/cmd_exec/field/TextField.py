@@ -1,6 +1,6 @@
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.classes.FieldType import FieldType
-from cmd_exec.field.Field import Field
+from ..error.CmdExecError import CmdExecError
+from ..classes.FieldType import FieldType
+from ..field.Field import Field
 
 
 class TextField(Field):

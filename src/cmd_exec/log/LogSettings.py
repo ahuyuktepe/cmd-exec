@@ -1,5 +1,5 @@
-from cmd_exec.util.DataUtil import DataUtil
-from cmd_exec.util.FileUtil import FileUtil
+from ..util.DataUtil import DataUtil
+from ..util.FileUtil import FileUtil
 
 
 class LogSettings:

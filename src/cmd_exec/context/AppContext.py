@@ -1,9 +1,9 @@
-from cmd_exec.config.AppConfigs import AppConfigs
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.module.AppModule import AppModule
-from cmd_exec.service.ArgumentService import ArgumentService
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.service.ServiceBuilder import ServiceBuilder
+from ..config.AppConfigs import AppConfigs
+from ..error.CmdExecError import CmdExecError
+from ..module.AppModule import AppModule
+from ..service.ArgumentService import ArgumentService
+from ..service.ConfigurationService import ConfigurationService
+from ..service.ServiceBuilder import ServiceBuilder
 
 
 class AppContext:
@@ -76,7 +76,7 @@ class AppContext:
 
     def addService(self, sid: str, service: object):
         # Import class locally
-        from cmd_exec.service.AppService import AppService
+        from ..service.AppService import AppService
         if service is None:
             raise CmdExecError('ERR26', {'sid': sid})
         elif not isinstance(service, AppService):
@@ -89,8 +89,8 @@ class AppContext:
     # Utility Methods
 
     # def initService(self, serviceProps: ServiceProperties) -> object:
-    #     from cmd_exec.src.context.AppContextManager import AppContextManager
-    #     from cmd_exec.src.service.AppService import AppService
+    #     from ..src.context.AppContextManager import AppContextManager
+    #     from ..src.service.AppService import AppService
     #     if serviceProps is None:
     #         raise CmdExecError('ERR27')
     #     # Init service and return

@@ -1,6 +1,6 @@
-from cmd_exec.action import CmdActionResponse
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.menu.Command import Command
+from ..action import CmdActionResponse
+from ..context.AppContextManager import AppContextManager
+from ..menu.Command import Command
 
 
 class CmdAction:

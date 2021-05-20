@@ -1,7 +1,7 @@
 import getpass
 
-from cmd_exec.command.CmdExecutor import CmdExecutor
-from cmd_exec.error.CmdExecError import CmdExecError
+from ..command.CmdExecutor import CmdExecutor
+from ..error.CmdExecError import CmdExecError
 
 
 class Command:

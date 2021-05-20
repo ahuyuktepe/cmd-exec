@@ -1,4 +1,4 @@
-from cmd_exec.util.FileUtil import FileUtil
+from ..util.FileUtil import FileUtil
 
 
 class AppUtil:
@@ -17,6 +17,11 @@ class AppUtil:
                 'name': 'Command Executor',
                 'modes': [
                     {'id': 'cmd', 'runner': 'CoreCmdExecApp'}
+                ],
+                'fields': [
+                    {'type': 'text', 'class': 'TextField', 'path': '.field.TextField'},
+                    {'type': 'date', 'class': 'DateField', 'path': '.field.DateField'},
+                    {'type': 'selection', 'class': 'SelectionField', 'path': '.field.SelectionField'}
                 ]
             }
         }

@@ -1,8 +1,8 @@
-from cmd_exec.log.LogMessage import LogMessage
-from cmd_exec.log.LogSettings import LogSettings
-from cmd_exec.service.AppService import AppService
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.util.FileUtil import FileUtil
+from ..log.LogMessage import LogMessage
+from ..log.LogSettings import LogSettings
+from ..service.AppService import AppService
+from ..service.ConfigurationService import ConfigurationService
+from ..util.FileUtil import FileUtil
 
 
 class LogService(AppService):

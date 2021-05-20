@@ -1,11 +1,10 @@
 import importlib
-import sys, os
 
 class ObjUtil:
 
     @staticmethod
-    def initClassFromStr(clsPath: str, clsName: str, args: list = None) -> object:
-        module = importlib.import_module(clsPath)
+    def initClassFromStr(clsPath: str, clsName: str, args: list = None, package: str = None) -> object:
+        module = importlib.import_module(clsPath, package)
         cls = getattr(module, clsName)
         if args is None:
             obj = cls()
@@ -14,7 +13,7 @@ class ObjUtil:
         return obj
 
     @staticmethod
-    def getClassFromClsPath(clsPath: str, clsName: str):
-        module = importlib.import_module(clsPath)
+    def getClassFromClsPath(clsPath: str, clsName: str, package: str = None):
+        module = importlib.import_module(clsPath, package)
         cls = getattr(module, clsName)
         return cls

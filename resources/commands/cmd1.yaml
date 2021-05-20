@@ -14,6 +14,6 @@ executor:
   method: runCommand
 fields:
   - id: first_name
-    type: my_field_type
+    type: text
     label: First Name
     required: True

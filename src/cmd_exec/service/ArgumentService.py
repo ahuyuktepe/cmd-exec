@@ -1,6 +1,6 @@
 import sys
-from cmd_exec.service.AppService import AppService
-from cmd_exec.service.ConfigurationService import ConfigurationService
+from ..service.AppService import AppService
+from ..service.ConfigurationService import ConfigurationService
 
 
 class ArgumentService(AppService):

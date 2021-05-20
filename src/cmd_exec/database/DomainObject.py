@@ -1,4 +1,4 @@
-from cmd_exec.database.Column import Column
+from ..database.Column import Column
 
 
 class DomainObject:

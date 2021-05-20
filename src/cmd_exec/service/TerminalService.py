@@ -1,5 +1,5 @@
-from cmd_exec.field.Field import Field
-from cmd_exec.service.AppService import AppService
+from ..field.Field import Field
+from ..service.AppService import AppService
 
 
 class TerminalService(AppService):

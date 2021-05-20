@@ -1,6 +1,6 @@
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.util.ListUtil import ListUtil
-from cmd_exec.util.StrUtil import StrUtil
+from ..error.CmdExecError import CmdExecError
+from ..util.ListUtil import ListUtil
+from ..util.StrUtil import StrUtil
 
 
 class ModuleDependency:

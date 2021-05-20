@@ -4,7 +4,6 @@ from cmd_exec.context.AppContextManager import AppContextManager
 from cmd_exec.service.DatabaseService import DatabaseService
 from tests.src.utils.TestUtil import TestUtil
 
-
 class TestDatabaseService:
     databaseService: DatabaseService
 
@@ -22,10 +21,11 @@ class TestDatabaseService:
         self.databaseService = contextManager.getService('databaseService')
 
     def teardown_method(self, method):
-        TestUtil.destroyTestingEnvironment()
+        # TestUtil.destroyTestingEnvironment()
+        pass
 
     def test_insert(self):
-        from tests.target.modules.test.src.classes.TestUser import TestUser
+        from modules.test.src.classes.TestUser import TestUser
         user: TestUser = TestUser()
         user.addValue('first_name', 'Test')
         user.addValue('last_name', 'User')
@@ -36,7 +36,7 @@ class TestDatabaseService:
         assert count == 1
 
     def test_delete(self):
-        from tests.target.modules.test.src.classes.TestUser import TestUser
+        from modules.test.src.classes.TestUser import TestUser
         user: TestUser = TestUser()
         user.addValue('first_name', 'Test')
         user.addValue('last_name', 'User')
@@ -48,7 +48,7 @@ class TestDatabaseService:
         assert count == 0
 
     def test_list(self):
-        from tests.target.modules.test.src.classes.TestUser import TestUser
+        from modules.test.src.classes.TestUser import TestUser
         user: TestUser = TestUser()
         user.addValue('first_name', 'Test')
         user.addValue('last_name', 'User')

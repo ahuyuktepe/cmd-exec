@@ -1,7 +1,7 @@
 import re
-from cmd_exec.util.StrUtil import StrUtil
-from cmd_exec.classes.TextColor import TextColor
-from cmd_exec.service.AppService import AppService
+from ..util.StrUtil import StrUtil
+from ..classes.TextColor import TextColor
+from ..service.AppService import AppService
 
 
 class CoreTerminalService(AppService):

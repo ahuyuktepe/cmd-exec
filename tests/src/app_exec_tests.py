@@ -8,7 +8,8 @@ class TestExecApp:
         TestUtil.setupTestingEnvironment()
 
     def teardown_method(method):
-        TestUtil.destroyTestingEnvironment()
+        # TestUtil.destroyTestingEnvironment()
+        pass
 
     def test_non_existing_exec_app(self, monkeypatch, capsys):
         # Given
@@ -22,7 +23,7 @@ class TestExecApp:
         })
         TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -33,7 +34,7 @@ class TestExecApp:
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test'])
         TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         # When
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -51,7 +52,7 @@ class TestExecApp:
         TestUtil.useAppRunnerInModule(['TestCmdExecApp'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-mode', 'test'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'TestCmdExecApp is running.' in response.out

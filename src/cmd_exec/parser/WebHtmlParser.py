@@ -1,6 +1,6 @@
 from html.parser import HTMLParser
 
-from cmd_exec.classes.HtmlElement import HtmlElement
+from ..classes.HtmlElement import HtmlElement
 
 
 class WebHtmlParser(HTMLParser):

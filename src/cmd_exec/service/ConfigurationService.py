@@ -1,7 +1,7 @@
-from cmd_exec.config.AppConfigs import AppConfigs
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.log.LogSettings import LogSettings
-from cmd_exec.service.AppService import AppService
+from ..config.AppConfigs import AppConfigs
+from ..error.CmdExecError import CmdExecError
+from ..log.LogSettings import LogSettings
+from ..service.AppService import AppService
 
 
 class ConfigurationService(AppService):

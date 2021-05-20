@@ -37,7 +37,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -51,7 +51,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -63,7 +63,7 @@ class TestTextField:
         TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1', '-name', 'test'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         respStr = response.out.strip('\n')
@@ -76,7 +76,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR57' in response.out
@@ -88,7 +88,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR55' in response.out
@@ -100,7 +100,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR55' in response.out
@@ -112,7 +112,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1', '-name', 'test'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR61' in response.out
@@ -124,7 +124,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1', '-name', 'This is a test value'])
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR62' in response.out

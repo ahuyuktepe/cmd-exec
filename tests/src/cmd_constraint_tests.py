@@ -20,7 +20,7 @@ class TestConstraints:
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd11'])
         # When
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR78' in response.out
@@ -32,7 +32,7 @@ class TestConstraints:
         # Given
         monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd12'])
         # When
-        CmdExecAppRunner.run('test')
+        CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
         assert 'ERR78' in response.out

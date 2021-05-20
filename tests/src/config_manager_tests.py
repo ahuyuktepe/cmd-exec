@@ -1,6 +1,6 @@
 import pytest
-from config.ConfigManager import ConfigManager
-from error.CmdExecError import CmdExecError
+from cmd_exec.config.ConfigManager import ConfigManager
+from cmd_exec.error.CmdExecError import CmdExecError
 
 
 class TestConfigManager:

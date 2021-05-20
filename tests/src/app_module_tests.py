@@ -1,5 +1,4 @@
 import pytest
-
 from cmd_exec.builder.AppContextBuilder import AppContextBuilder
 from cmd_exec.context.AppContext import AppContext
 from cmd_exec.error.CmdExecError import CmdExecError

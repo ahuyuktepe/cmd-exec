@@ -1,6 +1,6 @@
-from cmd_exec.module.ModuleDependency import ModuleDependency
-from cmd_exec.module.ServiceProperties import  ServiceProperties
-from cmd_exec.util.ModuleUtil import ModuleUtil
+from ..module.ModuleDependency import ModuleDependency
+from ..module.ServiceProperties import  ServiceProperties
+from ..util.ModuleUtil import ModuleUtil
 
 
 class AppModule:

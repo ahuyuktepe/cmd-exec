@@ -1,4 +1,4 @@
-from cmd_exec.config.ConfigManager import ConfigManager
+from ..config.ConfigManager import ConfigManager
 
 
 class AppConfigs:

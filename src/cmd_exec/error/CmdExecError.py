@@ -1,4 +1,4 @@
-from cmd_exec.error.ErrorMessage import ErrorMessage
+from ..error.ErrorMessage import ErrorMessage
 
 
 class CmdExecError(Exception):

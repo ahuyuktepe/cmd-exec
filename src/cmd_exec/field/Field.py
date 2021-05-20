@@ -1,6 +1,6 @@
-from cmd_exec.classes.FieldType import FieldType
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..classes.FieldType import FieldType
+from ..error.CmdExecError import CmdExecError
+from ..util.ValidationUtil import ValidationUtil
 
 
 class Field:

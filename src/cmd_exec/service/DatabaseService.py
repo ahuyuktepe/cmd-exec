@@ -1,11 +1,11 @@
 import copy
 import sqlite3
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.database.Column import Column
-from cmd_exec.database.DomainObject import DomainObject
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.util.FileUtil import FileUtil
-from cmd_exec.service.AppService import AppService
+from ..error.CmdExecError import CmdExecError
+from ..database.Column import Column
+from ..database.DomainObject import DomainObject
+from ..service.ConfigurationService import ConfigurationService
+from ..util.FileUtil import FileUtil
+from ..service.AppService import AppService
 
 
 class DatabaseService(AppService):
@@ -27,10 +27,11 @@ class DatabaseService(AppService):
         if not self.__doesDatabaseExist():
             self.connect()
             fileName: str = self.__configService.getValue('database.initialization.file')
-            sql: str = self.__readSqlFile(fileName)
-            cursor = self.__connection.cursor()
-            cursor.execute(sql)
-            self.__connection.commit()
+            if fileName is not None:
+                sql: str = self.__readSqlFile(fileName)
+                cursor = self.__connection.cursor()
+                cursor.execute(sql)
+                self.__connection.commit()
             self.disconnect()
 
     def __readSqlFile(self, fileName: str) -> str:

@@ -1,5 +1,4 @@
-from cmd_exec.util.FileUtil import FileUtil
-from cmd_exec.util.ObjUtil import ObjUtil
+from cmd_exec.app.CmdExecAppRunner import CmdExecAppRunner
 from tests.src.utils.TestFileUtil import TestFileUtil
 
 
@@ -7,8 +6,7 @@ class TestUtil:
 
     @staticmethod
     def setupTestingEnvironment():
-        # ObjUtil.initialize('test')
-        # FileUtil.initialize('test')
+        CmdExecAppRunner.initialize('test')
         TestUtil.__clearTargetDirectory()
         TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()

@@ -1,14 +1,14 @@
-from cmd_exec.command.CmdResponse import CmdResponse
-from cmd_exec.service.TerminalService import TerminalService
-from cmd_exec.command.CmdExecutor import CmdExecutor
-from cmd_exec.command.CmdRequest import CmdRequest
-from cmd_exec.menu.Command import Command
-from cmd_exec.service.AppService import AppService
-from cmd_exec.service.ArgumentService import ArgumentService
-from cmd_exec.service.FieldService import FieldService
-from cmd_exec.util.ModuleUtil import ModuleUtil
-from cmd_exec.util.ObjUtil import ObjUtil
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..command.CmdResponse import CmdResponse
+from ..service.TerminalService import TerminalService
+from ..command.CmdExecutor import CmdExecutor
+from ..command.CmdRequest import CmdRequest
+from ..menu.Command import Command
+from ..service.AppService import AppService
+from ..service.ArgumentService import ArgumentService
+from ..service.FieldService import FieldService
+from ..util.ModuleUtil import ModuleUtil
+from ..util.ObjUtil import ObjUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class CommandService(AppService):

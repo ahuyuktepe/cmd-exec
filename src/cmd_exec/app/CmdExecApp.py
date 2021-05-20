@@ -1,6 +1,6 @@
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.service.ArgumentService import ArgumentService
-from cmd_exec.service.LogService import LogService
+from ..context.AppContextManager import AppContextManager
+from ..service.ArgumentService import ArgumentService
+from ..service.LogService import LogService
 
 
 class CmdExecApp:

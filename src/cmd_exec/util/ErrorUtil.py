@@ -1,6 +1,6 @@
 import traceback
 
-from cmd_exec.error.CmdExecError import CmdExecError
+from ..error.CmdExecError import CmdExecError
 
 
 class ErrorUtil:

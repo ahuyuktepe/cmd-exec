@@ -1,5 +1,5 @@
-from cmd_exec.log.LogSettings import LogSettings
-from cmd_exec.util.DateUtil import DateUtil
+from ..log.LogSettings import LogSettings
+from ..util.DateUtil import DateUtil
 
 
 class LogMessage:

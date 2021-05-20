@@ -1,9 +1,9 @@
-from cmd_exec.classes.Option import Option
-from cmd_exec.classes.FieldType import FieldType
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.field.Field import Field
-from cmd_exec.util.StrUtil import StrUtil
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..classes.Option import Option
+from ..classes.FieldType import FieldType
+from ..error.CmdExecError import CmdExecError
+from ..field.Field import Field
+from ..util.StrUtil import StrUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class SelectionField(Field):

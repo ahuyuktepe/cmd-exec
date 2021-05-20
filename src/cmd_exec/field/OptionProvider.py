@@ -1,4 +1,4 @@
-from cmd_exec.context.AppContextManager import AppContextManager
+from ..context.AppContextManager import AppContextManager
 
 
 class OptionProvider:

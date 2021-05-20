@@ -1,4 +1,4 @@
-from cmd_exec.error.CmdExecError import CmdExecError
+from ..error.CmdExecError import CmdExecError
 
 
 class StrUtil:

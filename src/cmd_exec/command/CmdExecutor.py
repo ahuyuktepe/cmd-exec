@@ -1,6 +1,6 @@
-from cmd_exec.command.CmdRequest import CmdRequest
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.util.StrUtil import StrUtil
+from ..command.CmdRequest import CmdRequest
+from ..context.AppContextManager import AppContextManager
+from ..util.StrUtil import StrUtil
 
 
 class CmdExecutor:

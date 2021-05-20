@@ -1,26 +1,33 @@
 import os
 import sys
-from cmd_exec.app.CmdExecApp import CmdExecApp
-from cmd_exec.builder.AppContextBuilder import AppContextBuilder
-from cmd_exec.context.AppContext import AppContext
-from cmd_exec.context.AppContextManager import AppContextManager
-from cmd_exec.error.CmdExecError import CmdExecError
-from cmd_exec.service.ArgumentService import ArgumentService
-from cmd_exec.service.ConfigurationService import ConfigurationService
-from cmd_exec.util.ErrorUtil import ErrorUtil
-from cmd_exec.util.FileUtil import FileUtil
-from cmd_exec.util.ObjUtil import ObjUtil
-from cmd_exec.util.ValidationUtil import ValidationUtil
+from ..app.CmdExecApp import CmdExecApp
+from ..builder.AppContextBuilder import AppContextBuilder
+from ..context.AppContext import AppContext
+from ..context.AppContextManager import AppContextManager
+from ..error.CmdExecError import CmdExecError
+from ..service.ArgumentService import ArgumentService
+from ..service.ConfigurationService import ConfigurationService
+from ..util.ErrorUtil import ErrorUtil
+from ..util.FileUtil import FileUtil
+from ..util.ObjUtil import ObjUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class CmdExecAppRunner:
+    __isInitialized: bool = False
     __rootPath: str = None
 
     @staticmethod
-    def run(env: str = 'production'):
-        try:
+    def initialize(env: str = 'production'):
+        if not CmdExecAppRunner.__isInitialized:
             CmdExecAppRunner.__setRootDir(env)
             FileUtil.setRootPath(CmdExecAppRunner.__rootPath)
+            CmdExecAppRunner.__isInitialized = True
+
+    @staticmethod
+    def run():
+        try:
+            CmdExecAppRunner.initialize()
             sys.path.append(CmdExecAppRunner.__rootPath)
             appContext = AppContextBuilder.buildBaseAppContext()
             app: CmdExecApp = CmdExecAppRunner.__buildCmdExecApp(appContext)
@@ -47,14 +54,14 @@ class CmdExecAppRunner:
         module = props.get('module')
         clsName = props.get('runner')
         if module is None:
-            clsPath = 'cmd_exec.app.{runner}'.format(**props)
+            clsPath = '.app.{runner}'.format(**props)
         else:
             clsPath = 'modules.{module}.src.app.{runner}'.format(**props)
             # Validate
             ValidationUtil.failIfClassFileDoesNotExist(clsPath, 'ERR31', {'cls': clsName, 'path': clsPath})
-        cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
+        cls = ObjUtil.getClassFromClsPath(clsPath, clsName, 'cmd_exec')
         if not issubclass(cls, CmdExecApp):
             raise CmdExecError('ERR32', {'src': clsName, 'parent': 'CmdExecApp', 'name': props.get('module')})
         contextManager: AppContextManager = AppContextManager(appContext)
-        app = ObjUtil.initClassFromStr(clsPath, clsName, [contextManager])
+        app = ObjUtil.initClassFromStr(clsPath, clsName, [contextManager], 'cmd_exec')
         return app

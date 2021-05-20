@@ -1,5 +1,5 @@
-from cmd_exec.field.Field import Field
-from cmd_exec.service.TerminalService import TerminalService
+from ..field.Field import Field
+from ..service.TerminalService import TerminalService
 
 
 class CmdRequest:
