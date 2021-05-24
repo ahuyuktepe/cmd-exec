@@ -8,6 +8,7 @@ class TestUtil:
     def setupTestingEnvironment():
         CmdExecAppRunner.initialize('test')
         TestUtil.__clearTargetDirectory()
+        TestUtil.__buildModulesDirectory()
         TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()
         TestFileUtil.copyDirectory(['src'], ['tests', 'target', 'src'])
@@ -32,6 +33,11 @@ class TestUtil:
                 srcPath = ['modules', srcDir]
                 TestFileUtil.makeDir(srcPath)
                 TestFileUtil.copyDirectory(srcPath, ['tests', 'target', 'modules', srcDir])
+
+    @staticmethod
+    def __buildModulesDirectory():
+        path = ['tests', 'target', 'modules']
+        TestFileUtil.makeDir(path)
 
     @staticmethod
     def __buildResourcesDirectory():

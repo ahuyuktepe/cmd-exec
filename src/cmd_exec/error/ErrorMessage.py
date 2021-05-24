@@ -20,7 +20,7 @@ class ErrorMessage:
         'ERR19': "Directory does not exist or is not accessible for module '{name}' in '{path}'.",
         'ERR20': "Provided module name '{name}' in setting file does not match with module directory and settings file prefix.",
         'ERR21': "Directories '{dirs}' in command executor home directory '{home}' can not be deleted.",
-        'ERR22': "Given yaml file '{path}' does not have validate content",
+        'ERR22': "Given yaml file '{path}' does not have valid content",
         'ERR23': "Empty or none value provided for service {type} in settings file or module '{name}'.",
         'ERR24': "Invalid value is provided for services property in settings file of module '{name}'.",
         'ERR25': "Invalid service path '{path}' provided.",

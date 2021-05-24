@@ -21,8 +21,7 @@ class TestDatabaseService:
         self.databaseService = contextManager.getService('databaseService')
 
     def teardown_method(self, method):
-        # TestUtil.destroyTestingEnvironment()
-        pass
+        TestUtil.destroyTestingEnvironment()
 
     def test_insert(self):
         from modules.test.src.classes.TestUser import TestUser
