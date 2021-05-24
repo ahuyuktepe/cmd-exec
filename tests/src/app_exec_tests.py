@@ -8,8 +8,7 @@ class TestExecApp:
         TestUtil.setupTestingEnvironment()
 
     def teardown_method(method):
-        # TestUtil.destroyTestingEnvironment()
-        pass
+        TestUtil.destroyTestingEnvironment()
 
     def test_non_existing_exec_app(self, monkeypatch, capsys):
         # Given

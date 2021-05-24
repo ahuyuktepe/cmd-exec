@@ -8,3 +8,6 @@ dist/*
 build/*
 src/command_executor.egg-info
 *.db
+logs/*
+modules/*
+resources/*

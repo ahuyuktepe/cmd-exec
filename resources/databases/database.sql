@@ -1,1 +1,0 @@
-CREATE TABLE users (first_name TEXT, last_name TEXT)

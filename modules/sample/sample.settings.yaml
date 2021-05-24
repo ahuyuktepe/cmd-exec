@@ -1,6 +1,0 @@
-name: sample
-description: This is a sample module.
-version: 0.0.1
-services:
-  - id: sampleService
-    class: SampleService

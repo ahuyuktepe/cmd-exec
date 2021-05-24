@@ -1,5 +1,0 @@
-application:
-  (+)fields:
-    - type: my_field_type
-      class: MyFieldType
-      module: sample

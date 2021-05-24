@@ -12,7 +12,8 @@ class TestAppConfig:
         TestUtil.setupTestingEnvironment()
 
     def teardown_method(method):
-        TestUtil.destroyTestingEnvironment()
+        # TestUtil.destroyTestingEnvironment()
+        pass
 
     def test_config(self):
         TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {'name': 'test'})
@@ -53,7 +54,7 @@ class TestAppConfig:
         value = appContext.getConfig('a.d')
         assert value == [1, 2, 3, 4]
 
-    def test_unsupport_character_in_config(self):
+    def test_unsupported_character_in_config(self):
         TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {
             'name.': 'Test'
         })
@@ -62,10 +63,8 @@ class TestAppConfig:
         error: CmdExecError = errInfo.value
         assert error.getCode() == 'ERR18'
 
-    def test_module_with_emty_config_file(self):
+    def test_module_with_empty_config_file(self):
         TestUtil.buildModuleFiles('test', {'name': 'test', 'version': '0.0.1'}, {})
         appContext: AppContext = AppContextBuilder.buildBaseAppContext()
         module: AppModule = appContext.getModule('test')
         assert module.getName() == 'test' and module.getVersion() == '0.0.1'
-
-
