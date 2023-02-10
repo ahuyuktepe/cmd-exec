@@ -67,15 +67,15 @@ class AppContextBuilder:
         # Insert Default Config
         props: dict = AppUtil.getDefaultConfig()
         appContext.addConfig(props)
-        # Insert Main Config
-        props = AppUtil.getMainConfig()
-        appContext.addConfig(props)
         # Insert Module Configs
         for name in names:
             if ModuleUtil.doesConfigFileExistForModule(name):
                 props = ModuleUtil.getModuleConfigs(name)
                 ModuleUtil.validateModuleConfigs(name, props)
                 appContext.addConfig(props)
+        # Insert Main Config
+        props = AppUtil.getMainConfig()
+        appContext.addConfig(props)
 
     # === Modules ===
 
