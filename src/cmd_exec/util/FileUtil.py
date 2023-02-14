@@ -52,7 +52,7 @@ class FileUtil:
 
     @staticmethod
     def isDirectoryReadable(relativePath: list):
-        return FileUtil.isDirectory(relativePath) and FileUtil.doesFileExist(relativePath) and FileUtil.doesUserHaveAccessOnFile(relativePath)
+        return FileUtil.isDirectory(relativePath) and FileUtil.doesDirectoryExist(relativePath) and FileUtil.doesUserHaveAccessOnFile(relativePath)
 
     @staticmethod
     def isFileReadable(relativePath: list):
@@ -65,7 +65,9 @@ class FileUtil:
 
     @staticmethod
     def doesFileExist(relativePath: list, extension: str = '') -> bool:
-        path = FileUtil.getAbsolutePath(relativePath) + '.' + extension
+        path = FileUtil.getAbsolutePath(relativePath)
+        if extension != '':
+            path = path + '.' + extension
         return os.path.exists(path)
 
     @staticmethod

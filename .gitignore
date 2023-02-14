@@ -6,7 +6,7 @@ logs/*.log
 tests/target/**
 dist/*
 build/*
-src/command_executor.egg-info
+src/cmd_exec.egg-info
 *.db
 logs/*
 modules/*
