@@ -17,10 +17,10 @@ python -m build
 Before publishing on production PyPi account, we should publish it on TestPyPi account.
 
 #### 2.1 Publishing on TestPyPi
-add here
+```py -m twine upload --repository testpypi dist/*```
 
 #### 2.2 Publishing on PyPi
-add here
+```py -m twine upload dist/*```
 
 ### 3 Installing Package Manually
 
