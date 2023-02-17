@@ -1,5 +1,3 @@
-import getpass
-
 from ..command.CmdExecutor import CmdExecutor
 from ..error.CmdExecError import CmdExecError
 
