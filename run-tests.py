@@ -17,19 +17,24 @@ class MyPlugin:
 
 # Fetch Tests
 plugin = MyPlugin()
-pathArr = ["C:", "Users", "humalp", "Projects", "command-executor"]
+pathArr = ["C:", "Projects", "cmd-exec"]
 path = os.path.sep.join(pathArr)
 os.environ["APP_RUNNER_ROOT_PATH"] = path
 
 # Run Tests
 testsDir = os.path.sep.join([path, "tests", "src"])
 fileNames = os.listdir(testsDir)
+# -----------------------------------------------------------------------------------------------------
 for fileName in fileNames:
     if fileName.endswith("tests.py"):
         filePath = os.path.sep.join([testsDir, fileName])
         print("\n\n===============================================================================")
         print("****************** Running Tests In '" + fileName + "' *********************")
         pytest.main([filePath], plugins=[plugin])
+# -----------------------------------------------------------------------------------------------------
+# fileName: str = str(fileNames[0])
+# filePath = os.path.sep.join([testsDir, fileName])
+# pytest.main([filePath], plugins=[plugin])
 
 # Print Results
 print("\nFailed Tests: " + str(plugin.failedTestCount))

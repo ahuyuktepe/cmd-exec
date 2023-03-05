@@ -9,7 +9,7 @@ class TestUtil:
         CmdExecAppRunner.initialize('test')
         TestUtil.__clearTargetDirectory()
         TestUtil.__buildModulesDirectory()
-        TestUtil.__copyModules()
+        # TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()
         TestFileUtil.copyDirectory(['src'], ['tests', 'target', 'src'])
 

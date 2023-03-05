@@ -1,9 +1,14 @@
 from ..context.AppContext import AppContext
+from ..hook.ProcessHook import ProcessHook
 from ..module.AppModule import AppModule
 from ..service.ServiceType import ServiceType
 from ..service.ServiceBuilder import ServiceBuilder
+from ..service.TerminalService import TerminalService
 from ..util.AppUtil import AppUtil
+from ..util.FileUtil import FileUtil
 from ..util.ModuleUtil import ModuleUtil
+from ..util.ObjUtil import ObjUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class AppContextBuilder:
@@ -14,15 +19,42 @@ class AppContextBuilder:
         names = ModuleUtil.getModuleNames()
         # Init Modules
         AppContextBuilder.__initModules(appContext, names)
+        # After Core Services
+        # AppContextBuilder.__runHook('AfterInitModules', appContext)
         AppContextBuilder.__validateModuleDependencies(appContext)
+        # Before Config Hook
+        # AppContextBuilder.__runHook('BeforeConfig', appContext)
         # Init Module Configs
         AppContextBuilder.__initConfigs(appContext, names)
+        # After Config Hook
+        AppContextBuilder.__runHook('AfterConfig', appContext)
+        # Before Core Services
+        # AppContextBuilder.__runHook('BeforeCoreServices', appContext)
         # Init Services
         AppContextBuilder.__initCoreServices(appContext)
+        # After Core Services
+        # AppContextBuilder.__runHook('AfterCoreServices', appContext)
+        # Init Custom Services
         AppContextBuilder.__initCustomServices(appContext, names)
+        # After Custom Services
+        # AppContextBuilder.__runHook('AfterCustomServices', appContext)
         return appContext
 
     # Private Methods
+
+    @staticmethod
+    def __runHook(clsName: str, appContext: AppContext):
+        modules = appContext.getModules()
+        for module in modules:
+            name: str = module.getName()
+            path: list = ['modules', name, 'src', 'hooks', clsName]
+            doesExist: bool = FileUtil.doesFileExist(path, 'py')
+            if doesExist:
+                clsPath = ".".join(path)
+                cls = ObjUtil.getClassFromClsPath(clsPath, clsName)
+                ValidationUtil.failIfNotSubClass(cls, ProcessHook, 'ERR82', {'srcCls': clsName, 'parentCls': 'ProcessHook', 'module': name})
+                obj: ProcessHook = ObjUtil.initClassFromStr(clsPath, clsName)
+                obj.execute(appContext)
 
     # === Service ===
 

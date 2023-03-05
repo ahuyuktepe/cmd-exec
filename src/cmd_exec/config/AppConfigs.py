@@ -16,6 +16,9 @@ class AppConfigs:
         keys: list = keyPath.split('.')
         return self.__configManager.getValue(keys)
 
-    def print(self):
-        text: str = self.__configManager.toString()
-        print(text)
+    def updateConfigByDict(self, value: dict):
+        self.__configManager.updateConfig(value)
+
+    def updateConfigByPath(self, keyPath: str, value: object):
+        keys: list = keyPath.split('.')
+        self.__configManager.update(keys, value)

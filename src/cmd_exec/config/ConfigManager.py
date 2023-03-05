@@ -49,6 +49,20 @@ class ConfigManager:
                 configs = value
         return None
 
+    def updateConfig(self, cfg: dict):
+        self.__configs.update(cfg)
+
+    def update(self, keys: list, value: object):
+        configs: dict = self.__configs
+        count: int = len(keys)
+        for i in range(count):
+            key = keys[i]
+            val = configs.get(key)
+            if i == count - 1:
+                configs[key] = value
+            elif isinstance(val, dict):
+                configs = val
+
     def toString(self):
         return self.__toString(self.__configs, 0)
 

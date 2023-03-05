@@ -48,6 +48,6 @@ class ValidationUtil:
             raise CmdExecError(code, params)
 
     @staticmethod
-    def failIfNotSubClass(srcCls, type):
+    def failIfNotSubClass(srcCls, type, errCode: str = 'ERR59', params: dict = {}):
         if not issubclass(srcCls, type):
-            raise CmdExecError('ERR59')
+            raise CmdExecError(errCode, params)
