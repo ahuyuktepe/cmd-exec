@@ -5,6 +5,7 @@ from ..builder.AppContextBuilder import AppContextBuilder
 from ..context.AppContext import AppContext
 from ..context.AppContextManager import AppContextManager
 from ..error.CmdExecError import CmdExecError
+from ..menu.Command import Command
 from ..service.ArgumentService import ArgumentService
 from ..service.ConfigurationService import ConfigurationService
 from ..util.ErrorUtil import ErrorUtil
@@ -22,16 +23,18 @@ class CmdExecAppRunner:
         if not CmdExecAppRunner.__isInitialized:
             CmdExecAppRunner.__setRootDir(env)
             FileUtil.setRootPath(CmdExecAppRunner.__rootPath)
+            # if env == 'test':
+            #    ObjUtil.setRootPath('target')
             CmdExecAppRunner.__isInitialized = True
 
     @staticmethod
-    def run():
+    def run(cmd: Command = None, cid: str = None):
         try:
             CmdExecAppRunner.initialize()
             sys.path.append(CmdExecAppRunner.__rootPath)
             appContext = AppContextBuilder.buildBaseAppContext()
             app: CmdExecApp = CmdExecAppRunner.__buildCmdExecApp(appContext)
-            app.run()
+            app.run(cmd, cid)
         except Exception as exp:
             ErrorUtil.handleException(exp)
 

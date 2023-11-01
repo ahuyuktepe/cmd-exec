@@ -1,3 +1,4 @@
+from .DictUtil import DictUtil
 from ..error.CmdExecError import CmdExecError
 from ..util.FileUtil import FileUtil
 from ..util.StrUtil import StrUtil
@@ -50,4 +51,9 @@ class ValidationUtil:
     @staticmethod
     def failIfNotSubClass(srcCls, type, errCode: str = 'ERR59', params: dict = {}):
         if not issubclass(srcCls, type):
+            raise CmdExecError(errCode, params)
+
+    @staticmethod
+    def failIfDictDoesNotValueForKey(obj: dict, key: str, errCode: str, params: dict = {}):
+        if not DictUtil.hasValue(obj, key):
             raise CmdExecError(errCode, params)

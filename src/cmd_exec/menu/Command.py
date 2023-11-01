@@ -1,5 +1,6 @@
 from ..command.CmdExecutor import CmdExecutor
 from ..error.CmdExecError import CmdExecError
+from ..field.Field import Field
 
 
 class Command:
@@ -7,11 +8,13 @@ class Command:
     _title: str
     _executor: CmdExecutor
     _fields: dict
+    _flags: list
     _module: str
     _allowedUsers: list
     _deniedUsers: list
     _allowedGroups: list
     _deniedGroups: list
+    _config: dict
 
     def __init__(self, cid: str, title: str, module: str):
         self._id = cid
@@ -23,6 +26,8 @@ class Command:
         self._deniedUsers = None
         self._allowedGroups = None
         self._deniedGroups = None
+        self._flags = None
+        self._config = None
 
     def setExecutor(self, executor: CmdExecutor):
         self._executor = executor
@@ -38,6 +43,9 @@ class Command:
 
     def setDeniedGroups(self, groups: list):
         self._deniedGroups = groups
+
+    def setFlags(self, flags: list):
+        self._flags = flags
 
     def validateUserPermission(self, userName: str):
         cmdDesc: str = self._id + ' : ' + self._title
@@ -62,7 +70,7 @@ class Command:
             if len(matches) > 0:
                 raise CmdExecError('ERR81', {'user': userName, 'groups': groupNames, 'cmd': cmdDesc})
 
-    def setFields(self, fields: list):
+    def setFields(self, fields: list[Field]):
         if fields is not None and isinstance(fields, list):
             for field in fields:
                 self._fields[field.getId()] = field
@@ -72,6 +80,9 @@ class Command:
             for fid, field in self._fields.items():
                 value = values.get(fid)
                 field.setValue(value)
+
+    def setConfig(self, cfg: dict):
+        self._config = cfg
 
     def getId(self) -> str:
         return self._id
@@ -87,6 +98,12 @@ class Command:
 
     def getModule(self) -> str:
         return self._module
+
+    def getConfig(self) -> dict:
+        return self._config
+
+    def getFlags(self) -> list:
+        return self._flags
 
     def print(self):
         print('id: ' + self._id + ' | title: ' + self._title)

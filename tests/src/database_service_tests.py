@@ -8,20 +8,24 @@ class TestDatabaseService:
     databaseService: DatabaseService
 
     def setup_method(self, method):
-        TestUtil.setupTestingEnvironment()
+        TestUtil.setupTestingEnvironment(True)
         TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
         TestUtil.useDatabaseFilesInConfigsDir(['test-database.db'])
-        TestUtil.buildModuleFiles('test', {
-            'name': 'test',
-            'version': '0.0.1'
-        })
-        TestUtil.useClassFileInModule(['TestUser.py'], 'test')
         appContext: AppContext = AppContextBuilder.buildBaseAppContext()
         contextManager: AppContextManager = AppContextManager(appContext)
         self.databaseService = contextManager.getService('databaseService')
+        self.databaseService.createTable("users", [
+            {'name': 'first_name', 'type': 'varchar(30)'},
+            {'name': 'last_name', 'type': 'varchar(30)'}
+        ])
 
     def teardown_method(self, method):
         TestUtil.destroyTestingEnvironment()
+
+    def test_create_table(self):
+        sql: str = "SELECT * FROM users"
+        rows: list = self.databaseService.executeSelectQuery(sql)
+        assert rows is not None and len(rows) == 0
 
     def test_insert(self):
         from modules.test.src.classes.TestUser import TestUser

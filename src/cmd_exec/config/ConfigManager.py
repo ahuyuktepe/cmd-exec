@@ -43,7 +43,9 @@ class ConfigManager:
         for i in range(count):
             key = keys[i]
             value = configs.get(key)
-            if i == count - 1:
+            if value is None:
+                return None
+            elif i == count - 1:
                 return value
             elif isinstance(value, dict):
                 configs = value

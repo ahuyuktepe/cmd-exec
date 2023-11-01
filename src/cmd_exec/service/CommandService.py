@@ -1,3 +1,4 @@
+from .LogService import LogService
 from ..command.CmdResponse import CmdResponse
 from ..service.TerminalService import TerminalService
 from ..command.CmdExecutor import CmdExecutor
@@ -23,8 +24,9 @@ class CommandService(AppService):
         self.__validateFields(cmd)
         executor: CmdExecutor = cmd.getExecutor()
         fields: dict = cmd.getFields()
+        flags: list = cmd.getFlags()
         method = getattr(executor, executor.getMethod())
-        request = CmdRequest(fields, service)
+        request = CmdRequest(service, fields, flags)
         response: CmdResponse = method(request)
         return response
 
@@ -73,7 +75,15 @@ class CommandService(AppService):
         executor = ObjUtil.initClassFromStr(clsPath, clsName, [method])
         ValidationUtil.failIfNotType(executor, CmdExecutor, 'ERR40', {'cid': cid})
         executor.setContextManager(self._contextManager)
+        self.__importExecutorDependencies(executor, execProps)
         return executor
+
+    def __importExecutorDependencies(self, executor: CmdExecutor, execProps: dict):
+        deps: list = execProps.get('dependencies')
+        if deps is not None:
+            for dep in deps:
+                obj = self._contextManager.getService(dep)
+                setattr(executor, dep, obj)
 
     def __validateExecutorSubClass(self, clsPath: str, clsName: str):
         # Child Class
@@ -96,4 +106,7 @@ class CommandService(AppService):
         cmd.setAllowedGroups(groups)
         groups = props.get('denied_groups')
         cmd.setDeniedGroups(groups)
+        if 'config' in props:
+            cmd.setConfig(props.get('config'))
+        cmd.setFlags(self.__argService.getFlags())
         return cmd

@@ -6,6 +6,12 @@ class AppContextManager:
     def __init__(self, appContext: object):
         self.__appContext = appContext
 
+
+    # Setter Methods
+
+    def addConfig(self, cfg: dict):
+        self.__appContext.addConfig(cfg)
+
     # Getter Methods
 
     def getConfig(self, key: str):

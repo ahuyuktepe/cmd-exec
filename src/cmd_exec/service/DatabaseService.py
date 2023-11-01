@@ -1,11 +1,16 @@
 import copy
 import sqlite3
+from typing import List
+
 from ..error.CmdExecError import CmdExecError
 from ..database.Column import Column
 from ..database.DomainObject import DomainObject
 from ..service.ConfigurationService import ConfigurationService
+from ..util.DictUtil import DictUtil
 from ..util.FileUtil import FileUtil
 from ..service.AppService import AppService
+from ..util.ObjUtil import ObjUtil
+from ..util.ValidationUtil import ValidationUtil
 
 
 class DatabaseService(AppService):
@@ -135,3 +140,16 @@ class DatabaseService(AppService):
         retList = cursor.fetchall()
         self.disconnect()
         return retList
+
+    def createTable(self, name: str, cols: List[dict]):
+        self.connect()
+        cursor = self.__connection.cursor()
+        sql: str = "CREATE TABLE " + name + "("
+        for col in cols:
+            ValidationUtil.failIfDictDoesNotValueForKey(col, 'name', 'ERR83')
+            ValidationUtil.failIfDictDoesNotValueForKey(col, 'type', 'ERR84')
+            sql += col['name'] + " " + col['type'] + ","
+        sql = sql[:-1]
+        sql += ")"
+        cursor.execute(sql)
+        self.disconnect()

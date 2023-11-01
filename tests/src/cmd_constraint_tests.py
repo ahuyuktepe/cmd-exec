@@ -18,7 +18,7 @@ class TestConstraints:
         TestUtil.useCmdFilesInCommandsDir(['cmd11'])
         TestUtil.useExecutorsInModule(['TestExecutor1'], 'test')
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd11'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd11'])
         # When
         CmdExecAppRunner.run()
         # Then
@@ -30,7 +30,7 @@ class TestConstraints:
         TestFileUtil.replaceStrInFileFile('USER_NAME', 'test_user', ['tests', 'target', 'resources', 'commands', 'cmd12.yaml'])
         TestUtil.useExecutorsInModule(['TestExecutor1'], 'test')
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd12'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd12'])
         # When
         CmdExecAppRunner.run()
         # Then

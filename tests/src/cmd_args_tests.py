@@ -21,7 +21,7 @@ class TestCmdArgs:
         TestUtil.useCmdFilesInCommandsDir(['cmd4'])
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd4', '--publish_date', '01-01-2021'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -39,7 +39,7 @@ class TestCmdArgs:
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         TestFileUtil.saveArgFile({'publish_date': '01-01-2021'}, 'cmd4')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd4'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -57,7 +57,7 @@ class TestCmdArgs:
         TestUtil.useCmdFilesInCommandsDir(['cmd4'])
         TestUtil.useExecutorsInModule(['TestExecutor4'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd4', '-publish_date', '01-01-2021'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd4', '--publish_date', '01-01-2021'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()

@@ -17,7 +17,7 @@ class TestCmdExecutor:
 
     def test_non_existing_cmd_execution(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         # When
         CmdExecAppRunner.run()
         # Then
@@ -26,7 +26,7 @@ class TestCmdExecutor:
 
     def test_non_existing_executor_class(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd1'])
         TestUtil.useCmdFilesInModule(['cmd1'], 'test')
         # When
         CmdExecAppRunner.run()
@@ -36,7 +36,7 @@ class TestCmdExecutor:
 
     def test_executor_class_not_extended(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd2'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd2'])
         TestUtil.useCmdFilesInModule(['cmd2'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor2'], 'test')
         # When
@@ -47,21 +47,21 @@ class TestCmdExecutor:
 
     def test_cmd_execution(self, monkeypatch, capsys):
         # Given
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd1'])
         TestUtil.useCmdFilesInModule(['cmd1'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor1'], 'test')
         # When
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
-        respStr = response.out.strip('\n')
-        assert respStr == 'Running TestExecutor1'
+        respStr = response.out
+        assert respStr == 'Set\nRunning TestExecutor1\n'
 
     def testing_custom_exec_command_in_executor_cls(self, monkeypatch, capsys):
         # Given
         TestUtil.useCmdFilesInModule(['cmd5'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd5', '-publish_date', '01-01-2021'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd5', '--publish_date', '01-01-2021'])
         # When
         CmdExecAppRunner.run()
         # Then

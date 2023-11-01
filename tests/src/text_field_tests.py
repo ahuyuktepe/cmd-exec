@@ -27,8 +27,7 @@ class TestTextField:
         TestUtil.useConfigFilesInConfigsDir(['main.config.yaml'])
 
     def teardown_method(method):
-        # TestUtil.destroyTestingEnvironment()
-        pass
+        TestUtil.destroyTestingEnvironment()
 
     def test_default_value(self, monkeypatch, capsys):
         # Given
@@ -36,7 +35,7 @@ class TestTextField:
         self.__fieldSettings['default'] = 'Default Value'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -50,7 +49,7 @@ class TestTextField:
         self.__fieldSettings['max_size'] = 5
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -62,7 +61,7 @@ class TestTextField:
         TestFileUtil.saveCmdFileForModule(self.__cmdSettings, 'cmd1', 'test')
         TestUtil.useExecutorsInModule(['TestExecutor'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd1', '-name', 'test'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd1', '--name', 'test'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -75,7 +74,7 @@ class TestTextField:
         self.__fieldSettings['required'] = True
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -87,7 +86,7 @@ class TestTextField:
         self.__fieldSettings['min_size'] = 'test'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -99,7 +98,7 @@ class TestTextField:
         self.__fieldSettings['max_size'] = 'test'
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -111,7 +110,7 @@ class TestTextField:
         self.__fieldSettings['min_size'] = 10
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1', '-name', 'test'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1', '--name', 'test'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -123,7 +122,7 @@ class TestTextField:
         self.__fieldSettings['max_size'] = 5
         TestFileUtil.saveCmdFileInCommandsDir(self.__cmdSettings, 'cmd1')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd1', '-name', 'This is a test value'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd1', '--name', 'This is a test value'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()

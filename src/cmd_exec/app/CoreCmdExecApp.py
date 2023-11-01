@@ -25,36 +25,42 @@ class CoreCmdExecApp(CmdExecApp):
         self.__fieldService = context.getService('fieldService')
         self.__configService = context.getService('configService')
 
-    def run(self):
+    def run(self, passedCmd: Command = None, passedCid: str = None):
         # 1) Get command id
-        cid = self._args.getCmd()
+        cid: str = passedCid
+        if cid is None:
+            cid = self._args.getCmd()
         # 2) Build command object
-        cmd = self.__cmdService.buildCmdFromId(cid)
-        # 3) Validate User Permission
+        cmd: Command = passedCmd
+        if cmd is None:
+            cmd = self.__cmdService.buildCmdFromId(cid)
+        # 3) Add command config
+        self._context.addConfig(cmd.getConfig())
+        # 4) Validate User Permission
         uname = SystemUtil.getCurrentUserName()
         cmd.validateUserPermission(uname)
-        # 4) Validate User Group Permission
+        # 5) Validate User Group Permission
         if not SystemUtil.isWindows():
             groupNames: list = SystemUtil.getCurrentUserGroups()
             cmd.validateUserGroupPermission(uname, groupNames)
-        # 3) Get field values from ..command params and merge
+        # 6) Get field values from command params and merge
         values: dict = self.__fieldService.getFieldValuesFromArgumentFile(cmd)
-        # 4) Get arguments from ..command params and merge
+        # 7) Get arguments from command params and merge
         valuesFromCmd: dict = self.__fieldService.getFieldValuesFromCmdArgs(cmd)
         for key, value in valuesFromCmd.items():
             if value is not None:
                 values[key] = value
         cmd.setValues(values)
-        # 5) Handle Before Command Action
+        # 8) Handle Before Command Action
         self.__handlePreCommandAction(cmd)
-        # 6) Build TerminalService
+        # 9) Build TerminalService
         service = CoreTerminalService()
         service.setContextManager(self._context)
-        # 7) Execute command
+        # 10) Execute command
         response: CmdResponse = self.__cmdService.execute(cmd, service)
-        # 8) Handle After Command Action
+        # 11) Handle After Command Action
         self.__handleAfterCommandAction(cmd)
-        # 9) Handle Response
+        # 12) Handle Response
         if response is not None:
             content: str = response.getContent()
             service.print(content)

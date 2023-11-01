@@ -20,7 +20,7 @@ class TestSelectionField:
         TestUtil.useProvidersInModule(['NameOptionProvider'], 'test')
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'test.cmd10', '-name', 'test_from_provider'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'test.cmd10', '--name', 'test_from_provider'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -37,7 +37,7 @@ class TestSelectionField:
         TestUtil.useCmdFilesInCommandsDir(['cmd7'])
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7', '-city', 'ny'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd7', '--city', 'ny'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -52,7 +52,7 @@ class TestSelectionField:
         TestUtil.useCmdFilesInCommandsDir(['cmd7'])
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd7'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd7'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -67,7 +67,7 @@ class TestSelectionField:
         TestUtil.useCmdFilesInCommandsDir(['cmd8'])
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd8'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd8'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()
@@ -79,7 +79,7 @@ class TestSelectionField:
         TestUtil.useCmdFilesInCommandsDir(['cmd9'])
         TestUtil.useExecutorsInModule(['TestExecutor5'], 'test')
         # When
-        monkeypatch.setattr('sys.argv', ['pytest', '-cmd', 'cmd9', '-name', 'test,test1,test2'])
+        monkeypatch.setattr('sys.argv', ['pytest', '--cmd', 'cmd9', '--name', 'test,test1,test2'])
         CmdExecAppRunner.run()
         # Then
         response = capsys.readouterr()

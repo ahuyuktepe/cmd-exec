@@ -5,17 +5,19 @@ from tests.src.utils.TestFileUtil import TestFileUtil
 class TestUtil:
 
     @staticmethod
-    def setupTestingEnvironment():
+    def setupTestingEnvironment(withModules: bool = False):
         CmdExecAppRunner.initialize('test')
         TestUtil.__clearTargetDirectory()
         TestUtil.__buildModulesDirectory()
-        # TestUtil.__copyModules()
+        if withModules:
+            TestUtil.__copyModules()
         TestUtil.__buildResourcesDirectory()
         TestFileUtil.copyDirectory(['src'], ['tests', 'target', 'src'])
 
     @staticmethod
     def destroyTestingEnvironment():
-        TestUtil.__clearTargetDirectory()
+        # TestUtil.__clearTargetDirectory()
+        pass
 
     @staticmethod
     def __clearTargetDirectory():

@@ -80,6 +80,8 @@ class ErrorMessage:
         'ERR80': "User '{user}' is not assigned to any allowed group {groups} to run command '{cmd}'.",
         'ERR81': "User '{user}' is assigned to a group in denied groups {groups} to run command '{cmd}'.",
         'ERR82': "Hook class '{srcCls}' in module '{module}' does not extend from '{parentCls}' class.",
+        'ERR83': "Create table request does not have column name.",
+        'ERR84': "Create table request does not have column type.",
     }
 
     @staticmethod

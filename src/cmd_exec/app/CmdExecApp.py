@@ -1,4 +1,5 @@
 from ..context.AppContextManager import AppContextManager
+from ..menu.Command import Command
 from ..service.ArgumentService import ArgumentService
 from ..service.LogService import LogService
 
@@ -13,5 +14,5 @@ class CmdExecApp:
         self._logger = contextManager.getService('logService')
         self._args = contextManager.getService('argService')
 
-    def run(self):
+    def run(self, cmd: Command, cid: str):
         pass
