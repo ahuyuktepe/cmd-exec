@@ -1,13 +1,13 @@
-from ..command.CmdResponse import CmdResponse
-from ..service.TerminalService import TerminalService
+from ..error.CmdExecError import CmdExecError
 from ..command.CmdExecutor import CmdExecutor
-from ..command.CmdRequest import CmdRequest
 from ..menu.Command import Command
 from ..service.AppService import AppService
 from ..service.ArgumentService import ArgumentService
 from ..service.FieldService import FieldService
+from ..util.FileUtil import FileUtil
 from ..util.ModuleUtil import ModuleUtil
 from ..util.ObjUtil import ObjUtil
+from ..util.StrUtil import StrUtil
 from ..util.ValidationUtil import ValidationUtil
 
 
@@ -19,33 +19,26 @@ class CommandService(AppService):
         self.__fieldService = fieldService
         self.__argService = argService
 
-    def execute(self, cmd: Command, service: TerminalService) -> CmdResponse:
-        self.__validateFields(cmd)
-        executor: CmdExecutor = cmd.getExecutor()
-        fields: dict = cmd.getFields()
-        method = getattr(executor, executor.getMethod())
-        request = CmdRequest(fields, service)
-        response: CmdResponse = method(request)
-        return response
-
     def __validateFields(self, cmd: Command):
         fields: dict = cmd.getFields()
         for fid, field in fields.items():
             field.validate()
 
     def buildCmdFromId(self, cid: str) -> Command:
-        props = ModuleUtil.getModuleCommandProps(cid)
-        # Init Command Object
-        cmd: Command = self.__getCommand(cid, props)
-        # Init Executor Object
-        executor: CmdExecutor = self.__getExecutor(cid, props)
-        cmd.setExecutor(executor)
-        # Get Fields
-        fieldProps = props.get('fields')
-        if fieldProps is not None:
-            fields = self.__getFields(cmd, fieldProps)
-            cmd.setFields(fields)
-        return cmd
+        # 1) Search command file
+        name = f"{cid}.py"
+        files: list = FileUtil.findCmdFile(name)
+        if len(files) > 1:
+            raise CmdExecError('ERR82', {"fileName": name, "files": "\n".join(files)})
+        path: str = files[0]
+        # 2) Instantiate command object
+        path = StrUtil.replaceStr(path, [FileUtil.getRootPath(), '\\', '.py'], ['', '.', ''])
+        path = path[1:]
+        clsName = f"{cid.capitalize()}"
+        obj: Command = ObjUtil.initClassFromStr(path, clsName)
+        ValidationUtil.failIfNotType(obj, Command, 'ERR82')
+        obj.set_id(cid)
+        return obj
 
     def __getFields(self, cmd: Command, fields: list) -> list:
         ValidationUtil.failIfNotType(fields, list, 'ERR45')

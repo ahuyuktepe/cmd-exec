@@ -94,3 +94,10 @@ class StrUtil:
         elif align == 'right':
             return ('{:>' + str(limit) + '.' + str(limit-1) + '}').format(retStr)
         return retStr
+
+    @staticmethod
+    def replaceStr(srcStr: str, trgStrs: list, replaceWith: list):
+        tmp: str = srcStr
+        for index, value in enumerate(trgStrs):
+            tmp = tmp.replace(value, replaceWith[index])
+        return tmp

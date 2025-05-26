@@ -5,7 +5,6 @@ from ..error.CmdExecError import CmdExecError
 class Command:
     _id: str
     _title: str
-    _executor: CmdExecutor
     _fields: dict
     _module: str
     _allowedUsers: list
@@ -13,19 +12,18 @@ class Command:
     _allowedGroups: list
     _deniedGroups: list
 
-    def __init__(self, cid: str, title: str, module: str):
-        self._id = cid
-        self._title = title
+    def __init__(self):
         self._fields = {}
-        self._executor = None
-        self._module = module
         self._allowedUsers = None
         self._deniedUsers = None
         self._allowedGroups = None
         self._deniedGroups = None
 
-    def setExecutor(self, executor: CmdExecutor):
-        self._executor = executor
+    def execute(self):
+        pass
+
+    def set_id(self, id: str):
+        self._id = id
 
     def setAllowedUsers(self, users: list):
         self._allowedUsers = users
@@ -40,7 +38,7 @@ class Command:
         self._deniedGroups = groups
 
     def validateUserPermission(self, userName: str):
-        cmdDesc: str = self._id + ' : ' + self._title
+        cmdDesc: str = self._id
         if self._allowedUsers is not None:
             isDenied = userName not in self._allowedUsers
             if isDenied:
@@ -52,7 +50,7 @@ class Command:
                 raise CmdExecError('ERR79', {'user': userName, 'users': self._deniedUsers, 'cmd': cmdDesc})
 
     def validateUserGroupPermission(self, userName: str, groupNames: list):
-        cmdDesc: str = self._id + ':' + self._title
+        cmdDesc: str = self._id
         if self._allowedGroups is not None:
             matches: set = set(groupNames).intersection(self._allowedGroups)
             if len(matches) == 0:
@@ -76,9 +74,6 @@ class Command:
     def getId(self) -> str:
         return self._id
 
-    def getExecutor(self) -> CmdExecutor:
-        return self._executor
-
     def getFields(self) -> dict:
         return self._fields
 
@@ -87,6 +82,3 @@ class Command:
 
     def getModule(self) -> str:
         return self._module
-
-    def print(self):
-        print('id: ' + self._id + ' | title: ' + self._title)

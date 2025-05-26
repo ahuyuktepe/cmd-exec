@@ -78,7 +78,9 @@ class ErrorMessage:
         'ERR78': "User '{user}' is not in allowed users {users} to run command '{cmd}'.",
         'ERR79': "User '{user}' is in denied users {users} to run command '{cmd}'.",
         'ERR80': "User '{user}' is not assigned to any allowed group {groups} to run command '{cmd}'.",
-        'ERR81': "User '{user}' is assigned to a group in denied groups {groups} to run command '{cmd}'."
+        'ERR81': "User '{user}' is assigned to a group in denied groups {groups} to run command '{cmd}'.",
+        'ERR82': "More than one command class '{fileName}' found. Files:\n{files}",
+        'ERR83': "Given command object's class does not extend from Command class."
     }
 
     @staticmethod

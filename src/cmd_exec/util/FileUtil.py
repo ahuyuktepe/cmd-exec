@@ -1,3 +1,4 @@
+import glob
 import math
 import os
 import shutil
@@ -33,6 +34,12 @@ class FileUtil:
         except Exception as exp:
             msg = "Error occurred while parsing yaml file '{path}'.".format(path=path)
             raise CmdExecError(msg)
+
+    @staticmethod
+    def findCmdFile(name: str) -> list:
+        rootPath = FileUtil.getRootPath()
+        files = glob.glob(f"{rootPath}/**/cmd/{name}", recursive=True)
+        return files
 
     @staticmethod
     def listFiles(relativePath: list) -> list:
